@@ -19,7 +19,7 @@ public interface IConstants {
 	public static final String STR_LAMBDA = "Lambda";
 	public static final String STR_START = "Application start...\n";
 	public static final String STR_END = "\nEnd!";
-	public static final String[] STR_NAMES = { "John", "Peter" };
+	public static final String[] STR_NAMES = { "John", "Bob" };
 	public static final int INT_TEN = 10;
 	public static final int INT_FIVE = 5;
 }
