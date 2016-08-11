@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
@@ -62,7 +61,7 @@ public class PlayWithFI {
 		System.out.println(biPredicate);
 		Iterator<Entry<Integer, Integer>> it = map.entrySet().iterator();
 		while(it.hasNext()) {
-			Map.Entry pair = it.next();
+			Entry<Integer, Integer> pair = it.next();
 			if(biPredicate.test((Integer)pair.getKey(), (Integer)pair.getValue()))
 				System.out.println(pair.getKey() +": "+ pair.getValue());
 		}

@@ -5,8 +5,6 @@ package nl.bos.design_patterns.impl;
 
 import static nl.bos.design_patterns.IConstants.STR_JOHN;
 import static nl.bos.design_patterns.IConstants.STR_JULIE;
-import static nl.bos.design_patterns.IConstants.STR_MSG_DEBUG;
-import static nl.bos.design_patterns.IConstants.STR_MSG_INFO;
 
 import java.util.ArrayList;
 import java.util.List;
