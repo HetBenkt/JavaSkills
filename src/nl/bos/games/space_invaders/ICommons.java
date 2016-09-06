@@ -12,6 +12,7 @@ public interface ICommons {
 	public final static int APP_WIDTH = 800;
 	public final static int APP_HEIGHT = 600;
 	public final static int APP_GROUND_HEIGHT = 40;
+	public static final int APP_DELAY = 10;
 	
 	public final static String PLAYER_IMAGE = "../images/player.png"; //TODO Image is empty
 }

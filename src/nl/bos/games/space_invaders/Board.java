@@ -3,7 +3,7 @@
  */
 package nl.bos.games.space_invaders;
 
-import static nl.bos.games.space_invaders.ICommons.APP_GROUND_HEIGHT;
+import static nl.bos.games.space_invaders.ICommons.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -43,10 +43,32 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
 	@Override
 	public void run() {
-		while (ingame) {
+		long timeDiff, sleep;
+		long beforeTime = System.currentTimeMillis();
+        
+        while (ingame) {
 			repaint();
+			animationCycle();
+			
+			//Add delay in game refreshment
+			timeDiff = System.currentTimeMillis() - beforeTime;
+            sleep = APP_DELAY - timeDiff;
+
+            if (sleep < 0) 
+                sleep = 2;
+            try {
+                Thread.sleep(sleep);
+            } catch (InterruptedException e) {
+                System.out.println("interrupted");
+            }
+            beforeTime = System.currentTimeMillis();
 		}
 		gameOver();
+	}
+
+	private void animationCycle() {
+		player.act();
+		
 	}
 
 	private void gameOver() {
@@ -63,7 +85,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
 		g.setColor(Color.GREEN);
 
 		if (ingame) {
-			g.drawLine(0, this.getHeight() - APP_GROUND_HEIGHT, this.getWidth(), this.getHeight() - APP_GROUND_HEIGHT);
+			g.drawLine(0, APP_HEIGHT - APP_GROUND_HEIGHT, APP_WIDTH, APP_HEIGHT - APP_GROUND_HEIGHT);
 			drawAliens(g);
 			drawPlayer(g);
 			drawShot(g);
@@ -103,11 +125,13 @@ public class Board extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		System.out.println(String.format("Pressed %s", ke.getKeyCode()));
+		player.keyPressed(ke);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent ke) {
 		System.out.println(String.format("Released %s", ke.getKeyCode()));
+		player.keyReleased(ke);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import java.awt.Image;
 public class Sprite {
 	private boolean visible, dying;
 	private Image image;
-	private int x, y;
+	private int x, y, dx;
 	
 	public Sprite() {
 		visible = true;
@@ -60,5 +60,13 @@ public class Sprite {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
 	}
 }
