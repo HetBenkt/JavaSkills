@@ -3,13 +3,19 @@
  */
 package nl.bos.games.space_invaders;
 
-import static nl.bos.games.space_invaders.ICommons.*;
+import static nl.bos.games.space_invaders.ICommons.APP_DELAY;
+import static nl.bos.games.space_invaders.ICommons.APP_GROUND_HEIGHT;
+import static nl.bos.games.space_invaders.ICommons.APP_HEIGHT;
+import static nl.bos.games.space_invaders.ICommons.APP_WIDTH;
+import static nl.bos.games.space_invaders.ICommons.SHOT_SPEED;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -21,6 +27,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
 	private boolean ingame = true;
 	private Thread animator;
 	private Player player;
+	private Shot shot;
+	private ArrayList aliens;
 
 	public Board() {
 		this.addKeyListener(this);
@@ -32,9 +40,9 @@ public class Board extends JPanel implements Runnable, KeyListener {
 	}
 
 	private void gameInit() {
-
 		player = new Player(this);
-
+		aliens = new ArrayList<Alien>();
+		
 		if (animator == null || !ingame) {
 			animator = new Thread(this);
 			animator.start();
@@ -67,33 +75,72 @@ public class Board extends JPanel implements Runnable, KeyListener {
 	}
 
 	private void animationCycle() {
+		//player
 		player.act();
+		
+		//shot
+		if(shot != null) {
+			if(shot.isVisible()) {
+				int y = shot.getY()-SHOT_SPEED;
+				shot.setY(y);
+				if(y < 0) {
+					shot.die();
+					shot = null;
+					System.out.println("Shot is gone!");
+				}
+			}
+		}
+		
+		//wall
+		
+		
+		//aliens
+		
+		
+		//bombs
+		
 		
 	}
 
 	private void gameOver() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g.setColor(Color.GREEN);
-
 		if (ingame) {
+			//Floor
+			g.setColor(Color.GREEN);
 			g.drawLine(0, APP_HEIGHT - APP_GROUND_HEIGHT, APP_WIDTH, APP_HEIGHT - APP_GROUND_HEIGHT);
+			
+			//Other Objects
+			drawGameInfo(g);
+			drawWall(g);
 			drawAliens(g);
 			drawPlayer(g);
 			drawShot(g);
 			drawBombing(g);
+			
+			
 		}
 
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
+	}
+
+	private void drawGameInfo(Graphics g) {
+		if(ingame) {
+			g.setColor(Color.WHITE);
+			g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, 20));
+			g.drawString("Aliens: " + aliens.size(), 10, this.getHeight() - 17);
+		}
+	}
+
+	private void drawWall(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void drawBombing(Graphics g) {
@@ -102,8 +149,10 @@ public class Board extends JPanel implements Runnable, KeyListener {
 	}
 
 	private void drawShot(Graphics g) {
-		// TODO Auto-generated method stub
-
+		if(shot != null) {
+			if(shot.isVisible())
+				g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
+		}
 	}
 
 	private void drawPlayer(Graphics g) {
@@ -124,18 +173,21 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent ke) {
-		System.out.println(String.format("Pressed %s", ke.getKeyCode()));
 		player.keyPressed(ke);
+		
+		if(ingame) {
+			if(ke.isControlDown()) {
+				if(shot == null)
+					shot = new Shot(player.getX(), player.getY());
+			}
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent ke) {
-		System.out.println(String.format("Released %s", ke.getKeyCode()));
 		player.keyReleased(ke);
 	}
 
 	@Override
-	public void keyTyped(KeyEvent ke) {
-		System.out.println(String.format("Typed %s", ke.getKeyCode()));
-	}
+	public void keyTyped(KeyEvent ke) {}
 }
