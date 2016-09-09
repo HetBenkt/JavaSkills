@@ -18,7 +18,6 @@ import javax.swing.ImageIcon;
  */
 public class Player extends Sprite {
 	private final static int OFFSET_X = 6;
-	private final static int OFFSET_Y = 0;
 	private Board board;
 
 	public Player(Board board) {
@@ -34,8 +33,8 @@ public class Player extends Sprite {
 		this.setX(this.getX() + this.getDx());
 
 		// Make sure not to move outside gameview
-		if (this.getX() >= APP_WIDTH - this.getImage().getWidth(board)-OFFSET_X) {
-			this.setX(APP_WIDTH - this.getImage().getWidth(board)-OFFSET_X);
+		if (this.getX() >= APP_WIDTH - this.getImage().getWidth(board) - OFFSET_X) {
+			this.setX(APP_WIDTH - this.getImage().getWidth(board) - OFFSET_X);
 		}
 		if (this.getX() <= 0) {
 			this.setX(0);

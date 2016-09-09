@@ -17,4 +17,5 @@ public interface ICommons {
 	
 	public final static String PLAYER_IMAGE = "../images/player.png";
 	public final static String SHOT_IMAGE = "../images/shot.png";
+	public final static String ALIEN_IMAGE = "../images/alien.png";
 }

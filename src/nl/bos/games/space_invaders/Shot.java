@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Shot extends Sprite {
 	private final static int OFFSET_X = 27;
 	private final static int OFFSET_Y = 0;
-	
+
 	public Shot(int x, int y) {
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(SHOT_IMAGE));
 

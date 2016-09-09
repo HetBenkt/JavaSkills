@@ -13,11 +13,11 @@ public class Sprite {
 	private boolean visible, dying;
 	private Image image;
 	private int x, y, dx;
-	
+
 	public Sprite() {
 		visible = true;
 	}
-	
+
 	public void die() {
 		visible = false;
 	}
