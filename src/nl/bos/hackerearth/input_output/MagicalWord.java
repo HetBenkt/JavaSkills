@@ -6,14 +6,7 @@ package nl.bos.hackerearth.input_output;
 import java.util.Scanner;
 
 /**
- * No package structure! Main throws an Exception
- * input:	j4eZamQY0SQgM9cX7dcb
- * mine: 	k/eYamOY5SOgO5aY;eaa
- * correct:	kCeYamOYCSOgOCaYCeaa
- * 
- * input:	CXNUgE6RwBysojPIM6oG
- * mine: 	CYOSgC5SqCqqmkOIO5mG
- * correct:	CYOSgCCSqCqqmkOIOCmG
+ * No package structure! Main throws an Exception 
  */
 public class MagicalWord {
 	private static final String STR_ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -59,19 +52,24 @@ public class MagicalWord {
 		}
 		return (char) findClosestChar(character, primeLow, primeHigh);
 	}
-
+	
 	private static char findClosestChar(char input, char primeLow,
 			char primeHigh) {
-		if ((input - primeLow) > (primeHigh - input)) {
-			if (STR_ALPHABET.contains(("" + primeHigh).toLowerCase()))
-				return primeHigh;
-			else
-				return primeLow;
+		if (STR_ALPHABET.contains(("" + primeLow).toLowerCase())
+				|| STR_ALPHABET.contains(("" + primeHigh).toLowerCase())) {
+			if ((input - primeLow) > (primeHigh - input)) {
+				if (STR_ALPHABET.contains(("" + primeHigh).toLowerCase()))
+					return primeHigh;
+				else
+					return primeLow;
+			} else {
+				if (STR_ALPHABET.contains(("" + primeLow).toLowerCase()))
+					return primeLow;
+				else
+					return primeHigh;
+			}
 		} else {
-			if (STR_ALPHABET.contains(("" + primeLow).toLowerCase()))
-				return primeLow;
-			else
-				return primeHigh;
+			return 67;
 		}
 	}
 
