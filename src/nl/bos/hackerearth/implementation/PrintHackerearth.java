@@ -1,5 +1,6 @@
 package nl.bos.hackerearth.implementation;
 
+import java.util.Arrays;
 /**
  * https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/print-hackerearth/
  */
@@ -9,10 +10,6 @@ import java.util.Scanner;
  * No package structure! Main throws an Exception
  */
 public class PrintHackerearth {
-
-	private static final char[] HACKEREARTH = { 'h', 'a', 'c', 'k', 'e', 'r', 'e', 'a', 'r', 't', 'h' };
-	private static final String STR_HACKEREARTH = "hackerearth";
-	private static final char HASHTAG = '#';
 
 	public static void main(String args[]) throws Exception {
 		Scanner s = new Scanner(System.in);
@@ -27,46 +24,49 @@ public class PrintHackerearth {
 		int result = 0;
 
 		char[] letters = text.toCharArray();
-		boolean letterFound = false;
-		while (hasLettersOver(letters)) {
-			String checkText = "";
-			for (int i = 0; i < HACKEREARTH.length; i++) {
-				letterFound = false;
-				for (int j = 0; j < letters.length; j++) {
-					if (HACKEREARTH[i] == letters[j]) {
-						checkText += letters[j];
-						letters[j] = HASHTAG;
-						letterFound = true;
-						break;
-					}
-				}
-				if (!letterFound)
-					break;
-			}
-			if (checkText.equals(STR_HACKEREARTH))
-				result++;
-			else
+		Arrays.sort(letters);
+
+		int countA = 0;
+		int countC = 0;
+		int countE = 0;
+		int countH = 0;
+		int countK = 0;
+		int countR = 0;
+		int countT = 0;
+		for (int i = 0; i < letters.length; i++) {
+			switch (letters[i]) {
+			case 'a':
+				countA++;
 				break;
-		}
-		return result;
-	}
-
-	private static boolean hasLettersOver(char[] letters) {
-		boolean result = true;
-
-		if (letters.length < HACKEREARTH.length) {
-			result = false;
-		}
-
-		if (result) {
-			int hashTagCounter = 0;
-			for (int i = 0; i < letters.length; i++) {
-				if (letters[i] == HASHTAG) {
-					hashTagCounter++;
-				}
+			case 'c':
+				countC++;
+				break;
+			case 'e':
+				countE++;
+				break;
+			case 'h':
+				countH++;
+				break;
+			case 'k':
+				countK++;
+				break;
+			case 'r':
+				countR++;
+				break;
+			case 't':
+				countT++;
+				break;
+			default:
+				break;
 			}
-			if ((letters.length - hashTagCounter) < HACKEREARTH.length)
-				result = false;
+		}
+
+		int[] numbers = { countA, countE, countH, countR };
+		Arrays.sort(numbers);
+		int lowest = numbers[0] / 2;
+
+		if (countC >= lowest && countK >= lowest && countT >= lowest) {
+			result = lowest;
 		}
 
 		return result;
