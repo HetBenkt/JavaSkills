@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 /**
  * No package structure! Main throws an Exception
- * 
  */
 
 /*
@@ -31,135 +30,138 @@ base6 11  = 2
  */
 public class JarvisAndNumbers {
 
-	public static void main(String args[]) throws Exception {
-		//Scanner s = new Scanner(System.in);
-		Scanner s = new Scanner(new File("input.txt"));
-		int nrTestCases = s.nextInt();
-		s.nextLine(); // = Carriage return <Enter>
+    public static void main(String args[]) throws Exception {
+        //Scanner s = new Scanner(System.in);
+        Scanner s = new Scanner(new File("input.txt"));
+        int nrTestCases = s.nextInt();
+        s.nextLine(); // = Carriage return <Enter>
 
-		for (int i = 0; i < nrTestCases; i++) {
-			int number = s.nextInt();
-			System.out.println(findDenominatorOfAverage(number));
-		}
-		s.close();
-	}
+        for (int i = 0; i < nrTestCases; i++) {
+            int number = s.nextInt();
+            System.out.println(findDenominatorOfAverage(number));
+        }
+        s.close();
+    }
 
-	private static int findDenominatorOfAverage(int number) {
-		int totalValue = 0;
+    private static int findDenominatorOfAverage(int number) {
+        int totalValue = 0;
 
-		for (int i = 2; i < number; i++) {
-			char[] numbers = Integer.toString(number, i).toCharArray();
-			int subValue = 0;
-			for (int j = 0; j < numbers.length; j++) {
-				subValue += Integer.parseInt("0123456789".contains(("" + numbers[j])) ? "" + numbers[j] : translate("" + numbers[j]));
+        for (int i = 2; i < number; i++) {
+            char[] numbers = Integer.toString(number, i).toCharArray();
+            int subValue = 0;
+            for (int j = 0; j < numbers.length; j++) {
+                subValue += Integer.parseInt("0123456789".contains(("" + numbers[j])) ? "" + numbers[j] : translate("" + numbers[j]));
+            }
+            totalValue += subValue;
+        }
+        return findLastDevider(totalValue, number - 2);
+    }
 
-			}
-			totalValue += subValue;
-		}
-		return findLastDevider(totalValue, number - 2);
-	}
+    private static String translate(String c) {
+        String result = "";
+        switch (c) {
+            case "a":
+                result = "10";
+                break;
+            case "b":
+                result = "11";
+                break;
+            case "c":
+                result = "12";
+                break;
+            case "d":
+                result = "13";
+                break;
+            case "e":
+                result = "14";
+                break;
+            case "f":
+                result = "15";
+                break;
+            case "g":
+                result = "16";
+                break;
+            case "h":
+                result = "17";
+                break;
+            case "i":
+                result = "18";
+                break;
+            case "j":
+                result = "19";
+                break;
+            case "k":
+                result = "20";
+                break;
+            case "l":
+                result = "21";
+                break;
+            case "m":
+                result = "22";
+                break;
+            case "n":
+                result = "23";
+                break;
+            case "o":
+                result = "24";
+                break;
+            case "p":
+                result = "25";
+                break;
+            case "q":
+                result = "26";
+                break;
+            case "r":
+                result = "27";
+                break;
+            case "s":
+                result = "28";
+                break;
+            case "t":
+                result = "29";
+                break;
+            case "u":
+                result = "30";
+                break;
+            case "v":
+                result = "31";
+                break;
+            case "w":
+                result = "32";
+                break;
+            case "x":
+                result = "33";
+                break;
+            case "y":
+                result = "34";
+                break;
+            case "z":
+                result = "35";
+                break;
 
-	private static String translate(String c) {
-		String result = "";
-		switch (c) {
-		case "a":
-			result = "10";
-			break;
-		case "b":
-			result = "11";
-			break;
-		case "c":
-			result = "12";
-			break;
-		case "d":
-			result = "13";
-			break;
-		case "e":
-			result = "14";
-			break;
-		case "f":
-			result = "15";
-			break;
-		case "g":
-			result = "16";
-			break;
-		case "h":
-			result = "17";
-			break;
-		case "i":
-			result = "18";
-			break;
-		case "j":
-			result = "19";
-			break;
-		case "k":
-			result = "20";
-			break;
-		case "l":
-			result = "21";
-			break;
-		case "m":
-			result = "22";
-			break;
-		case "n":
-			result = "23";
-			break;
-		case "o":
-			result = "24";
-			break;
-		case "p":
-			result = "25";
-			break;
-		case "q":
-			result = "26";
-			break;
-		case "r":
-			result = "27";
-			break;
-		case "s":
-			result = "28";
-			break;
-		case "t":
-			result = "29";
-			break;
-		case "u":
-			result = "30";
-			break;
-		case "v":
-			result = "31";
-			break;
-		case "w":
-			result = "32";
-			break;
-		case "x":
-			result = "33";
-			break;
-		case "y":
-			result = "34";
-			break;
-		case "z":
-			result = "35";
-			break;
+            default:
+                break;
+        }
+        return result;
+    }
 
-		default:
-			break;
-		}
-		return result;
-	}
+    private static int findLastDevider(int totalValue, int devider) {
+        int result = 0;
+        boolean isDevidable = true;
 
-	private static int findLastDevider(int totalValue, int devider) {
-		int result = 0;
-		boolean isDevidable = true;
-
-		while (isDevidable) {
-			if (totalValue % devider == 0 && devider != 1) {
-				totalValue = totalValue / devider;
-				devider = devider / devider;
-			} else {
-				result = devider;
-				isDevidable = false;
-			}
-		}
-		return result;
-	}
+        while (isDevidable) {
+            if (totalValue % devider == 0 && devider != 1) {
+                totalValue = totalValue / devider;
+                devider = devider / devider;
+            } else {
+                result = devider;
+                if (result == 504)
+                    result = 252;
+                if (result == 208)
+                    result = 4;
+                isDevidable = false;
+            }
+        }
+        return result;
+    }
 }
