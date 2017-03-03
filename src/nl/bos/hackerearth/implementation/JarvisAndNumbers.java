@@ -1,9 +1,11 @@
 package nl.bos.hackerearth.implementation;
 
 import java.io.File;
-/**
- * https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/jarvis-and-numbers-1/
+/*
+  https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/jarvis-and-numbers-1/
  */
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Scanner;
  */
 
 /*
- * 
+ *
 5
 base2 101 = 2
 base3 12  = 3
@@ -29,6 +31,7 @@ base6 11  = 2
 -> 1
  */
 public class JarvisAndNumbers {
+    private final static int START_BASE = 2;
 
     public static void main(String args[]) throws Exception {
         //Scanner s = new Scanner(System.in);
@@ -46,122 +49,33 @@ public class JarvisAndNumbers {
     private static int findDenominatorOfAverage(int number) {
         int totalValue = 0;
 
-        for (int i = 2; i < number; i++) {
-            char[] numbers = Integer.toString(number, i).toCharArray();
+        for (int base = START_BASE; base < number; base++) {
+            List<Integer> values = convertBase(number, base);
             int subValue = 0;
-            for (int j = 0; j < numbers.length; j++) {
-                subValue += Integer.parseInt("0123456789".contains(("" + numbers[j])) ? "" + numbers[j] : translate("" + numbers[j]));
+            for (Integer value : values) {
+                subValue += value;
             }
             totalValue += subValue;
         }
-        return findLastDevider(totalValue, number - 2);
+        return (number - START_BASE) / findLastDivider(totalValue, number - START_BASE);
     }
 
-    private static String translate(String c) {
-        String result = "";
-        switch (c) {
-            case "a":
-                result = "10";
-                break;
-            case "b":
-                result = "11";
-                break;
-            case "c":
-                result = "12";
-                break;
-            case "d":
-                result = "13";
-                break;
-            case "e":
-                result = "14";
-                break;
-            case "f":
-                result = "15";
-                break;
-            case "g":
-                result = "16";
-                break;
-            case "h":
-                result = "17";
-                break;
-            case "i":
-                result = "18";
-                break;
-            case "j":
-                result = "19";
-                break;
-            case "k":
-                result = "20";
-                break;
-            case "l":
-                result = "21";
-                break;
-            case "m":
-                result = "22";
-                break;
-            case "n":
-                result = "23";
-                break;
-            case "o":
-                result = "24";
-                break;
-            case "p":
-                result = "25";
-                break;
-            case "q":
-                result = "26";
-                break;
-            case "r":
-                result = "27";
-                break;
-            case "s":
-                result = "28";
-                break;
-            case "t":
-                result = "29";
-                break;
-            case "u":
-                result = "30";
-                break;
-            case "v":
-                result = "31";
-                break;
-            case "w":
-                result = "32";
-                break;
-            case "x":
-                result = "33";
-                break;
-            case "y":
-                result = "34";
-                break;
-            case "z":
-                result = "35";
-                break;
+    private static List<Integer> convertBase(int number, int radix) {
 
-            default:
-                break;
+        List<Integer> remainder = new ArrayList<>();
+
+        int count = 0;
+        while (number != 0) {
+            remainder.add(count, number % radix != 0 ? number % radix : 0);
+            number /= radix;
         }
-        return result;
+        return remainder;
     }
 
-    private static int findLastDevider(int totalValue, int devider) {
-        int result = 0;
-        boolean isDevidable = true;
-
-        while (isDevidable) {
-            if (totalValue % devider == 0 && devider != 1) {
-                totalValue = totalValue / devider;
-                devider = devider / devider;
-            } else {
-                result = devider;
-                if (result == 504)
-                    result = 252;
-                if (result == 208)
-                    result = 4;
-                isDevidable = false;
-            }
+    private static int findLastDivider(int totalValue, int divider) {
+        if (divider == 0) {
+            return totalValue;
         }
-        return result;
+        return findLastDivider(divider, totalValue % divider);
     }
 }
