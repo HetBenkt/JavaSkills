@@ -5,10 +5,7 @@ package nl.bos.hackerearth.implementation;
  */
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * No package structure! Main throws an Exception
@@ -42,17 +39,22 @@ public class ChocolatesAndBoxes {
             result[index] = Integer.parseInt(value);
             index++;
         }
+        Arrays.sort(result);
         return result;
     }
 
     private static int printNrOfWays(int[] boxValues, int nrChocolades) {
         int result = 0;
-        for (int i = 0; i < boxValues.length; i++) {
-            for (int j = i; j < boxValues.length; j++) {
-                if(i != j) {
-                    if(boxValues[i] + boxValues[j] == nrChocolades) {
-                        result++;
-                    }
+        boolean done = false;
+        for (int i = boxValues.length - 1; i >= 0; i--) {
+            for (int j = 0; j < boxValues.length; j++) {
+                if (i == j)
+                    break;
+                if (boxValues[i] + boxValues[j] > nrChocolades) {
+                    break;
+                }
+                if (boxValues[i] + boxValues[j] == nrChocolades) {
+                    result++;
                 }
             }
         }
