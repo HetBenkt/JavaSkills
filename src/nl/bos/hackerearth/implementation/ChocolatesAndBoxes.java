@@ -55,6 +55,12 @@ public class ChocolatesAndBoxes {
                 }
                 if (boxValues[i] + boxValues[j] == nrChocolades) {
                     result++;
+                    int offset = 1;
+                    while(boxValues[j] == boxValues[j+offset] && i != j+offset) {
+                        offset++;
+                        result++;
+                    }
+                    j+=(offset-1);
                 }
             }
         }
