@@ -24,8 +24,8 @@ public class ChocolatesAndBoxes {
             int nrBoxes = s.nextInt();
             s.nextLine(); // = Carriage return <Enter>
             String boxValues = s.nextLine();
-            int nrChocolades = s.nextInt();
-            System.out.println(printNrOfWays(toIntArray(nrBoxes, boxValues), nrChocolades));
+            int nrChocolates = s.nextInt();
+            System.out.println(printNrOfWays(toIntArray(nrBoxes, boxValues), nrChocolates));
         }
         s.close();
     }
@@ -43,27 +43,38 @@ public class ChocolatesAndBoxes {
         return result;
     }
 
-    private static int printNrOfWays(int[] boxValues, int nrChocolades) {
+    private static int printNrOfWays(int[] boxValues, int nrChocolates) {
         int result = 0;
-        boolean done = false;
+        Map<Integer, Integer> occurrences = countOccurrence(boxValues);
+
         for (int i = boxValues.length - 1; i >= 0; i--) {
-            for (int j = 0; j < boxValues.length; j++) {
-                if (i == j)
-                    break;
-                if (boxValues[i] + boxValues[j] > nrChocolades) {
-                    break;
-                }
-                if (boxValues[i] + boxValues[j] == nrChocolades) {
-                    result++;
-                    int offset = 1;
-                    while(boxValues[j] == boxValues[j+offset] && i != j+offset) {
-                        offset++;
-                        result++;
-                    }
-                    j+=(offset-1);
-                }
+            int occurrence;
+            if (occurrences.containsKey(nrChocolates - boxValues[i])) {
+                occurrence = occurrences.get(nrChocolates - boxValues[i]);
+                if (nrChocolates - boxValues[i] == boxValues[i])
+                    occurrence--;
+                result += occurrence;
+
+                int key = boxValues[i];
+                int value = occurrences.get(key);
+                if (value - 1 == 0)
+                    occurrences.remove(key);
+                else
+                    occurrences.put(key, value - 1);
             }
         }
+        return result;
+    }
+
+    private static Map<Integer, Integer> countOccurrence(int[] numbersToProcess) {
+        int[] possibleNumbers = new int[numbersToProcess[numbersToProcess.length - 1] * 2];
+        Map<Integer, Integer> result = new HashMap<>();
+
+        for (int number : numbersToProcess) {
+            possibleNumbers[number] = possibleNumbers[number] + 1;
+            result.put(number, possibleNumbers[number]);
+        }
+
         return result;
     }
 }
