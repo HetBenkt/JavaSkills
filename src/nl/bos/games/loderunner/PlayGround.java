@@ -15,6 +15,9 @@ public class PlayGround extends JPanel {
     public PlayGround() {
         //this.setDoubleBuffered(true); //No Effect YET!
         this.setBackground(BACKGROUND_COLOR);
+        this.setFocusable(true);
+        //this.requestFocusInWindow(); //TODO Check what it does?
+        this.addKeyListener(new PlayerKeyListener());
     }
 
     @Override
