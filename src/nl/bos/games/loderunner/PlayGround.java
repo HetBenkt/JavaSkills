@@ -7,9 +7,13 @@ import java.awt.*;
  * Created by bosa on 29-3-2017.
  */
 public class PlayGround extends JPanel {
-    private final static Color BACKGROUND_COLOR = new Color(0,0,0);
+    private final static Color BACKGROUND_COLOR = new Color(0, 0, 0);
+    private Ground ground = new Ground(10);
+    private Player player = new Player(50, ground.getHeight(), 50, 0);
+
 
     public PlayGround() {
+        //this.setDoubleBuffered(true); //No Effect YET!
         this.setBackground(BACKGROUND_COLOR);
     }
 
@@ -18,11 +22,11 @@ public class PlayGround extends JPanel {
         super.paintComponent(g);
 
         //Ground
-        Ground ground = new Ground(10);
         ground.draw(g, this.getHeight(), this.getWidth());
 
         //Player
-        Player player = new Player(50, ground.getHeight(), 50);
         player.draw(g, this.getHeight());
+        player.setSpeed(1);
+        player.moveLocationX();
     }
 }
