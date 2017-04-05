@@ -27,7 +27,7 @@ public class PlayerKeyListener implements KeyListener {
         }
     }
 
-    public synchronized void poll() {
+    public void poll() {
         for( int i = 0; i < KEY_COUNT; ++i ) {
             // Set the key state
             if( currentKeys[ i ] ) {
@@ -57,7 +57,7 @@ public class PlayerKeyListener implements KeyListener {
     }
 
     @Override
-    public synchronized void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if( keyCode >= 0 && keyCode < KEY_COUNT ) {
             currentKeys[ keyCode ] = true;
@@ -65,7 +65,7 @@ public class PlayerKeyListener implements KeyListener {
     }
 
     @Override
-    public synchronized void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if( keyCode >= 0 && keyCode < KEY_COUNT ) {
             currentKeys[ keyCode ] = false;
