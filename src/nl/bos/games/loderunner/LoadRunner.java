@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class LoadRunner extends JFrame implements Runnable {
     private boolean gameOver = false;
-    private final static int GAME_SPEED = 5;
+    private final static int GAME_SPEED = 70;
     PlayGround playground;
 
     private LoadRunner() {

@@ -51,7 +51,7 @@ public class Player {
                     }
                 }
             }
-            System.out.println(String.format("No. of sprites loaded: %s", spriteNr));
+            System.out.println(String.format("No. of sprites loaded: %s", spriteNr)); //TODO Text can be mirrored for RIGHT and LEFT instead of reading it all
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
