@@ -8,8 +8,8 @@ import java.awt.*;
  */
 public class PlayGround extends JPanel {
     private final static Color BACKGROUND_COLOR = new Color(0, 0, 0);
-    private Ground ground = new Ground(10);
-    private Player player = new Player(50, ground.getHeight(), 50, 0);
+    private Ground ground;
+    private Player player;
 
 
     public PlayGround() {
@@ -17,7 +17,11 @@ public class PlayGround extends JPanel {
         this.setBackground(BACKGROUND_COLOR);
         this.setFocusable(true);
         //this.requestFocusInWindow(); //TODO Check what it does?
-        this.addKeyListener(new PlayerKeyListener());
+
+        //Init objects
+        ground = new Ground(10);
+        player = new Player(50, ground.getHeight(), 50, 0);
+        this.addKeyListener(new PlayerKeyListener(player));
     }
 
     @Override
@@ -29,7 +33,5 @@ public class PlayGround extends JPanel {
 
         //Player
         player.draw(g, this.getHeight());
-        player.setSpeed(1);
-        player.moveLocationX();
     }
 }
