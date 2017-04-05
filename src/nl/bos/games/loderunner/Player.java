@@ -35,4 +35,12 @@ public class Player {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    public int getLocationY() {
+        return locationY;
+    }
+
+    public int getLocationX() {
+        return locationX;
+    }
 }

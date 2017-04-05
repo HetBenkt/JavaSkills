@@ -49,8 +49,10 @@ public class PlayGround extends JPanel {
             player.moveLocationY();
         }
         else if( keyboard.keyDown( KeyEvent.VK_DOWN ) ) {
-            player.setSpeed(-1);
-            player.moveLocationY();
+            if(player.getLocationY() > ground.getHeight()) {
+                player.setSpeed(-1);
+                player.moveLocationY();
+            }
         }
     }
 }
