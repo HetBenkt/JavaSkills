@@ -6,31 +6,39 @@ import java.awt.*;
 /*
  * Created by bosa on 29-3-2017.
  */
-public class LoadRunner extends JFrame {
+public class LoadRunner extends JFrame implements Runnable {
     private boolean gameOver = false;
     private final static int GAME_SPEED = 5;
+    PlayGround playground;
 
-    private LoadRunner() throws InterruptedException {
+    private LoadRunner() {
         this.setTitle(this.getClass().getSimpleName());
         this.setSize(new Dimension(800, 600));
         this.setResizable(false);
-        PlayGround playground = new PlayGround();
+
+        //Create a playground
+        playground = new PlayGround();
         this.setContentPane(playground);
+
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
-
-        while(!gameOver) {
-            playground.revalidate();
-            playground.repaint();
-            Thread.sleep(GAME_SPEED);
-        }
     }
 
     public static void main(String[] args) {
-        try {
-            new LoadRunner();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        LoadRunner loadRunner = new LoadRunner();
+        loadRunner.run();
+    }
+
+    @Override
+    public void run() {
+        while(!gameOver) {
+            //playground.revalidate(); //Not needed
+            playground.repaint();
+            try {
+                Thread.sleep(GAME_SPEED);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
