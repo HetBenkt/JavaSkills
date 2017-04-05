@@ -21,7 +21,7 @@ public class PlayGround extends JPanel {
 
         //Init objects
         ground = new Ground(10);
-        player = new Player(50, ground.getHeight(), 50, 0);
+        player = new Player(50, ground.getHeight(), 5, 0, 0);
         keyboard = new PlayerKeyListener(player);
         this.addKeyListener(keyboard);
     }
@@ -37,18 +37,22 @@ public class PlayGround extends JPanel {
         player.draw(g, this.getHeight());
         keyboard.poll();
         if( keyboard.keyDown( KeyEvent.VK_RIGHT ) ) {
+            player.setSpriteNr(1);
             player.setSpeed(1);
             player.moveLocationX();
         }
         else if( keyboard.keyDown( KeyEvent.VK_LEFT ) ) {
+            player.setSpriteNr(2);
             player.setSpeed(-1);
             player.moveLocationX();
         }
         else if( keyboard.keyDown( KeyEvent.VK_UP ) ) {
+            player.setSpriteNr(0);
             player.setSpeed(1);
             player.moveLocationY();
         }
         else if( keyboard.keyDown( KeyEvent.VK_DOWN ) ) {
+            player.setSpriteNr(0);
             if(player.getLocationY() > ground.getHeight()) {
                 player.setSpeed(-1);
                 player.moveLocationY();
