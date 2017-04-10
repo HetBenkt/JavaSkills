@@ -33,7 +33,7 @@ public class Player {
     }
 
     private ArrayList<ArrayList<String>> loadSprites() {
-        ArrayList<ArrayList<String>> sprites = new ArrayList< ArrayList<String>>();
+        ArrayList<ArrayList<String>> sprites = new ArrayList<ArrayList<String>>();
         InputStream is = getClass().getResourceAsStream(SPRITES_FILE_NAME);
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(is, SPRITES_FILE_NAME_CHARSET));
@@ -41,23 +41,22 @@ public class Player {
             int spriteNr = 0;
             int spriteindex = 0;
             ArrayList<String> sprite = null;
-            while(!eof) {
+            while (!eof) {
                 String text = br.readLine();
-                if(text == null)
+                if (text == null)
                     eof = true;
                 else {
-                    if(text.startsWith(SPRITE_START_TAG)) {
+                    if (text.startsWith(SPRITE_START_TAG)) {
                         sprite = new ArrayList<String>();
-                    } else if(text.startsWith(SPRITE_END_TAG)) {
+                    } else if (text.startsWith(SPRITE_END_TAG)) {
                         sprites.add(spriteindex, sprite);
                         spriteNr++;
                         spriteindex++;
-                        if(text.contains(SPRINT_RIGHT_TAG)) {
+                        if (text.contains(SPRINT_RIGHT_TAG)) {
                             sprites.add(makeLeftVersion(sprite));
                             spriteNr++;
                         }
-                    }
-                    else {
+                    } else {
                         sprite.add(text);
                     }
                 }
@@ -73,7 +72,7 @@ public class Player {
 
     private ArrayList<String> makeLeftVersion(ArrayList<String> sprite) {
         ArrayList<String> result = new ArrayList<String>();
-        for (String spriteRow:sprite) {
+        for (String spriteRow : sprite) {
             result.add(mirrorText(spriteRow));
         }
         return result;
@@ -82,7 +81,7 @@ public class Player {
     private String mirrorText(String spriteRow) {
         StringBuilder result = new StringBuilder();
         char[] spriteChars = spriteRow.toCharArray();
-        for (int i = spriteChars.length-1; i >= 0; i--) {
+        for (int i = spriteChars.length - 1; i >= 0; i--) {
             result.append(spriteChars[i]);
         }
         return result.toString();
@@ -92,13 +91,13 @@ public class Player {
         g.setColor(PLAYER_COLOR);
         ArrayList<String> spriteStandStill = sprites.get(spriteNr);
         int lineNumber = MAX_SPRITE_BLOCK_SIZE;
-        for (String spriteLine:spriteStandStill) {
+        for (String spriteLine : spriteStandStill) {
             lineNumber--;
             char[] blocks = spriteLine.toCharArray();
             int blockNumber = 0;
-            for (char block:blocks) {
-                if(block == 'x')
-                    g.fillRect(locationX + (blockSize*blockNumber), playGroundHeight-locationY-blockSize - (blockSize * lineNumber), blockSize, blockSize);
+            for (char block : blocks) {
+                if (block == 'x')
+                    g.fillRect(locationX + (blockSize * blockNumber), playGroundHeight - locationY - blockSize - (blockSize * lineNumber), blockSize, blockSize);
                 blockNumber++;
             }
         }

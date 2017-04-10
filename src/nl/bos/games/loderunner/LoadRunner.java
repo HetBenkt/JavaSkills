@@ -33,7 +33,7 @@ public class LoadRunner extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        while(!gameOver) {
+        while (!gameOver) {
             //playground.revalidate(); //Not needed
             playground.repaint();
             try {

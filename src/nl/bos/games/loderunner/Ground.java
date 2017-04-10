@@ -17,10 +17,10 @@ public class Ground {
     public void draw(Graphics g, int playGroundHeight, int playGroundWidth) {
         //Ground
         g.setColor(GROUND_COLOR);
-        g.fillRect(0, playGroundHeight-locationY, playGroundWidth, playGroundHeight-locationY);
+        g.fillRect(0, playGroundHeight - locationY, playGroundWidth, playGroundHeight - locationY);
         //Grass
         g.setColor(GRASS_COLOR);
-        g.drawLine(0, playGroundHeight-locationY, playGroundWidth, playGroundHeight-locationY);
+        g.drawLine(0, playGroundHeight - locationY, playGroundWidth, playGroundHeight - locationY);
     }
 
     public int getHeight() {

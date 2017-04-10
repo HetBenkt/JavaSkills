@@ -28,10 +28,10 @@ public class PlayGround extends JPanel {
         this.setFocusable(true);
 
         //Init objects
-        ground = new Ground(width/(SIZE_FACTOR/3));
-        player = new Player(50, ground.getHeight(), width/SIZE_FACTOR, 0, playerSpriteNr);
+        ground = new Ground(width / (SIZE_FACTOR / 3));
+        player = new Player(50, ground.getHeight(), width / SIZE_FACTOR, 0, playerSpriteNr);
 
-        playerSpeed = width/(SIZE_FACTOR/2);
+        playerSpeed = width / (SIZE_FACTOR / 2);
         keyboard = new PlayerKeyListener(player);
         this.addKeyListener(keyboard);
     }
@@ -46,24 +46,21 @@ public class PlayGround extends JPanel {
         //Player
         player.draw(g, this.getHeight());
         keyboard.poll();
-        if( keyboard.keyDown( KeyEvent.VK_RIGHT ) ) {
+        if (keyboard.keyDown(KeyEvent.VK_RIGHT)) {
             setSprite(PLAYER_SPRITE_MIN_RIGHT, PLAYER_SPRITE_MAX_RIGHT);
             player.setSpeed(playerSpeed);
             player.moveLocationX();
-        }
-        else if( keyboard.keyDown( KeyEvent.VK_LEFT ) ) {
+        } else if (keyboard.keyDown(KeyEvent.VK_LEFT)) {
             setSprite(PLAYER_SPRITE_MIN_LEFT, PLAYER_SPRITE_MAX_LEFT);
             player.setSpeed(-playerSpeed);
             player.moveLocationX();
-        }
-        else if( keyboard.keyDown( KeyEvent.VK_UP ) ) {
+        } else if (keyboard.keyDown(KeyEvent.VK_UP)) {
             setSprite(PLAYER_SPRITE_MIN_UP, PLAYER_SPRITE_MAX_UP);
             player.setSpeed(playerSpeed);
             player.moveLocationY();
-        }
-        else if( keyboard.keyDown( KeyEvent.VK_DOWN ) ) {
+        } else if (keyboard.keyDown(KeyEvent.VK_DOWN)) {
             setSprite(PLAYER_SPRITE_MIN_UP, PLAYER_SPRITE_MAX_UP);
-            if(player.getLocationY() > ground.getHeight()) {
+            if (player.getLocationY() > ground.getHeight()) {
                 player.setSpeed(-playerSpeed);
                 player.moveLocationY();
             } else
@@ -72,7 +69,7 @@ public class PlayGround extends JPanel {
     }
 
     private void setSprite(int playerSpriteMin, int playerSpriteMax) {
-        if(!(playerSpriteNr >= playerSpriteMin && playerSpriteNr <= playerSpriteMax))
+        if (!(playerSpriteNr >= playerSpriteMin && playerSpriteNr <= playerSpriteMax))
             playerSpriteNr = playerSpriteMin;
         player.setSpriteNr(playerSpriteNr);
         playerSpriteNr++;
