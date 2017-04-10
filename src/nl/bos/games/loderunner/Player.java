@@ -15,6 +15,11 @@ public class Player {
     private int spriteNr;
     private final static Color PLAYER_COLOR = Color.WHITE;
     private final static int MAX_SPRITE_BLOCK_SIZE = 10;
+    private final static String SPRITE_START_TAG = "===START";
+    private final static String SPRITE_END_TAG = "===END";
+    private static final String SPRINT_RIGHT_TAG = "RIGHT";
+    private final static String SPRITES_FILE_NAME = "playersprites.txt";
+    private final static String SPRITES_FILE_NAME_CHARSET = "UTF-8";
     private ArrayList<ArrayList<String>> sprites;
 
     public Player(int locationX, int locationY, int blockSize, int speed, int spriteNr) {
@@ -29,35 +34,58 @@ public class Player {
 
     private ArrayList<ArrayList<String>> loadSprites() {
         ArrayList<ArrayList<String>> sprites = new ArrayList< ArrayList<String>>();
-        InputStream is = getClass().getResourceAsStream("playersprites.txt");
+        InputStream is = getClass().getResourceAsStream(SPRITES_FILE_NAME);
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, SPRITES_FILE_NAME_CHARSET));
             boolean eof = false;
             int spriteNr = 0;
+            int spriteindex = 0;
             ArrayList<String> sprite = null;
             while(!eof) {
                 String text = br.readLine();
                 if(text == null)
                     eof = true;
                 else {
-                    if(text.startsWith("===START")) {
-                        spriteNr++;
+                    if(text.startsWith(SPRITE_START_TAG)) {
                         sprite = new ArrayList<String>();
-                    } else if(text.startsWith("===END")) {
-                        sprites.add(sprite);
+                    } else if(text.startsWith(SPRITE_END_TAG)) {
+                        sprites.add(spriteindex, sprite);
+                        spriteNr++;
+                        spriteindex++;
+                        if(text.contains(SPRINT_RIGHT_TAG)) {
+                            sprites.add(makeLeftVersion(sprite));
+                            spriteNr++;
+                        }
                     }
                     else {
                         sprite.add(text);
                     }
                 }
             }
-            System.out.println(String.format("No. of sprites loaded: %s", spriteNr)); //TODO Text can be mirrored for RIGHT and LEFT instead of reading it all
+            System.out.println(String.format("No. of sprites loaded: %s", spriteNr));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return sprites;
+    }
+
+    private ArrayList<String> makeLeftVersion(ArrayList<String> sprite) {
+        ArrayList<String> result = new ArrayList<String>();
+        for (String spriteRow:sprite) {
+            result.add(mirrorText(spriteRow));
+        }
+        return result;
+    }
+
+    private String mirrorText(String spriteRow) {
+        StringBuilder result = new StringBuilder();
+        char[] spriteChars = spriteRow.toCharArray();
+        for (int i = spriteChars.length-1; i >= 0; i--) {
+            result.append(spriteChars[i]);
+        }
+        return result.toString();
     }
 
     public void draw(Graphics g, int playGroundHeight) {

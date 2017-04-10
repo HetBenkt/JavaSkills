@@ -9,15 +9,17 @@ import java.awt.*;
 public class LoadRunner extends JFrame implements Runnable {
     private boolean gameOver = false;
     private final static int GAME_SPEED = 70;
+    private final static int GAME_WIDTH = 200;
+    private final static int GAME_HEIGHT = 150;
     PlayGround playground;
 
     private LoadRunner() {
         this.setTitle(this.getClass().getSimpleName());
-        this.setSize(new Dimension(800, 600));
+        this.setSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setResizable(false);
 
         //Create a playground
-        playground = new PlayGround();
+        playground = new PlayGround(GAME_WIDTH, GAME_HEIGHT);
         this.setContentPane(playground);
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
