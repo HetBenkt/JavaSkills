@@ -9,8 +9,8 @@ import java.awt.*;
 public class LoadRunner extends JFrame implements Runnable {
     private boolean gameOver = false;
     private final static int GAME_SPEED = 70;
-    private final static int GAME_WIDTH = 200;
-    private final static int GAME_HEIGHT = 150;
+    private final static int GAME_WIDTH = 400;
+    private final static int GAME_HEIGHT = 300;
     PlayGround playground;
 
     private LoadRunner() {

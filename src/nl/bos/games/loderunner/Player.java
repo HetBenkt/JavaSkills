@@ -8,12 +8,15 @@ import java.util.ArrayList;
  * Created by bosa on 29-3-2017.
  */
 public class Player {
+    private boolean shoot = false;
+    private boolean onLadder = false;
     private int locationX;
     private int speed;
     private int locationY;
     private int blockSize;
     private int spriteNr;
     private final static Color PLAYER_COLOR = Color.WHITE;
+    private final static Color LASER_COLOR = Color.RED;
     private final static int MAX_SPRITE_BLOCK_SIZE = 10;
     private final static String SPRITE_START_TAG = "===START";
     private final static String SPRITE_END_TAG = "===END";
@@ -88,6 +91,20 @@ public class Player {
     }
 
     public void draw(Graphics g, int playGroundHeight) {
+        //Draw the laserbeam
+        if(shoot) {
+            g.setColor(LASER_COLOR);
+            if(this.speed >= 1) {
+                g.drawLine(locationX + (blockSize * 5), playGroundHeight - locationY - blockSize - (blockSize * 5), locationX + (blockSize * 13), playGroundHeight - locationY);
+                g.drawLine(locationX + (blockSize * 5), playGroundHeight - locationY - blockSize - (blockSize * 5), locationX + (blockSize * 12), playGroundHeight - locationY);
+            }
+            else if(this.speed <= -1) {
+                g.drawLine(locationX + (blockSize * 4), playGroundHeight - locationY - blockSize - (blockSize * 5), locationX - (blockSize * 5), playGroundHeight - locationY);
+                g.drawLine(locationX + (blockSize * 4), playGroundHeight - locationY - blockSize - (blockSize * 5), locationX - (blockSize * 4), playGroundHeight - locationY);
+            }
+        }
+
+        //Draw the player sprites
         g.setColor(PLAYER_COLOR);
         ArrayList<String> spriteStandStill = sprites.get(spriteNr);
         int lineNumber = MAX_SPRITE_BLOCK_SIZE;
@@ -125,5 +142,17 @@ public class Player {
 
     public void setSpriteNr(int spriteNr) {
         this.spriteNr = spriteNr;
+    }
+
+    public void shoot(boolean state) {
+        shoot = state;
+    }
+
+    public void setOnLadder(boolean state) {
+        onLadder = state;
+    }
+
+    public boolean getOnLadder() {
+        return onLadder;
     }
 }

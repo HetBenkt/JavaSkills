@@ -48,6 +48,10 @@ public class PlayerKeyListener implements KeyListener {
         return keys[keyCode] == KeyState.ONCE || keys[keyCode] == KeyState.PRESSED;
     }
 
+    public boolean keyUp(int keyCode) {
+        return keys[keyCode] == KeyState.ONCE || keys[keyCode] == KeyState.RELEASED;
+    }
+
     public boolean keyDownOnce(int keyCode) {
         return keys[keyCode] == KeyState.ONCE;
     }
