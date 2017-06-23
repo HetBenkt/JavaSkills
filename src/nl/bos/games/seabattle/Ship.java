@@ -1,14 +1,14 @@
 package nl.bos.games.seabattle;
 
 /**
- * Created by bosa on 22-6-2017.
+ * The ship class with all it's properties and methods to execute
  */
 public class Ship implements IShip {
-    private String type;
-    private int size;
+    private final String type;
+    private final int size;
     private int locationX, locationY;
     private boolean isInBattle;
-    private boolean isHorizontal;
+    private final boolean isHorizontal;
 
     public Ship(String type, int size, boolean isHorizontal) {
         this.locationX = -1;
@@ -42,6 +42,4 @@ public class Ship implements IShip {
     public boolean isHorizontal() {
         return isHorizontal;
     }
-
-
 }

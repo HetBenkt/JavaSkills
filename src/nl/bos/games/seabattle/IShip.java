@@ -1,9 +1,9 @@
 package nl.bos.games.seabattle;
 
 /**
- * Created by bosa on 22-6-2017.
+ * An interface for the ship (i think a good habit to do)
  */
-public interface IShip {
+interface IShip {
     void setInBattle(boolean inBattle);
 
     void setLocationX(int locationX);

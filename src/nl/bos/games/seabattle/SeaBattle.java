@@ -1,23 +1,27 @@
-/**
- * Created by bosa on 22-6-2017.
- */
 package nl.bos.games.seabattle;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-import static nl.bos.games.seabattle.ISeaBattleContants.*;
+import static nl.bos.games.seabattle.ISeaBattleConstants.*;
 
+//TODO [0,10] Gives an ArrayIndexOutOfBoundsException: 10
+//TODO Just ENTER gives an ArrayIndexOutOfBoundsException: 1
+//TODO Probably we need more bombs in the beginning
+//TODO When available bombs < TOTAL_BOAT_SIZE-hits -> it's no use to continue!
 //TODO Add some random text
 //TODO Add start a logo
 //TODO Add bomb a logo
 //TODO Add some delay animation
+//TODO Detect what boat is out of battle
 
+/**
+ * A SeaBattle game class where it all starts
+ */
 public class SeaBattle {
-    private List<IShip> battleFleet = new ArrayList<IShip>();
-    private IShip destroyer, submarine, cruiser, battleship, carrier;
-    private char[][] battleField = new char[SIZE][SIZE];
+    private final List<IShip> battleFleet = new ArrayList<>();
+    private final char[][] battleField = new char[SIZE][SIZE];
     private int recursiveAction = 0;
     private int nrOfBombsAvailable = MAX_BOMBS;
     private int nrOfBoatHits = 0;
@@ -44,7 +48,7 @@ public class SeaBattle {
         boolean gameIsFinished = false;
 
         while (!gameIsFinished) {
-            System.out.println(SEPERATOR);
+            System.out.println(SEPARATOR);
             System.out.println(String.format("Give a coordinate to shoot on [eg. 0,0]; Available bombs [%s]:", nrOfBombsAvailable));
             String input = sc.nextLine();
             String[] position = input.split(",");
@@ -75,10 +79,11 @@ public class SeaBattle {
                 } else if (battleField[x][y] == HIT) {
                     System.out.println("You stupid f@#!...It's already cleaned with a hit -> bomb is gone!");
                 } else {
-                    System.out.println("You poor bastered...Next time hit better -> bomb is gone!");
+                    System.out.println("You poor basterd...Next time hit better -> bomb is gone!");
                 }
                 if (nrOfBombsAvailable <= 0) {
-                    System.out.println("Out of bombs...GAME OVER!");
+                    if(nrOfBoatHits != TOTAL_SHIP_SIZE)
+                        System.out.println("Out of bombs...GAME OVER!");
                     gameIsFinished = true;
                 }
                 if (nrOfBoatHits == TOTAL_SHIP_SIZE) {
@@ -102,15 +107,15 @@ public class SeaBattle {
     private void initTheFleet() {
         Random random = new Random();
 
-        destroyer = new Ship(DESTROYER, SIZE_DESTROYER, random.nextBoolean());
+        IShip destroyer = new Ship(DESTROYER, SIZE_DESTROYER, random.nextBoolean());
         battleFleet.add(destroyer);
-        submarine = new Ship(SUBMARINE, SIZE_SUBMARINE, random.nextBoolean());
+        IShip submarine = new Ship(SUBMARINE, SIZE_SUBMARINE, random.nextBoolean());
         battleFleet.add(submarine);
-        cruiser = new Ship(CRUISER, SIZE_CRUISER, random.nextBoolean());
+        IShip cruiser = new Ship(CRUISER, SIZE_CRUISER, random.nextBoolean());
         battleFleet.add(cruiser);
-        battleship = new Ship(BATTLESHIP, SIZE_BATTLESHIP, random.nextBoolean());
+        IShip battleship = new Ship(BATTLESHIP, SIZE_BATTLESHIP, random.nextBoolean());
         battleFleet.add(battleship);
-        carrier = new Ship(CARRIER, SIZE_CARRIER, random.nextBoolean());
+        IShip carrier = new Ship(CARRIER, SIZE_CARRIER, random.nextBoolean());
         battleFleet.add(carrier);
     }
 
@@ -133,49 +138,55 @@ public class SeaBattle {
     private Point addShipToBattleField(IShip ship) throws InitializationException {
         if (isDebugMode) {
             System.out.println();
-            System.out.println(SEPERATOR);
-            System.out.println(String.format("Add '%s' ship to the battlebuild", ship.getType()));
-            System.out.println(SEPERATOR);
+            System.out.println(SEPARATOR);
+            System.out.println(String.format("Add '%s' ship to the battlefield", ship.getType()));
+            System.out.println(SEPARATOR);
             System.out.println(String.format("recursiveAction: %s", recursiveAction));
         }
 
         Point result = new Point();
         int shipSize = ship.getSize();
         boolean shipIsHorizontal = ship.isHorizontal();
+        ship.setInBattle(true);
 
         Random random = new Random();
         if (shipIsHorizontal) {
             result.setLocation(random.nextInt(SIZE - shipSize), random.nextInt(SIZE));
-            if (locationIsFree((int) result.getX(), (int) result.getY(), shipSize, shipIsHorizontal)) {
+            if (locationIsFree((int) result.getX(), (int) result.getY(), shipSize, true)) {
                 for (int i = (int) result.getX(); i < (int) result.getX() + shipSize; i++) {
                     battleField[(int) result.getY()][i] = BOAT;
                 }
-                String[] position = {Integer.toString((int) result.getX()), Integer.toString((int) result.getY())};
-                if (isDebugMode)
+                if (isDebugMode) {
+                    String[] position = {Integer.toString((int) result.getX()), Integer.toString((int) result.getY())};
                     System.out.println(String.format("Location %s -> Size: %s, Horizontal", Arrays.deepToString(position), shipSize));
+                }
                 recursiveAction = 0;
             } else {
                 recursiveAction++;
                 if (recursiveAction == MAX_RECURSIVE_TRIES) {
                     throw new InitializationException("To many recursive tries for adding the same boat!");
-                } else
+                } else {
+                    ship.setInBattle(false);
                     addShipToBattleField(ship);
+                }
             }
         } else {
             result.setLocation(random.nextInt(SIZE), random.nextInt(SIZE - shipSize));
-            if (locationIsFree((int) result.getY(), (int) result.getX(), shipSize, shipIsHorizontal)) {
+            if (locationIsFree((int) result.getY(), (int) result.getX(), shipSize, false)) {
                 for (int i = (int) result.getY(); i < (int) result.getY() + shipSize; i++) {
                     battleField[i][(int) result.getX()] = BOAT;
                 }
-                String[] position = {Integer.toString((int) result.getX()), Integer.toString((int) result.getY())};
-                if (isDebugMode)
+                if (isDebugMode) {
+                    String[] position = {Integer.toString((int) result.getX()), Integer.toString((int) result.getY())};
                     System.out.println(String.format("Location %s -> Size: %s, Vertical", Arrays.deepToString(position), shipSize));
+                }
                 recursiveAction = 0;
             } else {
                 recursiveAction++;
                 if (recursiveAction == MAX_RECURSIVE_TRIES) {
-                    throw new InitializationException("Boat can't be placed [to0 many recursive tries]!");
+                    throw new InitializationException("Boat can't be placed [too many recursive tries]!");
                 } else
+                    ship.setInBattle(false);
                     addShipToBattleField(ship);
             }
         }
