@@ -6,16 +6,6 @@ import java.util.List;
 
 import static nl.bos.games.seabattle.ISeaBattleConstants.*;
 
-//TODO [0,10] Gives an ArrayIndexOutOfBoundsException: 10
-//TODO Just ENTER gives an ArrayIndexOutOfBoundsException: 1
-//TODO Probably we need more bombs in the beginning
-//TODO When available bombs < TOTAL_BOAT_SIZE-hits -> it's no use to continue!
-//TODO Add some random text
-//TODO Add start a logo
-//TODO Add bomb a logo
-//TODO Add some delay animation
-//TODO Detect what boat is out of battle
-
 /**
  * A SeaBattle game class where it all starts
  */
@@ -27,20 +17,51 @@ public class SeaBattle {
     private int nrOfBoatHits = 0;
 
     public static void main(String[] args) {
-        System.out.println(String.format("Welcome to %s!", APP_TITLE));
+        logMessage(String.format("Welcome to %s!", APP_TITLE));
 
         SeaBattle battle = new SeaBattle();
+        battle.drawLogo();
 
         try {
             battle.initBattleField();
             battle.initTheFleet();
             battle.initBattleFieldWithShips();
         } catch (InitializationException ie) {
-            System.out.println(String.format("Exception in initializing the game with message: '%s'", ie.getMessage()));
+            logMessage(String.format("Exception in initializing the game with message: '%s'", ie.getMessage()), ERROR, true);
         }
 
-        System.out.println("Ready for attack...BOMBS AWAY!");
+        logMessage("Ready for attack...BOMBS AWAY!");
         battle.startShooting();
+    }
+
+    private static void logMessage(String message, int level, boolean doLineBreak) {
+        if(doLineBreak)
+            logMessage(message + "\n", level);
+        else
+            logMessage(message, level);
+    }
+
+    private static void logMessage(String message) {
+        logMessage(message, INFO, true);
+    }
+
+    private static void logMessage(String message, int level) {
+        switch (level) {
+            case INFO:
+                if(INFO <= LOG_LEVEL)
+                    System.out.print(message);
+                break;
+            case ERROR:
+                if(ERROR <= LOG_LEVEL)
+                    System.out.print(message);
+                break;
+            case DEBUG:
+                if(DEBUG <= LOG_LEVEL)
+                    System.out.print(message);
+                break;
+            default:
+                break;
+        }
     }
 
     private void startShooting() {
@@ -48,13 +69,20 @@ public class SeaBattle {
         boolean gameIsFinished = false;
 
         while (!gameIsFinished) {
-            System.out.println(SEPARATOR);
-            System.out.println(String.format("Give a coordinate to shoot on [eg. 0,0]; Available bombs [%s]:", nrOfBombsAvailable));
+            logMessage(SEPARATOR);
+            logMessage("Give a coordinate to shoot on [eg. 0,0]; To stop type 'quit'.");
+            drawBomb();
+            logMessage(String.format("Available bombs [%s]: ", nrOfBombsAvailable), INFO, false);
             String input = sc.nextLine();
+
+            if (input.equalsIgnoreCase(QUIT)) {
+                gameIsFinished = true;
+            }
+
             String[] position = input.split(",");
             try {
-                int x = Integer.parseInt(position[1]);
-                int y = Integer.parseInt(position[0]);
+                int x = Integer.parseInt(position[0]);
+                int y = Integer.parseInt(position[1]);
                 if (!(x >= 0 && x <= SIZE)) {
                     throw new NumberFormatException();
                 }
@@ -63,37 +91,71 @@ public class SeaBattle {
                 }
 
                 //Input is fine...continue
-                nrOfBombsAvailable--;
-                if (isDebugMode)
-                    System.out.println(String.format("Target position to shoot = %s", Arrays.deepToString(position)));
+                logMessage(String.format("Target position to shoot = %s", Arrays.deepToString(position)), DEBUG, true);
 
                 if (battleField[x][y] == BOAT) {
-                    System.out.println("BOMBS AWAY!!......Brrrrrhrhhhhaaaaa....You've got a HIT");
+                    logMessage(HIT_MESSAGES[new Random().nextInt(HIT_MESSAGES.length)]);
+                    updateFleetDetails(x, y);
                     battleField[x][y] = HIT;
                     nrOfBoatHits++;
-                    if(isDebugMode) {
-                        for (char row[] : battleField) {
-                            System.out.println(Arrays.deepToString(new String(row).split("(?!^)")));
-                        }
-                    }
+                    printBattleField();
                 } else if (battleField[x][y] == HIT) {
-                    System.out.println("You stupid f@#!...It's already cleaned with a hit -> bomb is gone!");
+                    logMessage(ALREADY_HIT_MESSAGES[new Random().nextInt(ALREADY_HIT_MESSAGES.length)]);
                 } else {
-                    System.out.println("You poor basterd...Next time hit better -> bomb is gone!");
+                    logMessage(MISSED_MESSAGES[new Random().nextInt(MISSED_MESSAGES.length)]);
+                }
+
+                nrOfBombsAvailable--;
+
+                if(nrOfBombsAvailable < TOTAL_SHIP_SIZE-nrOfBoatHits) {
+                    logMessage("Not enough bombs to win the game -> No use to continue!");
+                    gameIsFinished = true;
                 }
                 if (nrOfBombsAvailable <= 0) {
-                    if(nrOfBoatHits != TOTAL_SHIP_SIZE)
-                        System.out.println("Out of bombs...GAME OVER!");
+                    if (nrOfBoatHits != TOTAL_SHIP_SIZE)
+                        logMessage("Out of bombs...GAME OVER!");
                     gameIsFinished = true;
                 }
                 if (nrOfBoatHits == TOTAL_SHIP_SIZE) {
-                    System.out.println("You blast the thing!!...WE HAVE A WINNER!!");
+                    logMessage("You blast the thing!!...WE HAVE A WINNER!!");
                     gameIsFinished = true;
                 }
-            } catch (NumberFormatException nfe) {
-                System.out.println("No valid input found!");
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException nfe) {
+                if (!gameIsFinished)
+                    logMessage("No valid input found!", ERROR, true);
             }
         }
+    }
+
+    private void updateFleetDetails(int x, int y) {
+        for (IShip ship : battleFleet) {
+            int index = 0;
+            for (Point point : ship.getCoordinates()) {
+                if (x == point.getX() && y == point.getY()) {
+                    logMessage(String.format("Cleaning point [%s, %s] for the '%s' ship", x, y, ship.getType()), DEBUG, true);
+                    ship.removeCoordinate(index);
+                    if (shipIsDestroyed(ship)) {
+                        logMessage(String.format("Ship '%s' is totally gone....good work!!", ship.getType()));
+                    }
+                }
+                index++;
+            }
+        }
+    }
+
+    private boolean shipIsDestroyed(IShip ship) {
+        boolean result = false;
+
+        int index = 0;
+        for (Point point : ship.getCoordinates()) {
+            if (point.getX() != -1 && point.getY() != -1) {
+                return false;
+            }
+            index++;
+            if (index == ship.getSize())
+                result = true;
+        }
+        return result;
     }
 
     private void initBattleField() {
@@ -120,46 +182,47 @@ public class SeaBattle {
     }
 
     private void initBattleFieldWithShips() throws InitializationException {
-        System.out.println("Initialization of the battlefield with boats...");
+        logMessage("Initialization of the battlefield with boats...");
 
         for (IShip ship : battleFleet) {
-            Point position = addShipToBattleField(ship);
-            ship.setLocationX((int) position.getX());
-            ship.setLocationY((int) position.getY());
-            ship.setInBattle(true);
+            addShipToBattleField(ship);
         }
-        if(isDebugMode) {
-            for (char row[] : battleField) {
-                System.out.println(Arrays.deepToString(new String(row).split("(?!^)")));
+        printBattleField();
+    }
+
+    private void printBattleField() {
+        for (int x = 0; x < SIZE; x++) {
+            for (int y = 0; y < SIZE; y++) {
+                logMessage(battleField[y][x] + " ", DEBUG, false);
             }
+            logMessage("", DEBUG, true);
         }
     }
 
-    private Point addShipToBattleField(IShip ship) throws InitializationException {
-        if (isDebugMode) {
-            System.out.println();
-            System.out.println(SEPARATOR);
-            System.out.println(String.format("Add '%s' ship to the battlefield", ship.getType()));
-            System.out.println(SEPARATOR);
-            System.out.println(String.format("recursiveAction: %s", recursiveAction));
-        }
+    private void addShipToBattleField(IShip ship) throws InitializationException {
+        logMessage("", DEBUG, true);
+        logMessage(SEPARATOR, DEBUG, true);
+        logMessage(String.format("Add '%s' ship [Size %s] to the battlefield", ship.getType(), ship.getSize()), DEBUG, true);
+        logMessage(SEPARATOR, DEBUG, true);
+        logMessage(String.format("recursiveAction: %s", recursiveAction), DEBUG, true);
 
-        Point result = new Point();
+        Point coordinate = new Point();
         int shipSize = ship.getSize();
         boolean shipIsHorizontal = ship.isHorizontal();
-        ship.setInBattle(true);
 
         Random random = new Random();
         if (shipIsHorizontal) {
-            result.setLocation(random.nextInt(SIZE - shipSize), random.nextInt(SIZE));
-            if (locationIsFree((int) result.getX(), (int) result.getY(), shipSize, true)) {
-                for (int i = (int) result.getX(); i < (int) result.getX() + shipSize; i++) {
-                    battleField[(int) result.getY()][i] = BOAT;
+            coordinate.setLocation(random.nextInt(SIZE - shipSize), random.nextInt(SIZE));
+            if (locationIsFree((int) coordinate.getX(), (int) coordinate.getY(), shipSize, true)) {
+                ship.setInBattle(true);
+                int index = 0;
+                for (int i = (int) coordinate.getX(); i < (int) coordinate.getX() + shipSize; i++) {
+                    battleField[i][(int) coordinate.getY()] = BOAT;
+                    ship.addCoordinate(i, (int) coordinate.getY(), index);
+                    index++;
                 }
-                if (isDebugMode) {
-                    String[] position = {Integer.toString((int) result.getX()), Integer.toString((int) result.getY())};
-                    System.out.println(String.format("Location %s -> Size: %s, Horizontal", Arrays.deepToString(position), shipSize));
-                }
+                String[] position = {Integer.toString((int) coordinate.getX()), Integer.toString((int) coordinate.getY())};
+                logMessage(String.format("Location %s -> Size: %s, Horizontal", Arrays.deepToString(position), shipSize), DEBUG, true);
                 recursiveAction = 0;
             } else {
                 recursiveAction++;
@@ -171,49 +234,65 @@ public class SeaBattle {
                 }
             }
         } else {
-            result.setLocation(random.nextInt(SIZE), random.nextInt(SIZE - shipSize));
-            if (locationIsFree((int) result.getY(), (int) result.getX(), shipSize, false)) {
-                for (int i = (int) result.getY(); i < (int) result.getY() + shipSize; i++) {
-                    battleField[i][(int) result.getX()] = BOAT;
+            coordinate.setLocation(random.nextInt(SIZE), random.nextInt(SIZE - shipSize));
+            if (locationIsFree((int) coordinate.getX(), (int) coordinate.getY(), shipSize, false)) {
+                ship.setInBattle(true);
+                int index = 0;
+                for (int i = (int) coordinate.getY(); i < (int) coordinate.getY() + shipSize; i++) {
+                    battleField[(int) coordinate.getX()][i] = BOAT;
+                    ship.addCoordinate((int) coordinate.getX(), i, index);
+                    index++;
                 }
-                if (isDebugMode) {
-                    String[] position = {Integer.toString((int) result.getX()), Integer.toString((int) result.getY())};
-                    System.out.println(String.format("Location %s -> Size: %s, Vertical", Arrays.deepToString(position), shipSize));
-                }
-                recursiveAction = 0;
+                String[] position = {Integer.toString((int) coordinate.getX()), Integer.toString((int) coordinate.getY())};
+            logMessage(String.format("Location %s -> Size: %s, Vertical", Arrays.deepToString(position), shipSize), DEBUG, true);
+            recursiveAction = 0;
             } else {
                 recursiveAction++;
                 if (recursiveAction == MAX_RECURSIVE_TRIES) {
                     throw new InitializationException("Boat can't be placed [too many recursive tries]!");
                 } else
                     ship.setInBattle(false);
-                    addShipToBattleField(ship);
+                addShipToBattleField(ship);
             }
         }
+    }
 
+    private boolean locationIsFree(int x, int y, int size, boolean isHorizontal) {
+        boolean result = true;
+
+        if (isHorizontal) {
+            for (int i = x; i < x + size; i++) {
+                if (battleField[i][y] == BOAT) {
+                    result = false;
+                    logMessage(String.format("Boat found on location [%s, %s]", i, y), DEBUG, true);
+                    break;
+                }
+            }
+        } else {
+            for (int i = y; i < y + size; i++) {
+                if (battleField[x][i] == BOAT) {
+                    result = false;
+                    logMessage(String.format("Boat found on location [%s, %s]", i, y), DEBUG, true);
+                    break;
+                }
+            }
+        }
         return result;
     }
 
-    private boolean locationIsFree(int position, int location, int size, boolean isHorizontal) {
-        boolean result = true;
+    private void drawBomb() {
+        logMessage("        ,--.!,");
+        logMessage("     __/   -*-");
+        logMessage("   ,d08b.  '|`");
+        logMessage("   0088MM     ");
+        logMessage("   `9MMP'     ");
+    }
 
-        for (int i = position; i < position + size; i++) {
-            if (isHorizontal) {
-                if (battleField[location][i] == BOAT) {
-                    result = false;
-                    if (isDebugMode)
-                        System.out.println(String.format("Horizontal boat found for [%s, %s, %s]", position, location, size));
-                    break;
-                }
-            } else {
-                if (battleField[i][location] == BOAT) {
-                    result = false;
-                    if (isDebugMode)
-                        System.out.println(String.format("Vertical boat found for [%s, %s, %s]", position, location, size));
-                    break;
-                }
-            }
-        }
-        return result;
+    private void drawLogo() {
+        logMessage("      _~  _~");
+        logMessage("   __|=|_|=|__");
+        logMessage("   \\ o.o.o.o /");
+        logMessage("    \\_______/");
+        logMessage("  ~~~~~~~~~~~~~~");
     }
 }
