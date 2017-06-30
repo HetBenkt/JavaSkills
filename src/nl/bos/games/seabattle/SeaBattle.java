@@ -1,5 +1,6 @@
 package nl.bos.games.seabattle;
 
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -15,10 +16,12 @@ public class SeaBattle {
     private int recursiveAction = 0;
     private int nrOfBombsAvailable = MAX_BOMBS;
     private int nrOfBoatHits = 0;
+    private static int logLevel;
+    private boolean gameIsFinished = false;
 
     public static void main(String[] args) {
         logMessage(String.format("Welcome to %s!", APP_TITLE));
-
+        logLevel = Integer.parseInt(args[0]);
         SeaBattle battle = new SeaBattle();
         battle.drawLogo();
 
@@ -35,7 +38,7 @@ public class SeaBattle {
     }
 
     private static void logMessage(String message, int level, boolean doLineBreak) {
-        if(doLineBreak)
+        if (doLineBreak)
             logMessage(message + "\n", level);
         else
             logMessage(message, level);
@@ -48,15 +51,15 @@ public class SeaBattle {
     private static void logMessage(String message, int level) {
         switch (level) {
             case INFO:
-                if(INFO <= LOG_LEVEL)
+                if (INFO <= logLevel)
                     System.out.print(message);
                 break;
             case ERROR:
-                if(ERROR <= LOG_LEVEL)
+                if (ERROR <= logLevel)
                     System.out.print(message);
                 break;
             case DEBUG:
-                if(DEBUG <= LOG_LEVEL)
+                if (DEBUG <= logLevel)
                     System.out.print(message);
                 break;
             default:
@@ -66,40 +69,25 @@ public class SeaBattle {
 
     private void startShooting() {
         Scanner sc = new Scanner(System.in);
-        boolean gameIsFinished = false;
 
         while (!gameIsFinished) {
-            logMessage(SEPARATOR);
-            logMessage("Give a coordinate to shoot on [eg. 0,0]; To stop type 'quit'.");
-            drawBomb();
-            logMessage(String.format("Available bombs [%s]: ", nrOfBombsAvailable), INFO, false);
+            drawInputInfo();
             String input = sc.nextLine();
 
             if (input.equalsIgnoreCase(QUIT)) {
                 gameIsFinished = true;
             }
-
-            String[] position = input.split(",");
-            try {
-                int x = Integer.parseInt(position[0]);
-                int y = Integer.parseInt(position[1]);
-                if (!(x >= 0 && x <= SIZE)) {
-                    throw new NumberFormatException();
-                }
-                if (!(y >= 0 && y <= SIZE)) {
-                    throw new NumberFormatException();
-                }
-
-                //Input is fine...continue
-                logMessage(String.format("Target position to shoot = %s", Arrays.deepToString(position)), DEBUG, true);
-
-                if (battleField[x][y] == BOAT) {
+            Point coordinate = validateInput(input);
+            if ((int) coordinate.getX() != -1) {
+                String[] coordinates = {"x: " + coordinate.getX(), "y: " + coordinate.getY()};
+                logMessage(String.format("Target position to shoot = %s", Arrays.deepToString(coordinates)), DEBUG, true);
+                if (battleField[(int) coordinate.getX()][(int) coordinate.getY()] == BOAT) {
                     logMessage(HIT_MESSAGES[new Random().nextInt(HIT_MESSAGES.length)]);
-                    updateFleetDetails(x, y);
-                    battleField[x][y] = HIT;
+                    updateFleetDetails((int) coordinate.getX(), (int) coordinate.getY());
+                    battleField[(int) coordinate.getX()][(int) coordinate.getY()] = HIT;
                     nrOfBoatHits++;
                     printBattleField();
-                } else if (battleField[x][y] == HIT) {
+                } else if (battleField[(int) coordinate.getX()][(int) coordinate.getY()] == HIT) {
                     logMessage(ALREADY_HIT_MESSAGES[new Random().nextInt(ALREADY_HIT_MESSAGES.length)]);
                 } else {
                     logMessage(MISSED_MESSAGES[new Random().nextInt(MISSED_MESSAGES.length)]);
@@ -107,7 +95,7 @@ public class SeaBattle {
 
                 nrOfBombsAvailable--;
 
-                if(nrOfBombsAvailable < TOTAL_SHIP_SIZE-nrOfBoatHits) {
+                if (nrOfBombsAvailable < TOTAL_SHIP_SIZE - nrOfBoatHits) {
                     logMessage("Not enough bombs to win the game -> No use to continue!");
                     gameIsFinished = true;
                 }
@@ -120,18 +108,46 @@ public class SeaBattle {
                     logMessage("You blast the thing!!...WE HAVE A WINNER!!");
                     gameIsFinished = true;
                 }
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException nfe) {
-                if (!gameIsFinished)
-                    logMessage("No valid input found!", ERROR, true);
+
             }
         }
+    }
+
+    private Point validateInput(String input) {
+        Point result = new Point();
+        result.setLocation(-1, -1);
+
+        String[] position = input.split(",");
+        try {
+            int x = Integer.parseInt(position[0]);
+            int y = Integer.parseInt(position[1]);
+            result.setLocation(x, y);
+            if (!(x >= 0 && x <= SIZE)) {
+                throw new NumberFormatException();
+            }
+            if (!(y >= 0 && y <= SIZE)) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException nfe) {
+            if (!gameIsFinished)
+                logMessage("No valid input found!", ERROR, true);
+        }
+
+        return result;
+    }
+
+    private void drawInputInfo() {
+        logMessage(SEPARATOR);
+        logMessage("Give a coordinate to shoot on [eg. 0,0]; To stop type 'quit'.");
+        drawBomb();
+        logMessage(String.format("Available bombs [%s]: ", nrOfBombsAvailable), INFO, false);
     }
 
     private void updateFleetDetails(int x, int y) {
         for (IShip ship : battleFleet) {
             int index = 0;
             for (Point point : ship.getCoordinates()) {
-                if (x == point.getX() && y == point.getY()) {
+                if (x == (int) point.getX() && y == (int) point.getY()) {
                     logMessage(String.format("Cleaning point [%s, %s] for the '%s' ship", x, y, ship.getType()), DEBUG, true);
                     ship.removeCoordinate(index);
                     if (shipIsDestroyed(ship)) {
@@ -148,7 +164,7 @@ public class SeaBattle {
 
         int index = 0;
         for (Point point : ship.getCoordinates()) {
-            if (point.getX() != -1 && point.getY() != -1) {
+            if ((int) point.getX() != -1 && (int) point.getY() != -1) {
                 return false;
             }
             index++;
@@ -244,8 +260,8 @@ public class SeaBattle {
                     index++;
                 }
                 String[] position = {Integer.toString((int) coordinate.getX()), Integer.toString((int) coordinate.getY())};
-            logMessage(String.format("Location %s -> Size: %s, Vertical", Arrays.deepToString(position), shipSize), DEBUG, true);
-            recursiveAction = 0;
+                logMessage(String.format("Location %s -> Size: %s, Vertical", Arrays.deepToString(position), shipSize), DEBUG, true);
+                recursiveAction = 0;
             } else {
                 recursiveAction++;
                 if (recursiveAction == MAX_RECURSIVE_TRIES) {

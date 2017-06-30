@@ -33,8 +33,6 @@ interface ISeaBattleConstants {
     int ERROR = 2;
     int DEBUG = 3;
 
-    int LOG_LEVEL = ERROR;
-
     String[] HIT_MESSAGES = {
             "BOMBS AWAY!!......Brrrrrhrhhhhaaaaa....You've got a HIT",
             "You bombed it....WhooHaa...HIT me baby!",
