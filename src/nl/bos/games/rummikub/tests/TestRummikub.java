@@ -1,0 +1,71 @@
+package nl.bos.games.rummikub.tests;
+
+import nl.bos.games.rummikub.*;
+import org.junit.jupiter.api.*;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Created by bosa on 11-7-2017.
+ */
+public class TestRummikub {
+    public static final String ANTAL = "Antal";
+    public static final String KIM = "Kim";
+    public static final String MALE = "male";
+    public static final String FEMALE = "female";
+    public static final int AGE_36 = 36;
+    public static final int AGE_33 = 33;
+
+    private static Rummikub game;
+    private static IPlayer player1, player2;
+    private static IBag bag;
+
+    @BeforeAll
+    public static void initGame() {
+        //Game object
+        game = new Rummikub();
+
+        //Player objects
+        player1 = new Player(ANTAL, AGE_36, MALE);
+        player2 = new Player(KIM, AGE_33, FEMALE);
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+
+        //Bag object
+        bag = new Bag(106);
+        bag.addStones();
+        game.addBagOfStones(bag);
+        game.scrumbleTheBag();
+    }
+    @Test
+    public void testGamePlayers() {
+        List<IPlayer> players = game.getPlayers();
+        IPlayer testPlayer1 = new Player(ANTAL, AGE_36, MALE);
+        IPlayer testPlayer2 = new Player(KIM, AGE_33, FEMALE);
+
+        assertEquals(testPlayer1.getName(), player1.getName());
+        assertEquals(testPlayer2.getName(), player2.getName());
+        assertEquals(testPlayer1.getAge(), player1.getAge());
+        assertEquals(testPlayer2.getAge(), player2.getAge());
+        assertEquals(testPlayer1.getGender(), player1.getGender());
+        assertEquals(testPlayer2.getGender(), player2.getGender());
+    }
+
+    @Test
+    public void testBagInitialization() {
+        IBag bag = game.getBag();
+        List<IStone> stones = bag.getStones();
+
+        IBag testBag = new Bag(106);
+        testBag.addStones();
+        List<IStone> testStones = testBag.getStones();
+
+        int index = 0;
+        for (IStone stone: stones) {
+            assertEquals(stone.getValue(), testStones.get(index).getValue());
+            index++;
+        }
+    }
+}
