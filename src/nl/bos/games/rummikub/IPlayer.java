@@ -11,4 +11,6 @@ public interface IPlayer {
     int getAge();
 
     String getGender();
+
+    void pickStones(IBag bag, int size);
 }

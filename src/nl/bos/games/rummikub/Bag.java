@@ -3,12 +3,14 @@ package nl.bos.games.rummikub;
 import lombok.*;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by bosa on 11-7-2017.
  */
 @AllArgsConstructor
 public class Bag implements IBag {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private int size;
     @Getter
     private final List<IStone> stones = new ArrayList();
@@ -42,8 +44,15 @@ public class Bag implements IBag {
     }
 
     @Override
-    public void scrumbleTheBag() {
+    public void scramble() {
         long seed = System.nanoTime();
         Collections.shuffle(stones, new Random(seed));
+    }
+
+    @Override
+    public void display() {
+        for (IStone stone: stones) {
+            log.info(String.format("Stone [value:%s, color:%s]", stone.getValue(), stone.getColor()));
+        }
     }
 }

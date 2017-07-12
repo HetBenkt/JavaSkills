@@ -37,8 +37,11 @@ public class TestRummikub {
         //Bag object
         bag = new Bag(SIZE);
         bag.addStones();
+        bag.scramble();
+        bag.display();
         game.addBagOfStones(bag);
-        //game.getBag().scrumbleTheBag();
+
+        //player1.pickStones(bag, 14);
     }
 
     @Test
@@ -62,22 +65,11 @@ public class TestRummikub {
 
         IBag testBag = new Bag(SIZE);
         testBag.addStones();
+        testBag.scramble();
         List<IStone> testStones = testBag.getStones();
 
         assertEquals(testStones.size(), stones.size());
         assertEquals(SIZE, stones.size());
         assertEquals(SIZE, testStones.size());
-
-        int index = 0;
-        for (IStone stone: stones) {
-            assertEquals(testStones.get(index).getValue(), stone.getValue());
-            assertEquals(testStones.get(index).getColor(), stone.getColor());
-            index++;
-        }
-    }
-
-    @Test
-    public void testBagScrumbling() {
-
     }
 }

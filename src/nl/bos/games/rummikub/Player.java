@@ -13,4 +13,9 @@ public class Player implements IPlayer {
     private String name;
     private int age;
     private String gender;
+
+    @Override
+    public void pickStones(IBag bag, int size) {
+
+    }
 }

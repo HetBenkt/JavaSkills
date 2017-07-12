@@ -8,5 +8,6 @@ import java.util.List;
 public interface IBag {
     void addStones();
     List<IStone> getStones();
-    void scrumbleTheBag();
+    void scramble();
+    void display();
 }
