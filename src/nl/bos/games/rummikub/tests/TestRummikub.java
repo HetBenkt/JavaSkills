@@ -18,6 +18,7 @@ public class TestRummikub {
     public static final int AGE_36 = 36;
     public static final int AGE_33 = 33;
     public static final int SIZE = 106;
+    public static final int DESK_SIZE = 14;
 
     private static Rummikub game;
     private static IPlayer player1, player2;
@@ -40,8 +41,6 @@ public class TestRummikub {
         bag.scramble();
         bag.display();
         game.addBagOfStones(bag);
-
-        //player1.pickStones(bag, 14);
     }
 
     @Test
@@ -71,5 +70,20 @@ public class TestRummikub {
         assertEquals(testStones.size(), stones.size());
         assertEquals(SIZE, stones.size());
         assertEquals(SIZE, testStones.size());
+    }
+
+    @Test
+    public void testPickingStones() {
+        player1.pickStones(bag, DESK_SIZE);
+        player1.display();
+        player1.displayDesk();
+        assertEquals(DESK_SIZE, player1.getStones().size());
+
+        player2.pickStones(bag, DESK_SIZE);
+        player2.display();
+        player2.displayDesk();
+        assertEquals(DESK_SIZE, player2.getStones().size());
+
+        assertEquals(SIZE - (2 * DESK_SIZE), game.getBag().getStones().size());
     }
 }

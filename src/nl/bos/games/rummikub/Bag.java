@@ -1,6 +1,7 @@
 package nl.bos.games.rummikub;
 
 import lombok.*;
+import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -8,12 +9,11 @@ import java.util.logging.Logger;
 /**
  * Created by bosa on 11-7-2017.
  */
-@AllArgsConstructor
+@Data
+@Log
 public class Bag implements IBag {
-    private final Logger log = Logger.getLogger(this.getClass().getName());
-    private int size;
-    @Getter
-    private final List<IStone> stones = new ArrayList();
+    private final int size;
+    private List<IStone> stones = new ArrayList();
 
     @Override
     public void addStones() {
@@ -51,8 +51,15 @@ public class Bag implements IBag {
 
     @Override
     public void display() {
+        int index = 1;
         for (IStone stone: stones) {
-            log.info(String.format("Stone [value:%s, color:%s]", stone.getValue(), stone.getColor()));
+            log.info(String.format("Stone %s [value:%s, color:%s]", index, stone.getValue(), stone.getColor()));
+            index++;
         }
+    }
+
+    @Override
+    public void remove(IStone stone) {
+        stones.remove(stone);
     }
 }

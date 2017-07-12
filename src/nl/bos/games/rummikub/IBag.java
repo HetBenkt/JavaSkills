@@ -10,4 +10,5 @@ public interface IBag {
     List<IStone> getStones();
     void scramble();
     void display();
+    void remove(IStone stone);
 }
