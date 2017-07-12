@@ -7,6 +7,6 @@ import java.util.List;
  */
 public interface IBag {
     void addStones();
-
     List<IStone> getStones();
+    void scrumbleTheBag();
 }

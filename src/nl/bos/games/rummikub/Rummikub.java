@@ -25,8 +25,4 @@ public class Rummikub {
     public IBag getBag() {
         return bag;
     }
-
-    public void scrumbleTheBag() {
-        //TODO Scruble the stones in the bag
-    }
 }

@@ -17,6 +17,7 @@ public class TestRummikub {
     public static final String FEMALE = "female";
     public static final int AGE_36 = 36;
     public static final int AGE_33 = 33;
+    public static final int SIZE = 106;
 
     private static Rummikub game;
     private static IPlayer player1, player2;
@@ -34,11 +35,12 @@ public class TestRummikub {
         game.addPlayer(player2);
 
         //Bag object
-        bag = new Bag(106);
+        bag = new Bag(SIZE);
         bag.addStones();
         game.addBagOfStones(bag);
-        game.scrumbleTheBag();
+        //game.getBag().scrumbleTheBag();
     }
+
     @Test
     public void testGamePlayers() {
         List<IPlayer> players = game.getPlayers();
@@ -58,14 +60,24 @@ public class TestRummikub {
         IBag bag = game.getBag();
         List<IStone> stones = bag.getStones();
 
-        IBag testBag = new Bag(106);
+        IBag testBag = new Bag(SIZE);
         testBag.addStones();
         List<IStone> testStones = testBag.getStones();
 
+        assertEquals(testStones.size(), stones.size());
+        assertEquals(SIZE, stones.size());
+        assertEquals(SIZE, testStones.size());
+
         int index = 0;
         for (IStone stone: stones) {
-            assertEquals(stone.getValue(), testStones.get(index).getValue());
+            assertEquals(testStones.get(index).getValue(), stone.getValue());
+            assertEquals(testStones.get(index).getColor(), stone.getColor());
             index++;
         }
+    }
+
+    @Test
+    public void testBagScrumbling() {
+
     }
 }

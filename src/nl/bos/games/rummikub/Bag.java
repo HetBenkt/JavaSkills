@@ -1,19 +1,17 @@
 package nl.bos.games.rummikub;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by bosa on 11-7-2017.
  */
-@Data
 @AllArgsConstructor
 public class Bag implements IBag {
     private int size;
-    private static List<IStone> stones = new ArrayList();
+    @Getter
+    private final List<IStone> stones = new ArrayList();
 
     @Override
     public void addStones() {
@@ -21,7 +19,8 @@ public class Bag implements IBag {
         int index = 0;
         IStone.COLOR color = colors[index];
 
-        for (int i=1; i <= size; i++){
+        //Add 104 stones with 14 numbers and 4 colors
+        for (int i=1; i <= (size-2)/IStone.MAX_NUMBER; i++){
             for (int number = 1; number <= IStone.MAX_NUMBER; number++) {
                 IStone stone = new Stone(number, color);
                 stones.add(stone);
@@ -35,10 +34,16 @@ public class Bag implements IBag {
                 color = colors[index];
             }
         }
+
+        //Add 2 Joker stones
+        IStone joker = new Stone(0, null);
+        stones.add(joker);
+        stones.add(joker);
     }
 
     @Override
-    public List<IStone> getStones() {
-        return stones;
+    public void scrumbleTheBag() {
+        long seed = System.nanoTime();
+        Collections.shuffle(stones, new Random(seed));
     }
 }
