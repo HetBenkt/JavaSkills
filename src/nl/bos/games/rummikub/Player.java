@@ -1,10 +1,7 @@
 package nl.bos.games.rummikub;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 import java.util.ArrayList;
@@ -16,15 +13,16 @@ import java.util.List;
 @Data
 @Log
 public class Player implements IPlayer {
+    public final static int DESK_SIZE = 14;
     private final String name;
     private final int age;
     private final String gender;
-    private List<IStone> stones = new ArrayList();;
+    private List<IStone> stones = new ArrayList();
 
     @Override
-    public void pickStones(IBag bag, int size) {
+    public void pickStones(IBag bag) {
         List<IStone> stonesInBag = bag.getStones();
-        for (int i=0; i<size; i++) {
+        for (int i=0; i<DESK_SIZE; i++) {
             IStone stone = stonesInBag.get(i);
             stones.add(stone);
             bag.remove(stone);

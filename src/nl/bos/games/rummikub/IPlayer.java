@@ -1,7 +1,5 @@
 package nl.bos.games.rummikub;
 
-import lombok.Data;
-
 import java.util.List;
 
 /**
@@ -11,7 +9,7 @@ public interface IPlayer {
     String getName();
     int getAge();
     String getGender();
-    void pickStones(IBag bag, int size);
+    void pickStones(IBag bag);
     List<IStone> getStones();
     void displayDesk();
     void display();
