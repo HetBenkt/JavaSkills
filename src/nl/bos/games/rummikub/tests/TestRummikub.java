@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by bosa on 11-7-2017.
+ * The Main test class for TDD on the game implementation
  */
 public class TestRummikub {
     private static final String ANTAL = "Antal";

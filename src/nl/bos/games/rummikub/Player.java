@@ -9,15 +9,16 @@ import java.util.List;
 
 /**
  * Created by bosa on 11-7-2017.
+ * Contains the information for the player like name, age, but also the desk with available stones to play with
  */
 @Data
 @Log
 public class Player implements IPlayer {
-    public final static int DESK_SIZE = 14;
+    public static final int DESK_SIZE = 14;
     private final String name;
     private final int age;
     private final String gender;
-    private List<IStone> stones = new ArrayList();
+    private List<IStone> stones = new ArrayList<>();
 
     @Override
     public void pickStones(IBag bag) {

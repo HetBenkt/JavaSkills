@@ -7,22 +7,24 @@ import java.util.*;
 
 /**
  * Created by bosa on 11-7-2017.
+ * Contains the bag of stones from where a player can pick from
+ * Could have a nice color-print property if we have a UI :)
  */
 @Data
 @Log
 public class Bag implements IBag {
     private final int size;
-    private List<IStone> stones = new ArrayList();
+    private List<IStone> stones = new ArrayList<>();
 
     @Override
     public void addStones() {
-        IStone.COLOR[] colors = IStone.COLOR.values();
+        Stone.COLOR[] colors = Stone.COLOR.values();
         int index = 0;
-        IStone.COLOR color = colors[index];
+        Stone.COLOR color = colors[index];
 
         //Add 104 stones with 14 numbers and 4 colors
-        for (int i=1; i <= (size-2)/IStone.MAX_NUMBER; i++){
-            for (int number = 1; number <= IStone.MAX_NUMBER; number++) {
+        for (int i=1; i <= (size-2)/Stone.MAX_NUMBER; i++){
+            for (int number = 1; number <= Stone.MAX_NUMBER; number++) {
                 IStone stone = new Stone(number, color);
                 stones.add(stone);
             }

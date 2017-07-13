@@ -5,9 +5,10 @@ import java.util.List;
 
 /**
  * Created by bosa on 11-7-2017.
+ * Main class for the Rummikub game
  */
 public class Rummikub {
-    private List<IPlayer> players = new ArrayList();
+    private final List<IPlayer> players = new ArrayList<>();
     private IBag bag;
 
     public void addPlayer(IPlayer player) {
