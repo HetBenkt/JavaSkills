@@ -12,4 +12,5 @@ public interface IBag {
     void scramble();
     void display();
     void remove(IStone stone);
+    void add(List<IStone> stones);
 }

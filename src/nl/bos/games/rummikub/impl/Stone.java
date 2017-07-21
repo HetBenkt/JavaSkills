@@ -1,6 +1,7 @@
-package nl.bos.games.rummikub;
+package nl.bos.games.rummikub.impl;
 
 import lombok.Data;
+import nl.bos.games.rummikub.IStone;
 
 /**
  * Created by bosa on 11-7-2017.

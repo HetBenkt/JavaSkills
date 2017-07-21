@@ -1,7 +1,9 @@
-package nl.bos.games.rummikub;
+package nl.bos.games.rummikub.impl;
 
 import lombok.*;
 import lombok.extern.java.Log;
+import nl.bos.games.rummikub.IBag;
+import nl.bos.games.rummikub.IStone;
 
 import java.util.*;
 
@@ -13,7 +15,7 @@ import java.util.*;
 @Data
 @Log
 public class Bag implements IBag {
-    private final int size;
+    public static final int MAX_SIZE = 106;
     private List<IStone> stones = new ArrayList<>();
 
     @Override
@@ -23,7 +25,7 @@ public class Bag implements IBag {
         Stone.COLOR color = colors[index];
 
         //Add 104 stones with 14 numbers and 4 colors
-        for (int i=1; i <= (size-2)/Stone.MAX_NUMBER; i++){
+        for (int i=1; i <= (MAX_SIZE-2)/Stone.MAX_NUMBER; i++){
             for (int number = 1; number <= Stone.MAX_NUMBER; number++) {
                 IStone stone = new Stone(number, color);
                 stones.add(stone);
@@ -54,7 +56,7 @@ public class Bag implements IBag {
     public void display() {
         int index = 1;
         for (IStone stone: stones) {
-            log.info(String.format("Stone %s [value:%s, color:%s]", index, stone.getValue(), stone.getColor()));
+            log.info(String.format("Stone %d [value:%s, color:%s]", index, stone.getValue(), stone.getColor()));
             index++;
         }
     }
@@ -62,5 +64,12 @@ public class Bag implements IBag {
     @Override
     public void remove(IStone stone) {
         stones.remove(stone);
+    }
+
+    @Override
+    public void add(List<IStone> stones) {
+        for (IStone stone: stones) {
+            this.stones.add(stone);
+        }
     }
 }

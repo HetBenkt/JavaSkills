@@ -1,8 +1,11 @@
-package nl.bos.games.rummikub;
+package nl.bos.games.rummikub.impl;
 
 
 import lombok.Data;
 import lombok.extern.java.Log;
+import nl.bos.games.rummikub.IBag;
+import nl.bos.games.rummikub.IPlayer;
+import nl.bos.games.rummikub.IStone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,6 @@ public class Player implements IPlayer {
             stones.add(stone);
             bag.remove(stone);
         }
-
     }
 
     @Override
@@ -43,5 +45,11 @@ public class Player implements IPlayer {
     @Override
     public void display() {
         log.info(String.format("Player [name:%s, age:%s, gender:%s]", name, age, gender));
+    }
+
+    @Override
+    public void cleanDesk(IBag bag) {
+        bag.add(stones);
+        stones.clear();
     }
 }

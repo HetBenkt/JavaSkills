@@ -7,11 +7,9 @@ import java.util.List;
  * Interface for the Player object
  */
 public interface IPlayer {
-    String getName();
-    int getAge();
-    String getGender();
     void pickStones(IBag bag);
     List<IStone> getStones();
     void displayDesk();
     void display();
+    void cleanDesk(IBag bag);
 }
