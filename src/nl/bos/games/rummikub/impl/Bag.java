@@ -56,7 +56,7 @@ public class Bag implements IBag {
     public void display() {
         int index = 1;
         for (IStone stone: stones) {
-            log.info(String.format("Stone %d [value:%s, color:%s]", index, stone.getValue(), stone.getColor()));
+            lomlog.fine(String.format("Stone %d [value:%s, color:%s]", index, stone.getValue(), stone.getColor()));
             index++;
         }
     }
