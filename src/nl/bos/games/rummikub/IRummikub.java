@@ -11,4 +11,5 @@ public interface IRummikub {
     void addPlayer(IPlayer player1);
     List<IPlayer> getGamePlayers();
     void setGameBag(IBag bag);
+    IBag getGameBag();
 }

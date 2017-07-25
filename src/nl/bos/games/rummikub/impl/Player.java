@@ -24,32 +24,39 @@ public class Player implements IPlayer {
     private List<IStone> stones = new ArrayList<>();
 
     @Override
-    public void pickStones(IBag bag) {
-        List<IStone> stonesInBag = bag.getStones();
+    public void pickStones(IBag gameBag) {
+        List<IStone> stonesInBag = gameBag.getStones();
         for (int i=0; i<DESK_SIZE; i++) {
             IStone stone = stonesInBag.get(i);
             stones.add(stone);
-            bag.remove(stone);
+            gameBag.remove(stone);
         }
+    }
+
+    @Override
+    public void pickStone(IBag gameBag) {
+        IStone stone = gameBag.getStones().get(0);
+        stones.add(stone);
+        gameBag.remove(stone);
     }
 
     @Override
     public void displayDesk() {
         int index = 1;
         for (IStone stone: stones) {
-            log.info(String.format("Stone %s [value:%s, color:%s]", index, stone.getValue(), stone.getColor()));
+            lomlog.info(String.format("Stone %s [value:%s, color:%s]", index, stone.getValue(), stone.getColor()));
             index++;
         }
     }
 
     @Override
     public void display() {
-        log.info(String.format("Player [name:%s, age:%s, gender:%s]", name, age, gender));
+        lomlog.info(String.format("Player [name:%s, age:%s, gender:%s]", name, age, gender));
     }
 
     @Override
-    public void cleanDesk(IBag bag) {
-        bag.add(stones);
+    public void cleanDesk(IBag gameBag) {
+        gameBag.add(stones);
         stones.clear();
     }
 }

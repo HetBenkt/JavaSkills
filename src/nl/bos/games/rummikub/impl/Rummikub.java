@@ -39,12 +39,13 @@ public class Rummikub implements IRummikub {
 
     @Getter
     private List<IPlayer> gamePlayers = new ArrayList<>();
+    @Getter
     @Setter
     private IBag gameBag = new Bag();
+    private static IRummikub game = new Rummikub();
 
     public static void main(String[] args) {
         //Init the game object
-        IRummikub game = new Rummikub();
         IBag bag = new Bag();
 
         //Add player to the game
@@ -82,6 +83,10 @@ public class Rummikub implements IRummikub {
                 case P:
                     lomlog.info(MSG_PICK);
                     //TODO Pick a stone from the bag
+                    IPlayer player1 = game.getGamePlayers().get(0);
+                    player1.pickStone(game.getGameBag());
+                    player1.displayDesk();
+                    lomlog.info(String.format("Stones in bag: %s", game.getGameBag().getStones().size()));
                     break;
                 case C:
                     lomlog.info(MSG_CHOICE);
@@ -91,7 +96,12 @@ public class Rummikub implements IRummikub {
                     lomlog.info(MSG_INVALID);
                     break;
             }
+            doAI(game.getGamePlayers().get(1));
         }
+    }
+
+    private static void doAI(IPlayer player) {
+        player.display();
     }
 
     @Override

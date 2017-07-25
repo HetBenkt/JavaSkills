@@ -40,6 +40,13 @@ class PlayerTest {
     }
 
     @Test
+    void pickStone() {
+        player.pickStone(bag);
+        assertEquals(1, player.getStones().size());
+        assertEquals(Bag.MAX_SIZE-1, bag.getStones().size());
+    }
+
+    @Test
     void cleanDesk() {
         pickStones();
         player.cleanDesk(bag);
