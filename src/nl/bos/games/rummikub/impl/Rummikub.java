@@ -109,10 +109,10 @@ public class Rummikub implements IRummikub {
                     lomlog.fine(String.format("Chosen stones: %s", Arrays.toString(stoneChoices)));
                     if(isValidStonesSet(stonesToPlay)) {
                         moveStonesFromPlayerDeskToTable();
-                    }
+                    } else
+                        return false;
                 } else
                     return false;
-
                 break;
             default:
                 lomlog.info(MSG_INVALID);
@@ -139,9 +139,9 @@ public class Rummikub implements IRummikub {
     }
 
     private static boolean isValidStonesSet(List<IStone> stonesToPlay) {
-        boolean result = true;
+        boolean result = false;
 
-        //TODO
+        //TODO Check if minimal 3 stones are selected; If so check if colors are equal and numbers are in range; Or if numbers are the same and colors are different.
 
         return result;
     }
