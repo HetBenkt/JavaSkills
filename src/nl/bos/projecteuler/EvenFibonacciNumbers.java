@@ -12,23 +12,21 @@ public class EvenFibonacciNumbers {
     public static final int START_VALUE_2 = 2;
 
     public static void main(String[] args) {
-        List<Integer> evenValues = new ArrayList<Integer>();
+        int evenValues = 2;
 
         int value1 = START_VALUE_1;
         int value2 = START_VALUE_2;
-        int term;
-
-        evenValues.add(new Integer(value2));
+        int term = 0;
 
         while((value1 + value2) <= MAX_VALUE) {
             term = value1 + value2;
             if( term % 2 == 0 ) {
-                evenValues.add(new Integer(term));
+                evenValues += term;
             }
             value1 = value2;
             value2 = term;
         }
 
-        System.out.println(evenValues.stream().mapToInt(e -> e.intValue()).sum());
+        System.out.println(evenValues);
     }
 }
