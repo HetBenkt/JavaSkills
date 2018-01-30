@@ -1,16 +1,21 @@
 package nl.bos.projecteuler;
 
+import lombok.extern.java.Log;
+
+import java.text.MessageFormat;
+
+@Log
 public class Prime10001 {
-    private static int input_value = 10001;
     private static int value = 2;
 
     public static void main(String[] args) {
         int primeValue = 0;
-        for (int i = 0; i < input_value; i++) {
+        int inputValue = 10001;
+        for (int i = 0; i < inputValue; i++) {
             primeValue = getNextPrimeNumber();
             value++;
         }
-        System.out.println(primeValue);
+        log.info(MessageFormat.format("Prime value {0}", primeValue));
     }
 
     private static int getNextPrimeNumber() {

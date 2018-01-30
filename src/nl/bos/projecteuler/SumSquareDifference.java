@@ -1,16 +1,20 @@
 package nl.bos.projecteuler;
 
+import lombok.extern.java.Log;
+
+import java.text.MessageFormat;
 import java.util.stream.IntStream;
 
+@Log
 public class SumSquareDifference {
-    public static final int MAX_VALUE = 100;
-    public static final int POW_VALUE = 2;
+    private static final int MAX_VALUE = 100;
+    private static final int POW_VALUE = 2;
 
     public static void main(String[] args) {
         double sumOfSquares = calcSumOfSquares();
         double squareOfSum = calcSquareOfSum();
 
-        System.out.println((int) (squareOfSum - sumOfSquares));
+        log.info(MessageFormat.format("Result {0}", (int) (squareOfSum - sumOfSquares)));
     }
 
     private static double calcSquareOfSum() {

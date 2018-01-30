@@ -1,13 +1,18 @@
 package nl.bos.projecteuler;
 
+import lombok.extern.java.Log;
+
+import java.text.MessageFormat;
+
+@Log
 public class LargestPalindromeProduct {
-    public static final int START_DIGIT_1 = 999;
-    public static final int START_DIGITAL_2 = 999;
+    private static final int START_DIGIT_1 = 999;
+    private static final int START_DIGITAL_2 = 999;
 
-    public static int digit1 = START_DIGIT_1;
-    public static int digit2 = START_DIGITAL_2;
+    private static int digit1 = START_DIGIT_1;
+    private static int digit2 = START_DIGITAL_2;
 
-    public static int highestProduct = 0;
+    private static int highestProduct = 0;
 
     public static void main(String[] args) {
         int product = digit1 * digit2;
@@ -19,29 +24,33 @@ public class LargestPalindromeProduct {
             }
 
             if (isPalindrome(product)) {
-                System.out.println(product);
+                log.info(MessageFormat.format("Product {0}", product));
                 if (highestProduct < product)
                     highestProduct = product;
             }
 
             product = digit1 * digit2;
         }
-        System.out.println("Result: " + highestProduct);
+        log.info(MessageFormat.format("Result {0}", highestProduct));
     }
 
     private static boolean isPalindrome(int product) {
         boolean result = false;
 
         char[] chars = String.valueOf(product).toCharArray();
-        if (chars.length == 1) {
-            if (chars[0] == chars[chars.length - 1])
-                result = true;
-        } else if (chars.length == 2) {
-            if (chars[0] == chars[chars.length - 1] && chars[1] == chars[chars.length - 2])
-                result = true;
-        } else {
-            if (chars[0] == chars[chars.length - 1] && chars[1] == chars[chars.length - 2] && chars[2] == chars[chars.length - 3])
-                result = true;
+        switch (chars.length) {
+            case 1:
+                if (chars[0] == chars[chars.length - 1])
+                    result = true;
+                break;
+            case 2:
+                if (chars[0] == chars[chars.length - 1] && chars[1] == chars[chars.length - 2])
+                    result = true;
+                break;
+            default:
+                if (chars[0] == chars[chars.length - 1] && chars[1] == chars[chars.length - 2] && chars[2] == chars[chars.length - 3])
+                    result = true;
+                break;
         }
         return result;
     }

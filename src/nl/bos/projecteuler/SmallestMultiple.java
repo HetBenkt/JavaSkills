@@ -1,23 +1,27 @@
 package nl.bos.projecteuler;
 
+import lombok.extern.java.Log;
+
+import java.text.MessageFormat;
+
+@Log
 public class SmallestMultiple {
-    public static final int MAX_VALUE = 20;
+    private static final int MAX_VALUE = 20;
 
     public static void main(String[] args) {
         int index = 1;
-        while (!canBeDevidedByAll(index)) {
+        while (!canBeDividedByAll(index)) {
             index++;
         }
-        System.out.println(index);
+        log.info(MessageFormat.format("Index {0}", index));
     }
 
-    private static boolean canBeDevidedByAll(int index) {
-        boolean result = true;
+    private static boolean canBeDividedByAll(int index) {
         for (int i = 1; i <= MAX_VALUE; i++) {
-            if (!(index % i == 0)) {
+            if ((index % i != 0)) {
                 return false;
             }
         }
-        return result;
+        return true;
     }
 }

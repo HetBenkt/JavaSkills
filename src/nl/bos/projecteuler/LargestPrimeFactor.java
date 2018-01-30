@@ -1,21 +1,24 @@
 package nl.bos.projecteuler;
 
-import java.math.BigInteger;
+import lombok.extern.java.Log;
 
+import java.text.MessageFormat;
+
+@Log
 public class LargestPrimeFactor {
-    private static long input_value = 600851475143L;
+    private static long inputValue = 600851475143L;
     private static int value = 2;
 
     public static void main(String[] args) {
         int primeValue;
         do {
             primeValue = getNextPrimeNumber();
-            if(input_value % primeValue == 0) {
-                input_value = input_value/primeValue;
-                System.out.println(primeValue);
+            if(inputValue % primeValue == 0) {
+                inputValue = inputValue /primeValue;
+                log.info(MessageFormat.format("Primevalue {0}", primeValue));
             }
             value++;
-        } while (input_value != 1);
+        } while (inputValue != 1);
     }
 
     private static int getNextPrimeNumber() {
