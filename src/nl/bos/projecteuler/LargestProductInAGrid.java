@@ -20,33 +20,37 @@ public class LargestProductInAGrid {
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                if (i >= 3) {
-                    calcUp(i, j);
-                    if (j >= 3) {
-                        calcDiagUpLeft(i, j);
-                    }
-                    if (j <= 16) {
-                        calcDiagUpRight(i, j);
-                    }
-                }
-                if (i <= 16) {
-                    calcDown(i, j);
-                    if (j >= 3) {
-                        calcDiagDownLeft(i, j);
-                    }
-                    if (j <= 16) {
-                        calcDiagDownRight(i, j);
-                    }
-                }
-                if (j >= 3) {
-                    calcLeft(i, j);
-                }
-                if (j <= 16) {
-                    calcRight(i, j);
-                }
+                doDecisionCalc(i, j);
             }
         }
         log.info(MessageFormat.format("Highest product {0}", highestProduct));
+    }
+
+    private static void doDecisionCalc(int i, int j) {
+        if (i >= 3) {
+            calcUp(i, j);
+            if (j >= 3) {
+                calcDiagUpLeft(i, j);
+            }
+            if (j <= 16) {
+                calcDiagUpRight(i, j);
+            }
+        }
+        if (i <= 16) {
+            calcDown(i, j);
+            if (j >= 3) {
+                calcDiagDownLeft(i, j);
+            }
+            if (j <= 16) {
+                calcDiagDownRight(i, j);
+            }
+        }
+        if (j >= 3) {
+            calcLeft(i, j);
+        }
+        if (j <= 16) {
+            calcRight(i, j);
+        }
     }
 
     private static void calcDiagDownRight(int i, int j) {
@@ -115,7 +119,7 @@ public class LargestProductInAGrid {
 
     private static void initIntegerGrid() {
         Class largestProductInAGrid = LargestProductInAGrid.class;
-        String fileName = largestProductInAGrid.getClass().getSimpleName();
+        String fileName = largestProductInAGrid.getSimpleName();
         Path path = Paths.get("src//nl//bos//projecteuler//" + fileName + ".in").toAbsolutePath();
         try (Stream<String> stream = Files.lines(path)) {
             String[] lines = stream.toArray(String[]::new);
