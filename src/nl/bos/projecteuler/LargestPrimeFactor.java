@@ -15,7 +15,7 @@ public class LargestPrimeFactor {
             primeValue = getNextPrimeNumber();
             if(inputValue % primeValue == 0) {
                 inputValue = inputValue /primeValue;
-                log.info(MessageFormat.format("Primevalue {0}", primeValue));
+                log.info(MessageFormat.format("Prime value {0}", primeValue));
             }
             value++;
         } while (inputValue != 1);
