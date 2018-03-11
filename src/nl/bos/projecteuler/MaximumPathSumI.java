@@ -1,7 +1,5 @@
 package nl.bos.projecteuler;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.java.Log;
 
 import java.nio.file.Files;
@@ -14,12 +12,26 @@ import java.util.stream.Stream;
 @Log
 public class MaximumPathSumI {
     private static final int SIZE = 15;
-    private static Item[][] tree = new Item[SIZE][SIZE];
-    private static int totalSum = 0;
-    private static int totalValues = 0;
-    private static int average;
+    private static final int[][] tree = new int[SIZE][SIZE];
 
     public static void main(String[] args) {
+        initTreeArray();
+        for (int i = SIZE-1; i > 0; i--) {
+            for (int j = 0; j < SIZE-1; j++) {
+                int child1 = tree[i][j];
+                int child2 = tree[i][j + 1];
+
+                if (child1 > child2) {
+                    tree[i - 1][j] += child1;
+                } else {
+                    tree[i - 1][j] += child2;
+                }
+            }
+        }
+        log.info(MessageFormat.format("Result: {0}", tree[0][0]));
+    }
+
+    private static void initTreeArray() {
         //read input file and fill the array
         Class maximumPathSumIClass = MaximumPathSumI.class;
         Path path = Paths.get("src//nl//bos//projecteuler//" + maximumPathSumIClass.getSimpleName() + ".in").toAbsolutePath();
@@ -34,36 +46,6 @@ public class MaximumPathSumI {
         } catch (Exception e) {
             log.finest(e.getLocalizedMessage());
         }
-
-        //get the average
-        average = totalSum / totalValues;
-        log.info(MessageFormat.format("The average value is {0}", average));
-
-        //make all values in array usable that are > the average and next line values are > average
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (tree[i][j] != null) {
-                    Item item = tree[i][j];
-                    if ((item.getValue() > average) && nextLineValuesAreAboveAverage(i, j)) {
-                        item.setUseable(true);
-                    }
-                } else {
-                    j = SIZE;
-                }
-            }
-        }
-    }
-
-    private static boolean nextLineValuesAreAboveAverage(int i, int j) {
-        //Check last line; for arrayOutOfBounce!
-        if (i + 1 != SIZE) {
-            if (tree[i + 1][j].getValue() > average || tree[i + 1][j + 1].getValue() > average)
-                return true;
-            else
-                return false;
-        } else {
-            return true;
-        }
     }
 
     private static void addLineToTreeArray(String line, int lineNr) {
@@ -71,17 +53,8 @@ public class MaximumPathSumI {
         int tokenIndex = 0;
         while (tokenizer.hasMoreTokens()) {
             int value = Integer.parseInt(tokenizer.nextToken());
-            totalSum += value;
-            totalValues++;
-            tree[lineNr][tokenIndex] = new Item(value, false);
+            tree[lineNr][tokenIndex] = value;
             tokenIndex++;
         }
-    }
-
-    @AllArgsConstructor
-    @Data
-    private static class Item {
-        private int value;
-        private boolean isUseable;
     }
 }
