@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 
 @Log
 public class MaximumPathSumI {
-    private static final int SIZE = 15;
-    private static final int[][] tree = new int[SIZE][SIZE];
+    private static int size;
+    private static int[][] tree;
 
     public static void main(String[] args) {
         initTreeArray();
-        for (int i = SIZE-1; i > 0; i--) {
-            for (int j = 0; j < SIZE-1; j++) {
+        for (int i = size-1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
                 int child1 = tree[i][j];
                 int child2 = tree[i][j + 1];
 
@@ -37,6 +37,12 @@ public class MaximumPathSumI {
         Path path = Paths.get("src//nl//bos//projecteuler//" + maximumPathSumIClass.getSimpleName() + ".in").toAbsolutePath();
         try (Stream<String> stream = Files.lines(path)) {
             String[] lines = stream.toArray(String[]::new);
+
+            String lastLine = lines[lines.length-1];
+            StringTokenizer tokenizer = new StringTokenizer(lastLine, " ");
+            size = tokenizer.countTokens();
+            tree = new int[size][size];
+
             int lineNr = 0;
             for (String line : lines) {
                 log.info(line);
