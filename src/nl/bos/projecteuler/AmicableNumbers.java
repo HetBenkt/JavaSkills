@@ -14,13 +14,15 @@ public class AmicableNumbers {
     public static void main(String[] args) {
         for (int i = 0; i < MAX_VALUE; i++) {
             int sumA = getProperDivisorsSum(i);
+            if(i == sumA) {
+                continue;
+            }
             int sumB = getProperDivisorsSum(sumA);
-            if (i == sumB && sumA != sumB) {
-                amicableList.add(sumA);
+            if (i == sumB) {
                 amicableList.add(sumB);
             }
         }
-        log.info(MessageFormat.format("Result {0}", amicableList.stream().mapToInt(e -> e).distinct().sum()));
+        log.info(MessageFormat.format("Result {0}", amicableList.stream().mapToInt(e -> e).sum()));
     }
 
     private static int getProperDivisorsSum(int value) {
