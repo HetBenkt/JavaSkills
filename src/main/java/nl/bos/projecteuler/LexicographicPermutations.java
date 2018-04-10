@@ -3,7 +3,7 @@ package nl.bos.projecteuler;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import lombok.extern.java.Log;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.List;
