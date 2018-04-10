@@ -10,13 +10,13 @@ import java.util.List;
 
 
 @Log
-public class LexicographicPermutations {
+class LexicographicPermutations {
     @Test
-    public void execute() {
-        List<Integer> vals = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    void execute() {
+        List<Integer> values = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
         Collection<List<Integer>> orderPerm =
-                Collections2.orderedPermutations(vals);
+                Collections2.orderedPermutations(values);
 
         int index = 1;
         for (List<Integer> val : orderPerm) {
