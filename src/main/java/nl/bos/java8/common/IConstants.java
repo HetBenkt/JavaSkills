@@ -3,7 +3,6 @@ package nl.bos.java8.common;
 public interface IConstants {
 	public static final String STR_CODE = "utf-8";
 	public static final String STR_DATE_FORMAT = "%s-%s-%s %s:%s:%s";
-	public static final String STR_FILENAME_SAMPLE = "sample.js";
 	public static final String STR_HELLO_WORLD = "Hello world!";
 	public static final String STR_INTERNAL = "Internal";
 	public static final String STR_EXTERNAL = "External";

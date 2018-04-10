@@ -4,25 +4,17 @@
  */
 package nl.bos.java8.nashorn_js;
 
-import static nl.bos.java8.common.IConstants.STR_END;
-import static nl.bos.java8.common.IConstants.STR_EXTERNAL;
-import static nl.bos.java8.common.IConstants.STR_FILENAME_SAMPLE;
-import static nl.bos.java8.common.IConstants.STR_HELLO_WORLD;
-import static nl.bos.java8.common.IConstants.STR_INTERNAL;
-import static nl.bos.java8.common.IConstants.STR_NAMES;
-import static nl.bos.java8.common.IConstants.STR_NASHORN;
-import static nl.bos.java8.common.IConstants.STR_START;
-
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import static nl.bos.java8.common.IConstants.*;
 
 /**
  * @author bosa
@@ -51,7 +43,7 @@ public class PlayWithNashornJS {
 
 			// External Javascript
 			System.out.println(STR_EXTERNAL);
-			String path = new File(STR_FILENAME_SAMPLE).getAbsolutePath();
+			String path = new File("").getAbsolutePath();
 			System.out.println(path);
 			nashorn.eval(new FileReader(path));
 
