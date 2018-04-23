@@ -15,9 +15,10 @@ public class Board extends JPanel implements Runnable, KeyListener {
     public static final int BOARD_WIDTH = 800;
     public static final int BOARD_HEIGHT = 600;
     private static final long DELAY = 40;
-    private static Image imagePlayer, imageMissile;
+    private Image imagePlayer;
+    private Image imageMissile;
     private Player player;
-    private static GameDrawings gameDrawings;
+    private GameDrawings gameDrawings;
 
     public Board() {
         initBoard();
@@ -66,7 +67,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void run() {
-        long diffTime, sleep;
+        long diffTime;
+        long sleep;
         long beforeTime = System.currentTimeMillis();
 
         while (true) {
@@ -90,7 +92,10 @@ public class Board extends JPanel implements Runnable, KeyListener {
             try {
                 Thread.sleep(sleep);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.finest(e.getMessage());
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                Thread.currentThread().interrupt();
             } finally {
                 beforeTime = System.currentTimeMillis();
             }
@@ -99,7 +104,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        // Do nothing.
     }
 
     @Override

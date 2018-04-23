@@ -1,19 +1,23 @@
 package nl.bos.games.tutorials.basics;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 
 @AllArgsConstructor
-@Data
 public class Missile {
 
     private int locationX;
     private int locationY;
     private final Image image;
+    private static final int SCALE = 50;
+
+    @Setter
+    @Getter
     private int speedX;
-    private final static int SCALE = 50;
+    @Getter
     private boolean isVisible;
 
     public void draw(Graphics2D graphics2D) {

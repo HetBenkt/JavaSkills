@@ -14,12 +14,13 @@ public class Player {
 
     private int locationX;
     private int locationY;
-    private final Image imagePlayer, imageMissile;
+    private final Image imagePlayer;
+    private final Image imageMissile;
     private int speedX;
     private int speedY;
-    private final static int SPEED_ZERO = 0;
-    private final static int SPEED = 8;
-    private final static int SCALE = 10;
+    private static final  int SPEED_ZERO = 0;
+    private static final int SPEED = 8;
+    private static final int SCALE = 10;
     private final List<Missile> missiles = new ArrayList<>();
 
     public void draw(Graphics2D graphics2D) {
@@ -40,10 +41,10 @@ public class Player {
                 if (locationX < 0)
                     speedX = SPEED_ZERO;
                 else
-                speedX = -SPEED;
+                    speedX = -SPEED;
                 break;
             case KeyEvent.VK_RIGHT:
-                if (locationX > Board.BOARD_WIDTH-(imagePlayer.getWidth(null)/SCALE))
+                if (locationX > Board.BOARD_WIDTH - (imagePlayer.getWidth(null) / SCALE))
                     speedX = SPEED_ZERO;
                 else
                     speedX = SPEED;
@@ -52,13 +53,15 @@ public class Player {
                 if (locationY < 0)
                     speedY = SPEED_ZERO;
                 else
-                speedY = -SPEED;
+                    speedY = -SPEED;
                 break;
             case KeyEvent.VK_DOWN:
-                if (locationY > Board.BOARD_HEIGHT-(imagePlayer.getHeight(null)/SCALE))
+                if (locationY > Board.BOARD_HEIGHT - (imagePlayer.getHeight(null) / SCALE))
                     speedY = SPEED_ZERO;
                 else
-                speedY = SPEED;
+                    speedY = SPEED;
+                break;
+            default:
                 break;
         }
     }
@@ -80,6 +83,8 @@ public class Player {
                 break;
             case KeyEvent.VK_DOWN:
                 speedY = SPEED_ZERO;
+                break;
+            default:
                 break;
         }
     }
