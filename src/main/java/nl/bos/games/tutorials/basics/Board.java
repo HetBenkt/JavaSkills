@@ -2,6 +2,7 @@ package nl.bos.games.tutorials.basics;
 
 import lombok.Getter;
 import lombok.extern.java.Log;
+import org.w3c.dom.css.Rect;
 
 import javax.swing.*;
 import java.awt.*;
@@ -118,11 +119,15 @@ public class Board extends JPanel implements Runnable, KeyListener {
                     monsters.remove(i);
             }
 
+            checkCollisions();
+
             this.repaint();
 
             diffTime = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - diffTime;
             try {
+                if(sleep <=0)
+                    sleep = 2;
                 Thread.sleep(sleep);
             } catch (InterruptedException e) {
                 log.finest(e.getMessage());
@@ -133,6 +138,32 @@ public class Board extends JPanel implements Runnable, KeyListener {
                 beforeTime = System.currentTimeMillis();
             }
         }
+    }
+
+    private void checkCollisions() {
+        //Player vs. Monster
+        Rectangle playerBounds = player.getBounds();
+        for (Monster monster : monsters) {
+            Rectangle monsterBounds = monster.getBounds();
+            if(playerBounds.intersects(monsterBounds)) {
+                log.info("I'm HIT!!");
+                monster.setVisible(false);
+            }
+        }
+
+        //Missile vs. Monster
+        for(Missile missile : player.getMissiles()) {
+            Rectangle missileBounds = missile.getBounds();
+            for (Monster monster : monsters) {
+                Rectangle monsterBounds = monster.getBounds();
+                if (missileBounds.intersects(monsterBounds)) {
+                    log.info("Monster HIT!!");
+                    monster.setVisible(false);
+                    missile.setVisible(false);
+                }
+            }
+        }
+
     }
 
     @Override

@@ -16,6 +16,7 @@ public class Monster {
     @Setter
     @Getter
     private int speedX;
+    @Setter
     @Getter
     private boolean isVisible;
 
@@ -27,5 +28,9 @@ public class Monster {
         locationX -= speedX;
         if (locationX < 0)
             isVisible = false;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(locationX, locationY, image.getWidth(null) / SCALE, image.getHeight(null) / SCALE);
     }
 }

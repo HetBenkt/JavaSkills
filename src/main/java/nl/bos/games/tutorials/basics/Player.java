@@ -93,4 +93,8 @@ public class Player {
                 break;
         }
     }
+
+    public Rectangle getBounds() {
+        return new Rectangle(locationX, locationY, imagePlayer.getWidth(null) / SCALE, imagePlayer.getHeight(null) / SCALE);
+    }
 }

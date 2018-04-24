@@ -18,6 +18,7 @@ public class Missile {
     @Setter
     @Getter
     private int speedX;
+    @Setter
     @Getter
     private boolean isVisible;
 
@@ -29,5 +30,9 @@ public class Missile {
         locationX += speedX;
         if (locationX > Board.BOARD_WIDTH)
             isVisible = false;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(locationX, locationY, image.getWidth(null) / SCALE, image.getHeight(null) / SCALE);
     }
 }
