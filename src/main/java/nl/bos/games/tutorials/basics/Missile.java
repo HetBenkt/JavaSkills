@@ -13,6 +13,7 @@ public class Missile {
     private int locationY;
     private final Image image;
     private static final int SCALE = 50;
+    public static final int MAX_SPEED = 15;
 
     @Setter
     @Getter

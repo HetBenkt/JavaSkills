@@ -1,6 +1,6 @@
 package nl.bos.games.tutorials.basics;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.extern.java.Log;
 
 import javax.swing.*;
@@ -9,16 +9,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
-@Data
 @Log
 public class Board extends JPanel implements Runnable, KeyListener {
     public static final int BOARD_WIDTH = 800;
     public static final int BOARD_HEIGHT = 600;
-    private static final long DELAY = 40;
-    private Image imagePlayer;
-    private Image imageMissile;
-    private Player player;
-    private GameDrawings gameDrawings;
+    private static final long DELAY = 25;
+    private transient Image imagePlayer;
+    private transient Image imageMissile;
+    @Getter
+    private transient Player player;
+    private transient GameDrawings gameDrawings;
 
     public Board() {
         initBoard();
@@ -71,6 +71,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
         long sleep;
         long beforeTime = System.currentTimeMillis();
 
+        //noinspection InfiniteLoopStatement
         while (true) {
             player.move();
 
@@ -79,7 +80,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
                 Missile missile = missiles.get(i);
                 if (missile.isVisible()) {
                     missile.move();
-                    missile.setSpeedX(missile.getSpeedX()+1);
+                    if(missile.getSpeedX() < Missile.MAX_SPEED)
+                        missile.setSpeedX(missile.getSpeedX()+1);
                 }
                 else
                     missiles.remove(i);

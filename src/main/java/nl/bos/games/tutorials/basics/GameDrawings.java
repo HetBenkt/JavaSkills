@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
-public class GameDrawings {
+class GameDrawings {
     public void draw(Graphics2D graphics2D, Board board) {
         graphics2D.setColor(Color.BLUE);
         graphics2D.setStroke(new BasicStroke(2));

@@ -2,12 +2,14 @@ package nl.bos.games.tutorials.basics;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.java.Log;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log
 @AllArgsConstructor
 @Data
 public class Player {
@@ -18,8 +20,8 @@ public class Player {
     private final Image imageMissile;
     private int speedX;
     private int speedY;
-    private static final  int SPEED_ZERO = 0;
-    private static final int SPEED = 8;
+    private static final int SPEED_ZERO = 0;
+    private static final int SPEED = 3;
     private static final int SCALE = 10;
     private final List<Missile> missiles = new ArrayList<>();
 
@@ -28,8 +30,23 @@ public class Player {
     }
 
     public void move() {
-        locationX += speedX;
-        locationY += speedY;
+        if (locationX <= Board.BOARD_WIDTH-(imagePlayer.getWidth(null)/SCALE) && locationX >= 0)
+            locationX += speedX;
+        else {
+            if (locationX <= 0)
+                locationX++;
+            else
+                locationX--;
+        }
+
+        if (locationY <= Board.BOARD_HEIGHT-(imagePlayer.getHeight(null)/SCALE) && locationY >= 0)
+            locationY += speedY;
+        else {
+            if (locationY <= 0)
+                locationY++;
+            else
+                locationY--;
+        }
     }
 
     public void keyPressed(KeyEvent e) {
@@ -38,28 +55,16 @@ public class Player {
                 fire();
                 break;
             case KeyEvent.VK_LEFT:
-                if (locationX < 0)
-                    speedX = SPEED_ZERO;
-                else
-                    speedX = -SPEED;
+                speedX = -SPEED;
                 break;
             case KeyEvent.VK_RIGHT:
-                if (locationX > Board.BOARD_WIDTH - (imagePlayer.getWidth(null) / SCALE))
-                    speedX = SPEED_ZERO;
-                else
-                    speedX = SPEED;
+                speedX = SPEED;
                 break;
             case KeyEvent.VK_UP:
-                if (locationY < 0)
-                    speedY = SPEED_ZERO;
-                else
-                    speedY = -SPEED;
+                speedY = -SPEED;
                 break;
             case KeyEvent.VK_DOWN:
-                if (locationY > Board.BOARD_HEIGHT - (imagePlayer.getHeight(null) / SCALE))
-                    speedY = SPEED_ZERO;
-                else
-                    speedY = SPEED;
+                speedY = SPEED;
                 break;
             default:
                 break;
