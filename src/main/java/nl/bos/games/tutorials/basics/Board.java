@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Log
 public class Board extends JPanel implements Runnable, KeyListener {
@@ -16,9 +18,11 @@ public class Board extends JPanel implements Runnable, KeyListener {
     private static final long DELAY = 25;
     private transient Image imagePlayer;
     private transient Image imageMissile;
+    private transient Image imageMonster;
     @Getter
     private transient Player player;
     private transient GameDrawings gameDrawings;
+    private List<Monster> monsters = new ArrayList<>();
 
     public Board() {
         initBoard();
@@ -44,6 +48,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
         imagePlayer = imageIconPlayer.getImage();
         ImageIcon imageIconMissile = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/missile.png");
         imageMissile = imageIconMissile.getImage();
+        ImageIcon imageIconMonster = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/monster.png");
+        imageMonster = imageIconMonster.getImage();
     }
 
     @Override
@@ -56,14 +62,23 @@ public class Board extends JPanel implements Runnable, KeyListener {
         graphics2D.setRenderingHints(renderingHints);
 
         gameDrawings.draw(graphics2D, this);
+
+        for (Monster monster : monsters) {
+            if (monster.isVisible())
+                monster.draw(graphics2D);
+        }
+
         for (Missile missile : player.getMissiles()) {
             if (missile.isVisible())
                 missile.draw(graphics2D);
         }
+
         player.draw(graphics2D);
 
         Toolkit.getDefaultToolkit().sync();
     }
+
+    
 
     @Override
     public void run() {
@@ -73,8 +88,10 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
         //noinspection InfiniteLoopStatement
         while (true) {
+            //Move player
             player.move();
 
+            //Move missiles
             List<Missile> missiles = player.getMissiles();
             for (int i = 0; i < missiles.size(); i++) {
                 Missile missile = missiles.get(i);
@@ -85,6 +102,20 @@ public class Board extends JPanel implements Runnable, KeyListener {
                 }
                 else
                     missiles.remove(i);
+            }
+
+            //Add monsters
+            if(new Random().nextInt(100) == 1)
+                monsters.add(new Monster(BOARD_WIDTH, new Random().nextInt(Board.BOARD_WIDTH), imageMonster, 1, true));
+
+            //Move monsters
+            for (int i = 0; i < monsters.size(); i++) {
+                Monster monster = monsters.get(i);
+                if (monster.isVisible()) {
+                    monster.move();
+                }
+                else
+                    monsters.remove(i);
             }
 
             this.repaint();
