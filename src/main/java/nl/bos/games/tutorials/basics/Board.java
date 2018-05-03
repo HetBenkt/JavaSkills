@@ -35,7 +35,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
         this.setDoubleBuffered(true);
 
         loadImages();
-        player = new Player(100, 100, imagePlayer, true, 0, 0, 10, imageMissile);
+        player = new Player(new Point(100, 100), imagePlayer, true, 0, 0, 10, imageMissile);
         gameDrawings = new GameDrawings();
 
         Thread animator = new Thread(this);
@@ -85,35 +85,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
         //noinspection InfiniteLoopStatement
         while (true) {
-            //Move player
-            player.move();
-
-            //Move missiles
-            List<Missile> missiles = player.getMissiles();
-            for (int i = 0; i < missiles.size(); i++) {
-                Missile missile = missiles.get(i);
-                if (missile.isVisible()) {
-                    missile.move();
-                    if(missile.getSpeedX() < MISSILE_MAX_SPEED)
-                        missile.setSpeedX(missile.getSpeedX()+1);
-                }
-                else
-                    missiles.remove(i);
-            }
-
-            //Add monsters
-            if(new Random().nextInt(100) == 1)
-                monsters.add(new Monster(BOARD_WIDTH, new Random().nextInt(BOARD_WIDTH), imageMonster, true, 1, 0, 18));
-
-            //Move monsters
-            for (int i = 0; i < monsters.size(); i++) {
-                Monster monster = monsters.get(i);
-                if (monster.isVisible()) {
-                    monster.move();
-                }
-                else
-                    monsters.remove(i);
-            }
+            moveAndAddMonsters();
 
             checkCollisions();
 
@@ -133,6 +105,38 @@ public class Board extends JPanel implements Runnable, KeyListener {
             } finally {
                 beforeTime = System.currentTimeMillis();
             }
+        }
+    }
+
+    private void moveAndAddMonsters() {
+        //Move player
+        player.move();
+
+        //Move missiles
+        List<Missile> missiles = player.getMissiles();
+        for (int i = 0; i < missiles.size(); i++) {
+            Missile missile = missiles.get(i);
+            if (missile.isVisible()) {
+                missile.move();
+                if (missile.getSpeedX() < MISSILE_MAX_SPEED)
+                    missile.setSpeedX(missile.getSpeedX() + 1);
+            } else
+                missiles.remove(i);
+        }
+
+        //Add monsters
+        if (new Random().nextInt(100) == 1) {
+            Point monsterPoint = new Point(BOARD_WIDTH, new Random().nextInt(BOARD_WIDTH));
+            monsters.add(new Monster(monsterPoint, imageMonster, true, 1, 0, 18));
+        }
+
+        //Move monsters
+        for (int i = 0; i < monsters.size(); i++) {
+            Monster monster = monsters.get(i);
+            if (monster.isVisible()) {
+                monster.move();
+            } else
+                monsters.remove(i);
         }
     }
 

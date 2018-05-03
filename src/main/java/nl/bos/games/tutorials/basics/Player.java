@@ -15,28 +15,30 @@ public class Player extends Sprite {
     @Getter
     private final List<Missile> missiles = new ArrayList<>();
 
-    public Player(int locationX, int locationY, Image image, boolean isVisible, int speedX, int speedY, int scale, Image imageMissile) {
-        super(locationX, locationY, image, isVisible, speedX, speedY, scale);
+    public Player(Point point, Image image, boolean isVisible, int speedX, int speedY, int scale, Image imageMissile) {
+        super(point, image, isVisible, speedX, speedY, scale);
         this.imageMissile = imageMissile;
     }
 
     public void move() {
-        if (locationX <= BOARD_WIDTH - (image.getWidth(null) / scale) && locationX >= 0)
-            locationX += speedX;
+
+        if (point.getX() <= BOARD_WIDTH - (image.getWidth(null) / scale) && point.getX() >= 0) {
+            point.setLocation(point.getX() + speedX, point.getY());
+        }
         else {
-            if (locationX <= 0)
-                locationX++;
+            if (point.getX() <= 0)
+                point.setLocation(point.getX() + 1, point.getY());
             else
-                locationX--;
+                point.setLocation(point.getX() - 1, point.getY());
         }
 
-        if (locationY <= BOARD_HEIGHT - (image.getHeight(null) / scale) && locationY >= 0)
-            locationY += speedY;
+        if (point.getY() <= BOARD_HEIGHT - (image.getHeight(null) / scale) && point.getY() >= 0)
+            point.setLocation(point.getX(), point.getY() + speedY);
         else {
-            if (locationY <= 0)
-                locationY++;
+            if (point.getY() <= 0)
+                point.setLocation(point.getX(), point.getY() + 1);
             else
-                locationY--;
+                point.setLocation(point.getX(), point.getY() - 1);
         }
     }
 
@@ -63,7 +65,8 @@ public class Player extends Sprite {
     }
 
     private void fire() {
-        missiles.add(new Missile(locationX + 15, locationY + 25, imageMissile, 1, 0, true, 50));
+        Point missilePoint = new Point((int) point.getX() + 15, (int) point.getY() + 25);
+        missiles.add(new Missile(missilePoint, imageMissile, 1, 0, true, 50));
     }
 
     public void keyReleased(KeyEvent e) {

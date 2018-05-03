@@ -15,6 +15,6 @@ class GameDrawings {
 
         graphics2D.setColor(Color.WHITE);
         graphics2D.setStroke(new BasicStroke(1));
-        graphics2D.drawString(MessageFormat.format("x: {0}, y {1}", board.getPlayer().getLocationX(), board.getPlayer().getLocationY()), 20, 30);
+        graphics2D.drawString(MessageFormat.format("x: {0}, y {1}", board.getPlayer().getPoint().getX(), board.getPlayer().getPoint().getY()), 20, 30);
     }
 }

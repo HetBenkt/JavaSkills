@@ -11,9 +11,7 @@ import java.awt.*;
 @AllArgsConstructor
 public class Sprite {
     @Getter
-    int locationX;
-    @Getter
-    int locationY;
+    Point point;
     final Image image;
     @Setter
     @Getter
@@ -25,10 +23,10 @@ public class Sprite {
     final int scale;
 
     public void draw(Graphics2D graphics2D) {
-        graphics2D.drawImage(image, locationX, locationY, image.getWidth(null) / scale, image.getHeight(null) / scale, null);
+        graphics2D.drawImage(image, (int) point.getX(), (int) point.getY(), image.getWidth(null) / scale, image.getHeight(null) / scale, null);
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(locationX, locationY, image.getWidth(null) / scale, image.getHeight(null) / scale);
+        return new Rectangle((int) point.getX(), (int) point.getY(), image.getWidth(null) / scale, image.getHeight(null) / scale);
     }
 }

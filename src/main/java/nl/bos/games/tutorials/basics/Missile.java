@@ -8,13 +8,14 @@ import static nl.bos.games.tutorials.basics.Settings.BOARD_WIDTH;
 
 @Log
 class Missile extends Sprite {
-    public Missile(int locationX, int locationY, Image image, int speedX, int speedY, boolean isVisible, int scale) {
-        super(locationX, locationY, image, isVisible, speedX, speedY, scale);
+    public Missile(Point point, Image image, int speedX, int speedY, boolean isVisible, int scale) {
+        super(point, image, isVisible, speedX, speedY, scale);
     }
 
     public void move() {
-        locationX += speedX;
-        if (locationX > BOARD_WIDTH)
+        point.setLocation(point.getX() + speedX, point.getY());
+
+        if (point.getX() > BOARD_WIDTH)
             isVisible = false;
     }
 }
