@@ -2,7 +2,6 @@ package nl.bos.games.tutorials.basics;
 
 import lombok.Getter;
 import lombok.extern.java.Log;
-import org.w3c.dom.css.Rect;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,18 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static nl.bos.games.tutorials.basics.Settings.*;
+
 @Log
 public class Board extends JPanel implements Runnable, KeyListener {
-    public static final int BOARD_WIDTH = 800;
-    public static final int BOARD_HEIGHT = 600;
-    private static final long DELAY = 25;
     private transient Image imagePlayer;
     private transient Image imageMissile;
     private transient Image imageMonster;
     @Getter
     private transient Player player;
     private transient GameDrawings gameDrawings;
-    private List<Monster> monsters = new ArrayList<>();
+    private final transient List<Monster> monsters = new ArrayList<>();
 
     public Board() {
         initBoard();
@@ -37,7 +35,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
         this.setDoubleBuffered(true);
 
         loadImages();
-        player = new Player(100, 100, imagePlayer, imageMissile, 0, 0);
+        player = new Player(100, 100, imagePlayer, true, 0, 0, 10, imageMissile);
         gameDrawings = new GameDrawings();
 
         Thread animator = new Thread(this);
@@ -45,11 +43,11 @@ public class Board extends JPanel implements Runnable, KeyListener {
     }
 
     private void loadImages() {
-        ImageIcon imageIconPlayer = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/player.png");
+        ImageIcon imageIconPlayer = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/assets/player.png");
         imagePlayer = imageIconPlayer.getImage();
-        ImageIcon imageIconMissile = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/missile.png");
+        ImageIcon imageIconMissile = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/assets/missile.png");
         imageMissile = imageIconMissile.getImage();
-        ImageIcon imageIconMonster = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/monster.png");
+        ImageIcon imageIconMonster = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/assets/monster.png");
         imageMonster = imageIconMonster.getImage();
     }
 
@@ -79,8 +77,6 @@ public class Board extends JPanel implements Runnable, KeyListener {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    
-
     @Override
     public void run() {
         long diffTime;
@@ -98,7 +94,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
                 Missile missile = missiles.get(i);
                 if (missile.isVisible()) {
                     missile.move();
-                    if(missile.getSpeedX() < Missile.MAX_SPEED)
+                    if(missile.getSpeedX() < MISSILE_MAX_SPEED)
                         missile.setSpeedX(missile.getSpeedX()+1);
                 }
                 else
@@ -107,7 +103,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
 
             //Add monsters
             if(new Random().nextInt(100) == 1)
-                monsters.add(new Monster(BOARD_WIDTH, new Random().nextInt(Board.BOARD_WIDTH), imageMonster, 1, true));
+                monsters.add(new Monster(BOARD_WIDTH, new Random().nextInt(BOARD_WIDTH), imageMonster, true, 1, 0, 18));
 
             //Move monsters
             for (int i = 0; i < monsters.size(); i++) {
@@ -124,7 +120,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
             this.repaint();
 
             diffTime = System.currentTimeMillis() - beforeTime;
-            sleep = DELAY - diffTime;
+            sleep = GAME_DELAY - diffTime;
             try {
                 if(sleep <=0)
                     sleep = 2;
@@ -163,7 +159,6 @@ public class Board extends JPanel implements Runnable, KeyListener {
                 }
             }
         }
-
     }
 
     @Override

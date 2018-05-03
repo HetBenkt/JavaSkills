@@ -1,36 +1,27 @@
 package nl.bos.games.tutorials.basics;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.extern.java.Log;
+import lombok.Getter;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log
-@AllArgsConstructor
-@Data
-public class Player {
+import static nl.bos.games.tutorials.basics.Settings.*;
 
-    private int locationX;
-    private int locationY;
-    private final Image imagePlayer;
+public class Player extends Sprite {
+
     private final Image imageMissile;
-    private int speedX;
-    private int speedY;
-    private static final int SPEED_ZERO = 0;
-    private static final int SPEED = 3;
-    private static final int SCALE = 10;
+    @Getter
     private final List<Missile> missiles = new ArrayList<>();
 
-    public void draw(Graphics2D graphics2D) {
-        graphics2D.drawImage(imagePlayer, locationX, locationY, imagePlayer.getWidth(null) / SCALE, imagePlayer.getHeight(null) / SCALE, null);
+    public Player(int locationX, int locationY, Image image, boolean isVisible, int speedX, int speedY, int scale, Image imageMissile) {
+        super(locationX, locationY, image, isVisible, speedX, speedY, scale);
+        this.imageMissile = imageMissile;
     }
 
     public void move() {
-        if (locationX <= Board.BOARD_WIDTH-(imagePlayer.getWidth(null)/SCALE) && locationX >= 0)
+        if (locationX <= BOARD_WIDTH - (image.getWidth(null) / scale) && locationX >= 0)
             locationX += speedX;
         else {
             if (locationX <= 0)
@@ -39,7 +30,7 @@ public class Player {
                 locationX--;
         }
 
-        if (locationY <= Board.BOARD_HEIGHT-(imagePlayer.getHeight(null)/SCALE) && locationY >= 0)
+        if (locationY <= BOARD_HEIGHT - (image.getHeight(null) / scale) && locationY >= 0)
             locationY += speedY;
         else {
             if (locationY <= 0)
@@ -55,16 +46,16 @@ public class Player {
                 fire();
                 break;
             case KeyEvent.VK_LEFT:
-                speedX = -SPEED;
+                speedX = -PLAYER_SPEED;
                 break;
             case KeyEvent.VK_RIGHT:
-                speedX = SPEED;
+                speedX = PLAYER_SPEED;
                 break;
             case KeyEvent.VK_UP:
-                speedY = -SPEED;
+                speedY = -PLAYER_SPEED;
                 break;
             case KeyEvent.VK_DOWN:
-                speedY = SPEED;
+                speedY = PLAYER_SPEED;
                 break;
             default:
                 break;
@@ -72,29 +63,25 @@ public class Player {
     }
 
     private void fire() {
-        missiles.add(new Missile(this.locationX + 15, this.locationY + 25, imageMissile, 1, true));
+        missiles.add(new Missile(locationX + 15, locationY + 25, imageMissile, 1, 0, true, 50));
     }
 
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                speedX = SPEED_ZERO;
+                speedX = PLAYER_SPEED_ZERO;
                 break;
             case KeyEvent.VK_RIGHT:
-                speedX = SPEED_ZERO;
+                speedX = PLAYER_SPEED_ZERO;
                 break;
             case KeyEvent.VK_UP:
-                speedY = SPEED_ZERO;
+                speedY = PLAYER_SPEED_ZERO;
                 break;
             case KeyEvent.VK_DOWN:
-                speedY = SPEED_ZERO;
+                speedY = PLAYER_SPEED_ZERO;
                 break;
             default:
                 break;
         }
-    }
-
-    public Rectangle getBounds() {
-        return new Rectangle(locationX, locationY, imagePlayer.getWidth(null) / SCALE, imagePlayer.getHeight(null) / SCALE);
     }
 }

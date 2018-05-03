@@ -1,36 +1,16 @@
 package nl.bos.games.tutorials.basics;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.awt.*;
 
-@AllArgsConstructor
-public class Monster {
-    private int locationX;
-    private int locationY;
-    private final Image image;
-    private static final int SCALE = 18;
+class Monster extends Sprite {
 
-    @Setter
-    @Getter
-    private int speedX;
-    @Setter
-    @Getter
-    private boolean isVisible;
-
-    public void draw(Graphics2D graphics2D) {
-        graphics2D.drawImage(image, locationX, locationY, image.getWidth(null) / SCALE, image.getHeight(null) / SCALE, null);
+    public Monster(int locationX, int locationY, Image image, boolean isVisible, int speedX, int speedY, int scale) {
+        super(locationX, locationY, image, isVisible, speedX, speedY, scale);
     }
 
     public void move() {
         locationX -= speedX;
         if (locationX < 0)
             isVisible = false;
-    }
-
-    public Rectangle getBounds() {
-        return new Rectangle(locationX, locationY, image.getWidth(null) / SCALE, image.getHeight(null) / SCALE);
     }
 }

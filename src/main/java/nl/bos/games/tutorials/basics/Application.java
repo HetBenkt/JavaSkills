@@ -2,8 +2,9 @@ package nl.bos.games.tutorials.basics;
 
 import javax.swing.*;
 
+import static nl.bos.games.tutorials.basics.Settings.GAME_TITLE;
+
 public class Application extends JFrame {
-    private static final String APP_TITLE = "My app";
 
     private Application() {
         initUI();
@@ -14,7 +15,7 @@ public class Application extends JFrame {
 
         this.setResizable(false);
         this.pack();
-        this.setTitle(APP_TITLE);
+        this.setTitle(GAME_TITLE);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
