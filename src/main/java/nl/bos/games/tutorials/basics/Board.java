@@ -1,5 +1,8 @@
 package nl.bos.games.tutorials.basics;
 
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
@@ -7,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +22,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
     private transient Image imagePlayer;
     private transient Image imageMissile;
     private transient Image imageMonster;
+    private transient Image imageBackground;
+
     @Getter
     private transient Player player;
     private transient GameDrawings gameDrawings;
@@ -28,13 +34,15 @@ public class Board extends JPanel implements Runnable, KeyListener {
     }
 
     private void initBoard() {
+        loadImages();
+        loadSounds();
+
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setBackground(Color.BLACK);
         this.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
         this.setDoubleBuffered(true);
 
-        loadImages();
         player = new Player(new Point(100, 100), imagePlayer, true, 0, 0, 10, imageMissile);
         gameDrawings = new GameDrawings();
 
@@ -42,7 +50,19 @@ public class Board extends JPanel implements Runnable, KeyListener {
         animator.start();
     }
 
+    private void loadSounds() {
+        //Avoids javaFX error: Toolkit not initialized
+        new JFXPanel();
+
+        String sound = new File("src/main/java/nl/bos/games//tutorials/basics/assets/background.mp3").toURI().toString();
+        Media hit = new Media(sound);
+        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+        mediaPlayer.play();
+    }
+
     private void loadImages() {
+        ImageIcon imageIconBackground = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/assets/background.jpg");
+        imageBackground = imageIconBackground.getImage();
         ImageIcon imageIconPlayer = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/assets/player.png");
         imagePlayer = imageIconPlayer.getImage();
         ImageIcon imageIconMissile = new ImageIcon("src/main/java/nl/bos/games//tutorials/basics/assets/missile.png");
@@ -60,6 +80,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
         renderingHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(renderingHints);
 
+        graphics2D.drawImage(imageBackground, 0, 0, BOARD_WIDTH, BOARD_HEIGHT, null);
         gameDrawings.draw(graphics2D, this);
 
         for (Monster monster : monsters) {

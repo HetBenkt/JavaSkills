@@ -66,7 +66,7 @@ public class Player extends Sprite {
 
     private void fire() {
         Point missilePoint = new Point((int) point.getX() + 15, (int) point.getY() + 25);
-        missiles.add(new Missile(missilePoint, imageMissile, 1, 0, true, 50));
+        missiles.add(new Missile(missilePoint, imageMissile, 1, 0, true, 40));
     }
 
     public void keyReleased(KeyEvent e) {
