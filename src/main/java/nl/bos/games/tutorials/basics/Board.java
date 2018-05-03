@@ -23,6 +23,8 @@ public class Board extends JPanel implements Runnable, KeyListener {
     private transient Image imageMissile;
     private transient Image imageMonster;
     private transient Image imageBackground;
+    private Media soundBackground;
+    private Media soundRocket;
 
     @Getter
     private transient Player player;
@@ -34,18 +36,27 @@ public class Board extends JPanel implements Runnable, KeyListener {
     }
 
     private void initBoard() {
+        //Load the assets
         loadImages();
         loadSounds();
 
+        //Mkae the board settings
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setBackground(Color.BLACK);
         this.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
         this.setDoubleBuffered(true);
 
-        player = new Player(new Point(100, 100), imagePlayer, true, 0, 0, 10, imageMissile);
+        //Initiate playable game
+        player = new Player(new Point(100, 100), imagePlayer, true, 0, 0, 10, imageMissile, soundRocket);
         gameDrawings = new GameDrawings();
 
+        //Start the background music
+        MediaPlayer mediaPlayer = new MediaPlayer(soundBackground);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
+
+        //Run the animator thread/game loop
         Thread animator = new Thread(this);
         animator.start();
     }
@@ -54,10 +65,11 @@ public class Board extends JPanel implements Runnable, KeyListener {
         //Avoids javaFX error: Toolkit not initialized
         new JFXPanel();
 
-        String sound = new File("src/main/java/nl/bos/games//tutorials/basics/assets/background.mp3").toURI().toString();
-        Media hit = new Media(sound);
-        MediaPlayer mediaPlayer = new MediaPlayer(hit);
-        mediaPlayer.play();
+        String backgroundMp3 = new File("src/main/java/nl/bos/games//tutorials/basics/assets/background.mp3").toURI().toString();
+        soundBackground = new Media(backgroundMp3);
+        String rocketMp3 = new File("src/main/java/nl/bos/games//tutorials/basics/assets/rocket.mp3").toURI().toString();
+        soundRocket = new Media(rocketMp3);
+
     }
 
     private void loadImages() {

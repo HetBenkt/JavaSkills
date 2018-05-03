@@ -1,5 +1,7 @@
 package nl.bos.games.tutorials.basics;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import lombok.Getter;
 
 import java.awt.*;
@@ -12,12 +14,14 @@ import static nl.bos.games.tutorials.basics.Settings.*;
 public class Player extends Sprite {
 
     private final Image imageMissile;
+    private final Media soundRocket;
     @Getter
     private final List<Missile> missiles = new ArrayList<>();
 
-    public Player(Point point, Image image, boolean isVisible, int speedX, int speedY, int scale, Image imageMissile) {
+    public Player(Point point, Image image, boolean isVisible, int speedX, int speedY, int scale, Image imageMissile, Media soundRocket) {
         super(point, image, isVisible, speedX, speedY, scale);
         this.imageMissile = imageMissile;
+        this.soundRocket = soundRocket;
     }
 
     public void move() {
@@ -67,6 +71,10 @@ public class Player extends Sprite {
     private void fire() {
         Point missilePoint = new Point((int) point.getX() + 15, (int) point.getY() + 25);
         missiles.add(new Missile(missilePoint, imageMissile, 1, 0, true, 40));
+
+        //Start the rocket launch sound
+        MediaPlayer mediaPlayer = new MediaPlayer(soundRocket);
+        mediaPlayer.play();
     }
 
     public void keyReleased(KeyEvent e) {
