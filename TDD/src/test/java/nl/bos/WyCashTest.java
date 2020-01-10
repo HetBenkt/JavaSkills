@@ -7,23 +7,24 @@ import static org.junit.Assert.*;
 public class WyCashTest {
     @Test
     public void testDollarMultiplication() {
-        Dollar five = new Dollar(5);
-        assertEquals(new Dollar(10), five.times(2));
-        assertEquals(new Dollar(15), five.times(3));
+        Money five = Money.getDollar(5);
+        assertEquals(Money.getDollar(10), five.times(2));
+        assertEquals(Money.getDollar(15), five.times(3));
     }
 
     @Test
     public void testFrancMultiplication() {
-        Franc five = new Franc(5);
-        assertEquals(new Franc(10), five.times(2));
-        assertEquals(new Franc(15), five.times(3));
+        Franc five = Money.getFranc(5);
+        assertEquals(Money.getFranc(10), five.times(2));
+        assertEquals(Money.getFranc(15), five.times(3));
     }
 
     @Test
     public void testEquality() {
-        assertTrue(new Dollar(5).equals(new Dollar(5)));
-        assertFalse(new Dollar(5).equals(new Dollar(7)));
-        assertTrue(new Franc(5).equals(new Franc(5)));
-        assertFalse(new Franc(5).equals(new Franc(7)));
+        assertTrue(Money.getDollar(5).equals(Money.getDollar(5)));
+        assertFalse(Money.getDollar(5).equals(Money.getDollar(6)));
+        assertTrue(Money.getFranc(5).equals(Money.getFranc(5)));
+        assertFalse(Money.getFranc(5).equals(Money.getFranc(6)));
+        assertFalse(Money.getFranc(5).equals(Money.getDollar(5)));
     }
 }
