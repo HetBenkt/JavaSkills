@@ -1,10 +1,10 @@
 package nl.bos;
 
-abstract class Money {
+class Money {
     int amount;
     String currency;
 
-    public Money(int amount, String currency) {
+    Money(int amount, String currency) {
         this.amount = amount;
         this.currency = currency;
     }
@@ -23,12 +23,20 @@ abstract class Money {
 
     public boolean equals(Object object) {
         Money money = (Money) object;
-        return this.amount == money.getAmount() && getClass().equals(money.getClass());
+        return this.amount == money.getAmount() && getCurrency().equals(money.getCurrency());
     }
-
-    abstract Money times(int multiplier);
 
     String getCurrency() {
         return this.currency;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", amount, currency);
+    }
+
+    Money times(int multiplier) {
+        return new Money(amount * multiplier, currency);
+    }
+
 }

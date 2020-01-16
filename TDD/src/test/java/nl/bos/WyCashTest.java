@@ -33,4 +33,9 @@ public class WyCashTest {
         assertEquals("USD", Money.getDollar(1).getCurrency());
         assertEquals("CHF", Money.getFranc(1).getCurrency());
     }
+
+    @Test
+    public void testDifferentClassEquality() {
+        assertTrue(new Money(10, "CHF").equals(new Franc(10, "CHF")));
+    }
 }
