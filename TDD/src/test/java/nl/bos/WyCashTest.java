@@ -14,7 +14,7 @@ public class WyCashTest {
 
     @Test
     public void testFrancMultiplication() {
-        Franc five = Money.getFranc(5);
+        Money five = Money.getFranc(5);
         assertEquals(Money.getFranc(10), five.times(2));
         assertEquals(Money.getFranc(15), five.times(3));
     }
@@ -24,8 +24,6 @@ public class WyCashTest {
         assertTrue(Money.getDollar(5).equals(Money.getDollar(5)));
         assertFalse(Money.getDollar(5).equals(Money.getDollar(6)));
         assertTrue(Money.getFranc(5).equals(Money.getFranc(5)));
-        assertFalse(Money.getFranc(5).equals(Money.getFranc(6)));
-        assertFalse(Money.getFranc(5).equals(Money.getDollar(5)));
     }
 
     @Test

@@ -13,7 +13,7 @@ class Money {
         return new Dollar(amount, "USD");
     }
 
-    static Franc getFranc(int amount) {
+    static Money getFranc(int amount) {
         return new Franc(amount, "CHF");
     }
 
