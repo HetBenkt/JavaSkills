@@ -27,4 +27,10 @@ public class WyCashTest {
         assertFalse(Money.getFranc(5).equals(Money.getFranc(6)));
         assertFalse(Money.getFranc(5).equals(Money.getDollar(5)));
     }
+
+    @Test
+    public void testCurrency() {
+        assertEquals("USD", Money.getDollar(1).getCurrency());
+        assertEquals("CHF", Money.getFranc(1).getCurrency());
+    }
 }

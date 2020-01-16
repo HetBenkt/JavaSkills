@@ -2,13 +2,19 @@ package nl.bos;
 
 abstract class Money {
     int amount;
+    String currency;
+
+    public Money(int amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
 
     static Money getDollar(int amount) {
-        return new Dollar(amount);
+        return new Dollar(amount, "USD");
     }
 
     static Franc getFranc(int amount) {
-        return new Franc(amount);
+        return new Franc(amount, "CHF");
     }
 
     private int getAmount() {
@@ -21,4 +27,8 @@ abstract class Money {
     }
 
     abstract Money times(int multiplier);
+
+    String getCurrency() {
+        return this.currency;
+    }
 }
