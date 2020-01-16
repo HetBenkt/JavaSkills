@@ -45,4 +45,28 @@ public class WyCashTest {
         Money reduced = bank.reduce(sum, "USD");
         assertEquals(Money.getDollar(10), reduced);
     }
+
+    @Test
+    public void testPlusReturnsSum() {
+        Money five = Money.getDollar(5);
+        IExpression result = five.plus(five);
+        Sum sum = (Sum) result;
+        assertEquals(five, sum.getAugend());
+        assertEquals(five, sum.getAddend());
+    }
+
+    @Test
+    public void testReduceSum() {
+        IExpression sum = new Sum(Money.getDollar(3), Money.getDollar(4));
+        Bank bank = new Bank();
+        Money result = bank.reduce(sum, "USD");
+        assertEquals(Money.getDollar(7), result);
+    }
+
+    @Test
+    public void testReduceMoney() {
+        Bank bank = new Bank();
+        Money result = bank.reduce(Money.getDollar(1), "USD");
+        assertEquals(Money.getDollar(1), result);
+    }
 }

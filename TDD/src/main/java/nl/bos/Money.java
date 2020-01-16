@@ -17,7 +17,7 @@ class Money implements IExpression {
         return new Franc(amount, "CHF");
     }
 
-    private int getAmount() {
+    int getAmount() {
         return amount;
     }
 
@@ -40,6 +40,11 @@ class Money implements IExpression {
     }
 
     IExpression plus(Money addend) {
-        return new Money(amount + addend.getAmount(), currency);
+        return new Sum(this, addend);
+    }
+
+    @Override
+    public Money reduce(String to) {
+        return this;
     }
 }
