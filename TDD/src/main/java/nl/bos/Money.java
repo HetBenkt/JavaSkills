@@ -1,6 +1,6 @@
 package nl.bos;
 
-class Money {
+class Money implements IExpression {
     int amount;
     String currency;
 
@@ -39,4 +39,7 @@ class Money {
         return new Money(amount * multiplier, currency);
     }
 
+    IExpression plus(Money addend) {
+        return new Money(amount + addend.getAmount(), currency);
+    }
 }
