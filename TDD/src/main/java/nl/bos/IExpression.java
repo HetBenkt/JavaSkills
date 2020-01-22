@@ -1,5 +1,5 @@
 package nl.bos;
 
 public interface IExpression {
-    Money reduce(String to);
+    Money reduce(Bank bank, String to);
 }
