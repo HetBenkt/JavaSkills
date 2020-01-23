@@ -7,6 +7,6 @@ class Dollar extends Money {
     }
 
     static Money getDollar(int amount) {
-        return new Money(amount, "USD");
+        return new Money(amount, EConstants.USD.name());
     }
 }

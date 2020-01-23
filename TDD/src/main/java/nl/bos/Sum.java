@@ -18,7 +18,7 @@ class Sum implements IExpression {
     }
 
     public Money reduce(Bank bank, String to) {
-        int amount = augend.getAmount() + addend.getAmount();
+        int amount = augend.reduce(bank, to).getAmount() + addend.reduce(bank, to).getAmount();
         return new Money(amount, to);
     }
 }

@@ -28,13 +28,13 @@ public class WyCashTest {
 
     @Test
     public void testCurrency() {
-        assertEquals("USD", Money.getDollar(1).getCurrency());
-        assertEquals("CHF", Money.getFranc(1).getCurrency());
+        assertEquals(EConstants.USD.name(), Money.getDollar(1).getCurrency());
+        assertEquals(EConstants.CHF.name(), Money.getFranc(1).getCurrency());
     }
 
     @Test
     public void testDifferentClassEquality() {
-        assertTrue(new Money(10, "CHF").equals(new Franc(10, "CHF")));
+        assertTrue(new Money(10, EConstants.CHF.name()).equals(new Franc(10, EConstants.CHF.name())));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class WyCashTest {
         Money five = Money.getDollar(5);
         IExpression sum = five.plus(five);
         Bank bank = new Bank();
-        Money reduced = bank.reduce(sum, "USD");
+        Money reduced = bank.reduce(sum, EConstants.USD.name());
         assertEquals(Money.getDollar(10), reduced);
     }
 
@@ -59,22 +59,22 @@ public class WyCashTest {
     public void testReduceSum() {
         IExpression sum = new Sum(Money.getDollar(3), Money.getDollar(4));
         Bank bank = new Bank();
-        Money result = bank.reduce(sum, "USD");
+        Money result = bank.reduce(sum, EConstants.USD.name());
         assertEquals(Money.getDollar(7), result);
     }
 
     @Test
     public void testReduceMoney() {
         Bank bank = new Bank();
-        Money result = bank.reduce(Money.getDollar(1), "USD");
+        Money result = bank.reduce(Money.getDollar(1), EConstants.USD.name());
         assertEquals(Money.getDollar(1), result);
     }
 
     @Test
     public void testReduceMoneyDifferentCurrency() {
         Bank bank = new Bank();
-        bank.addRate("CHF", "USD", 2);
-        Money result = bank.reduce(Money.getFranc(2), "USD");
+        bank.addRate(EConstants.CHF.name(), EConstants.USD.name(), 2);
+        Money result = bank.reduce(Money.getFranc(2), EConstants.USD.name());
         assertEquals(Money.getDollar(1), result);
     }
 
@@ -85,6 +85,17 @@ public class WyCashTest {
 
     @Test
     public void testIdentityRate() {
-        assertEquals(1, new Bank().rate("USD", "USD"));
+        assertEquals(1, new Bank().rate(EConstants.USD.name(), EConstants.USD.name()));
+    }
+
+    @Test
+    public void testMixedAddition() {
+        Money fiveDollar = Money.getDollar(5);
+        Money tenFrancs = Money.getFranc(10);
+        Bank bank = new Bank();
+        bank.addRate(EConstants.CHF.name(), EConstants.USD.name(), 2);
+        Money result = bank.reduce(fiveDollar.plus(tenFrancs), EConstants.USD.name());
+        assertEquals(Money.getDollar(10), result);
+
     }
 }

@@ -10,11 +10,11 @@ class Money implements IExpression {
     }
 
     static Money getDollar(int amount) {
-        return new Dollar(amount, "USD");
+        return new Dollar(amount, EConstants.USD.name());
     }
 
     static Money getFranc(int amount) {
-        return new Franc(amount, "CHF");
+        return new Franc(amount, EConstants.CHF.name());
     }
 
     int getAmount() {
