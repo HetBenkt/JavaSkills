@@ -1,7 +1,5 @@
 package nl.bos;
 
-import static nl.bos.IConstants.CHF;
-
 class Franc extends Money {
 
     Franc(int amount, String currency) {
@@ -9,6 +7,6 @@ class Franc extends Money {
     }
 
     static Money getFranc(int amount) {
-        return new Money(amount, CHF);
+        return new Money(amount, EConstants.CHF.name());
     }
 }

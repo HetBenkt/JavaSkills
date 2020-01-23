@@ -35,11 +35,11 @@ class Money implements IExpression {
         return String.format("%s %s", amount, currency);
     }
 
-    Money times(int multiplier) {
+    IExpression times(int multiplier) {
         return new Money(amount * multiplier, currency);
     }
 
-    IExpression plus(Money addend) {
+    public IExpression plus(IExpression addend) {
         return new Sum(this, addend);
     }
 

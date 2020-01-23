@@ -1,24 +1,29 @@
 package nl.bos;
 
 class Sum implements IExpression {
-    private Money augend;
-    private Money addend;
+    private IExpression augend;
+    private IExpression addend;
 
-    Sum(Money augend, Money addend) {
+    Sum(IExpression augend, IExpression addend) {
         this.augend = augend;
         this.addend = addend;
     }
 
-    Money getAugend() {
+    IExpression getAugend() {
         return augend;
     }
 
-    Money getAddend() {
+    IExpression getAddend() {
         return addend;
     }
 
     public Money reduce(Bank bank, String to) {
         int amount = augend.reduce(bank, to).getAmount() + addend.reduce(bank, to).getAmount();
         return new Money(amount, to);
+    }
+
+    @Override
+    public IExpression plus(IExpression addend) {
+        return null;
     }
 }

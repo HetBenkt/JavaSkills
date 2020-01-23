@@ -90,8 +90,8 @@ public class WyCashTest {
 
     @Test
     public void testMixedAddition() {
-        Money fiveDollar = Money.getDollar(5);
-        Money tenFrancs = Money.getFranc(10);
+        IExpression fiveDollar = Money.getDollar(5);
+        IExpression tenFrancs = Money.getFranc(10);
         Bank bank = new Bank();
         bank.addRate(EConstants.CHF.name(), EConstants.USD.name(), 2);
         Money result = bank.reduce(fiveDollar.plus(tenFrancs), EConstants.USD.name());
