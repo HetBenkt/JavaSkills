@@ -96,6 +96,27 @@ public class WyCashTest {
         bank.addRate(EConstants.CHF.name(), EConstants.USD.name(), 2);
         Money result = bank.reduce(fiveDollar.plus(tenFrancs), EConstants.USD.name());
         assertEquals(Money.getDollar(10), result);
+    }
 
+    @Test
+    public void testSumPlusMoney() {
+        IExpression fiveDollar = Money.getDollar(5);
+        IExpression tenFrancs = Money.getFranc(10);
+        Bank bank = new Bank();
+        bank.addRate(EConstants.CHF.name(), EConstants.USD.name(), 2);
+        IExpression sum = new Sum(fiveDollar, tenFrancs.plus(fiveDollar));
+        Money result = bank.reduce(sum, EConstants.USD.name());
+        assertEquals(Money.getDollar(15), result);
+    }
+
+    @Test
+    public void testSumTimes() {
+        IExpression fiveDollar = Money.getDollar(5);
+        IExpression tenFrancs = Money.getFranc(10);
+        Bank bank = new Bank();
+        bank.addRate(EConstants.CHF.name(), EConstants.USD.name(), 2);
+        IExpression sum = new Sum(fiveDollar, tenFrancs).times(2);
+        Money result = bank.reduce(sum, EConstants.USD.name());
+        assertEquals(Money.getDollar(20), result);
     }
 }

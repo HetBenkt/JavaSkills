@@ -35,7 +35,7 @@ class Money implements IExpression {
         return String.format("%s %s", amount, currency);
     }
 
-    IExpression times(int multiplier) {
+    public IExpression times(int multiplier) {
         return new Money(amount * multiplier, currency);
     }
 

@@ -24,6 +24,10 @@ class Sum implements IExpression {
 
     @Override
     public IExpression plus(IExpression addend) {
-        return null;
+        return new Sum(this, addend);
+    }
+
+    public IExpression times(int multiplier) {
+        return new Sum(augend.times(multiplier), addend.times(multiplier));
     }
 }
