@@ -24,5 +24,6 @@
         <module>Legacy</module>
         <module>TDD</module>
         <module>Games</module>
+        <module>Codewars</module>
     </modules>
 </project>
