@@ -7,9 +7,11 @@ public class CoinFree {
         Arrays.sort(coinAmounts);
         int result = 0;
         for (int i = coinAmounts.length - 1; i >= 0; i--) {
-            while (amount - coinAmounts[i] >= 0) {
-                amount -= coinAmounts[i];
-                result++;
+            int devider = amount / coinAmounts[i];
+            result += devider;
+            amount -= coinAmounts[i] * devider;
+            if (amount == 0) {
+                break;
             }
         }
         return result;
