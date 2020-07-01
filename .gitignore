@@ -4,3 +4,5 @@
 /*.iml
 /target
 *.class
+/Codewars/target/classes/META-INF/Codewars.kotlin_module
+/Codewars/target/test-classes/META-INF/Codewars.kotlin_module
