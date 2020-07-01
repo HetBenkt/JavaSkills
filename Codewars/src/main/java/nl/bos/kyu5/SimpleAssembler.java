@@ -23,13 +23,18 @@ public class SimpleAssembler {
                 case "jnz":
                     String[] split = instruction.substring(4).split(" ");
                     String registerLocation = split[0];
-                    Integer registerJumpValue = Integer.parseInt(split[1]);
+
+                    Integer registerJumpValue = 0;
+                    try {
+                        registerJumpValue = Integer.parseInt(split[1]);
+                    } catch (NumberFormatException nfo) {
+                        registerJumpValue = register.get(split[1]);
+                    }
+
                     if (register.get(registerLocation) == 0) {
                         break;
                     }
-                    if (registerJumpValue < 0) {
-                        i--;
-                    }
+                    i--;
                     i += registerJumpValue;
                     break;
                 default:

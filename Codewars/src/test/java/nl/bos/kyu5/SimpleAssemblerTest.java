@@ -26,4 +26,13 @@ public class SimpleAssemblerTest {
         assertEquals(out, SimpleAssembler.interpret(program));
     }
 
+    @Test
+    public void simple_3() {
+        String[] program = new String[]{"mov a -10", "mov b a", "jnz a 2", "inc a", "dec b", "jnz a -2"};
+        Map<String, Integer> out = new HashMap<String, Integer>();
+        out.put("a", 0);
+        out.put("b", -21);
+        assertEquals(out, SimpleAssembler.interpret(program));
+    }
+
 }
