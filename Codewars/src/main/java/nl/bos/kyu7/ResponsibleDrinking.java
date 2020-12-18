@@ -13,6 +13,6 @@ public class ResponsibleDrinking {
             }
         }
 
-        return (nrOfGlassesWater > 1) ? String.format("%d glasses of water", nrOfGlassesWater) : String.format("%d glass of water", nrOfGlassesWater);
+        return String.format("%d glass%s of water", nrOfGlassesWater, nrOfGlassesWater > 1 ? "es" : "");
     }
 }
