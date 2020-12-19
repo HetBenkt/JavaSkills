@@ -16,7 +16,7 @@ public class Day2PasswordPhilosophy {
         for (String line : data) {
             String[] split = line.split(" ");
             String[] minMax = split[0].split("-");
-            correctPasswords += isPasswordCorrect(split[2], split[1].substring(0, 1).charAt(0), Integer.parseInt(minMax[0]), Integer.parseInt(minMax[1]));
+            correctPasswords += isPasswordCorrect(split[2], split[1].substring(0, 1).charAt(0), Integer.parseInt(minMax[0]) - 1, Integer.parseInt(minMax[1]) - 1);
         }
         System.out.println(String.format("No. of correct passwords: %s", correctPasswords));
     }
@@ -25,9 +25,13 @@ public class Day2PasswordPhilosophy {
         new Day2PasswordPhilosophy();
     }
 
-    private int isPasswordCorrect(String password, char character, int min, int max) {
-        long count = password.chars().filter(ch -> ch == character).count();
-        if (count >= min && count <= max) {
+    private int isPasswordCorrect(String password, char character, int index1, int index2) {
+        char char1 = password.charAt(index1);
+        char char2 = password.charAt(index2);
+
+        if (char1 == character && char2 == character) {
+            return 0;
+        } else if (char1 == character || char2 == character) {
             return 1;
         }
         return 0;
