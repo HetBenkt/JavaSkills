@@ -26,5 +26,6 @@
         <module>Games</module>
         <module>Codewars</module>
         <module>ComputerIdeeResolver</module>
+        <module>AdventOfCode</module>
     </modules>
 </project>
