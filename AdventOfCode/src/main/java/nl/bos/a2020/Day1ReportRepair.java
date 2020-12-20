@@ -9,15 +9,15 @@ import java.util.List;
 
 public class Day1ReportRepair {
 
+    public static void main(String[] args) {
+        new Day1ReportRepair();
+    }
+
     public Day1ReportRepair() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day1ReportRepair");
         ArrayList<String> data = AdventReadInput.readData(is);
 
         Generator.combination(data).simple(3).stream().forEach(this::sum);
-    }
-
-    public static void main(String[] args) {
-        new Day1ReportRepair();
     }
 
     private void sum(List<String> combination) {

@@ -8,6 +8,10 @@ import java.util.ArrayList;
 public class Day3TobogganTrajectory {
     private final static int ROW_WIDTH = 31;
 
+    public static void main(String[] args) {
+        new Day3TobogganTrajectory();
+    }
+
     public Day3TobogganTrajectory() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day3TobogganTrajectory");
         ArrayList<String> data = AdventReadInput.readData(is);
@@ -36,9 +40,5 @@ public class Day3TobogganTrajectory {
             }
         }
         return trees;
-    }
-
-    public static void main(String[] args) {
-        new Day3TobogganTrajectory();
     }
 }
