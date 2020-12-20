@@ -6,7 +6,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//195 is the wrong answer!?
+//195 is too low!?
+//219 is too high!?
 public class Day4PassportProcessing {
 
     public Day4PassportProcessing() {
@@ -18,7 +19,7 @@ public class Day4PassportProcessing {
         for (String line : data) {
             if (!line.isEmpty()) {
                 metadata.addAll(Arrays.asList(line.split(" ")));
-            } else if (metadata.size() == 8 || (metadata.size() == 7 && metadataHasCid(metadata))) {
+            } else if (metadata.size() == 8 || (metadata.size() == 7 && !hasCid(metadata))) {
                 Passport passport = new Passport();
                 passport.setMetadata(metadata);
                 passports.add(passport);
@@ -29,6 +30,15 @@ public class Day4PassportProcessing {
         }
 
         System.out.println(String.format("%s valid passports!", passports.size()));
+    }
+
+    private boolean hasCid(ArrayList<String> metadata) {
+        for (String metadataLine : metadata) {
+            if (metadataLine.startsWith("cid")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
