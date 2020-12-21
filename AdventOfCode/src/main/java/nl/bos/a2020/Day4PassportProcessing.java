@@ -29,6 +29,14 @@ public class Day4PassportProcessing {
             }
         }
 
+        //The last password...As it has no empty line at the end!!!!
+        if (metadata.size() == 8 || (metadata.size() == 7 && !hasCid(metadata))) {
+            Passport passport = new Passport();
+            passport.setMetadata(metadata);
+            passports.add(passport);
+            metadata.clear();
+        }
+
         System.out.println(String.format("%s valid passports!", passports.size()));
     }
 
