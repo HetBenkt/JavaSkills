@@ -5,6 +5,8 @@ import nl.bos.general.AdventReadInput;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 //195 is too low!?
 //219 is too high!?
@@ -12,10 +14,10 @@ public class Day4PassportProcessing {
 
     public Day4PassportProcessing() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day4PassportProcessing");
-        ArrayList<String> data = AdventReadInput.readData(is);
+        List<String> data = AdventReadInput.readData(is);
 
-        ArrayList<Passport> passports = new ArrayList<>();
-        ArrayList<String> metadata = new ArrayList<>();
+        List<Passport> passports = new ArrayList<>();
+        List<String> metadata = new ArrayList<>();
         for (String line : data) {
             if (!line.isEmpty()) {
                 metadata.addAll(Arrays.asList(line.split(" ")));
@@ -29,7 +31,7 @@ public class Day4PassportProcessing {
             }
         }
 
-        //The last password...As it has no empty line at the end!!!!
+        //The last passport...As it has no empty line at the end to detect it!!!!
         if (metadata.size() == 8 || (metadata.size() == 7 && !hasCid(metadata))) {
             Passport passport = new Passport();
             passport.setMetadata(metadata);
@@ -38,9 +40,18 @@ public class Day4PassportProcessing {
         }
 
         System.out.println(String.format("%s valid passports!", passports.size()));
+
+        List<Passport> remainingPassports = new ArrayList<>();
+        for (Passport passport : passports) {
+            if (passport.isValid()) {
+                remainingPassports.add(passport);
+            }
+        }
+
+        System.out.println(String.format("%s remaining valid passports!", remainingPassports.size()));
     }
 
-    private boolean hasCid(ArrayList<String> metadata) {
+    private boolean hasCid(List<String> metadata) {
         for (String metadataLine : metadata) {
             if (metadataLine.startsWith("cid")) {
                 return true;
@@ -53,26 +64,75 @@ public class Day4PassportProcessing {
         new Day4PassportProcessing();
     }
 
-    private boolean metadataHasCid(ArrayList<String> metadata) {
-        for (String metadataLin : metadata) {
-            if (metadataLin.startsWith("cid")) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private class Passport {
-        private final ArrayList<String> metadata = new ArrayList<>();
+        private final List<String> metadata = new ArrayList<>();
 
-        public ArrayList<String> getMetadata() {
-            return metadata;
+        public void setMetadata(List<String> metadata) {
+            this.metadata.addAll(metadata);
+            Collections.sort(this.metadata);
         }
 
-        public void setMetadata(ArrayList<String> metadata) {
+        public boolean isValid() {
+            boolean isValid = true;
             for (String metadataLine : metadata) {
-                this.metadata.add(metadataLine);
+                switch (metadataLine.substring(0, 3)) {
+                    case "byr":
+                        isValid = isValidByr(metadataLine.substring(4));
+                        break;
+                    case "iyr":
+                        isValid = isValidIyr(metadataLine.substring(4));
+                        break;
+                    case "eyr":
+                        isValid = isValidEyr(metadataLine.substring(4));
+                        break;
+                    case "hgt":
+                        isValid = isValidHgt(metadataLine.substring(4));
+                        break;
+                    case "hcl":
+                        isValid = isValidHcl(metadataLine.substring(4));
+                        break;
+                    case "ecl":
+                        isValid = isValidEcl(metadataLine.substring(4));
+                        break;
+                    case "pid":
+                        isValid = isValidPid(metadataLine.substring(4));
+                        break;
+                    default:
+                        //Do nothing
+                }
+                if (!isValid) {
+                    break;
+                }
             }
+            return isValid;
+        }
+
+        private boolean isValidByr(String value) {
+            return false;
+        }
+
+        private boolean isValidIyr(String value) {
+            return false;
+        }
+
+        private boolean isValidEyr(String value) {
+            return false;
+        }
+
+        private boolean isValidHgt(String value) {
+            return false;
+        }
+
+        private boolean isValidHcl(String value) {
+            return false;
+        }
+
+        private boolean isValidEcl(String value) {
+            return false;
+        }
+
+        private boolean isValidPid(String value) {
+            return false;
         }
     }
 }
