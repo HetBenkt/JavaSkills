@@ -10,6 +10,10 @@ import java.util.List;
 
 public class Day4PassportProcessing {
 
+    public static void main(String[] args) {
+        new Day4PassportProcessing();
+    }
+
     public Day4PassportProcessing() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day4PassportProcessing");
         List<String> data = AdventReadInput.readData(is);
@@ -56,10 +60,6 @@ public class Day4PassportProcessing {
             }
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        new Day4PassportProcessing();
     }
 
     private class Passport {
