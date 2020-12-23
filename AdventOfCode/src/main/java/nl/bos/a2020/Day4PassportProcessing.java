@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-//195 is too low!?
-//219 is too high!?
 public class Day4PassportProcessing {
 
     public Day4PassportProcessing() {
@@ -77,13 +75,13 @@ public class Day4PassportProcessing {
             for (String metadataLine : metadata) {
                 switch (metadataLine.substring(0, 3)) {
                     case "byr":
-                        isValid = isValidByr(metadataLine.substring(4));
+                        isValid = isValidByr(Integer.parseInt(metadataLine.substring(4)));
                         break;
                     case "iyr":
-                        isValid = isValidIyr(metadataLine.substring(4));
+                        isValid = isValidIyr(Integer.parseInt(metadataLine.substring(4)));
                         break;
                     case "eyr":
-                        isValid = isValidEyr(metadataLine.substring(4));
+                        isValid = isValidEyr(Integer.parseInt(metadataLine.substring(4)));
                         break;
                     case "hgt":
                         isValid = isValidHgt(metadataLine.substring(4));
@@ -100,39 +98,61 @@ public class Day4PassportProcessing {
                     default:
                         //Do nothing
                 }
-                if (!isValid) {
-                    break;
+                if (isValid) {
+                    continue;
                 }
+                break;
             }
             return isValid;
         }
 
-        private boolean isValidByr(String value) {
-            return false;
+        private boolean isValidByr(int value) {
+            return (value >= 1920 && value <= 2002);
         }
 
-        private boolean isValidIyr(String value) {
-            return false;
+        private boolean isValidIyr(int value) {
+            return (value >= 2010 && value <= 2020);
         }
 
-        private boolean isValidEyr(String value) {
-            return false;
+        private boolean isValidEyr(int value) {
+            return (value >= 2020 && value <= 2030);
         }
 
         private boolean isValidHgt(String value) {
-            return false;
+            String type = value.substring(value.length() - 2);
+            int height = Integer.parseInt(value.substring(0, value.length() - 2));
+            switch (type) {
+                case "in":
+                    return (height >= 59 && height <= 76);
+                case "cm":
+                    return (height >= 150 && height <= 193);
+                default:
+                    return false;
+            }
         }
 
         private boolean isValidHcl(String value) {
-            return false;
+            return value.charAt(0) == '#' && value.substring(1).matches("^[a-f0-9]{6}$");
         }
 
         private boolean isValidEcl(String value) {
-            return false;
+            switch (value) {
+                case "amb":
+                case "brn":
+                case "blu":
+                case "gry":
+                case "grn":
+                case "hzl":
+                case "oth":
+                    return true;
+                default:
+                    return false;
+
+            }
         }
 
         private boolean isValidPid(String value) {
-            return false;
+            return value.matches("^[0-9]{9}$");
         }
     }
 }
