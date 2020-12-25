@@ -27,17 +27,10 @@ public class Day6CustomCustoms {
         //The last group...As it has no empty line at the end to detect it!!!!
         groups.add(String.valueOf(answers));
 
-        List<String> normalizedGroups = new ArrayList<>();
-        for (String group : groups) {
-            String collect = Arrays.asList(group.split(""))
-                    .stream()
-                    .distinct()
-                    .collect(Collectors.joining());
-            normalizedGroups.add(collect);
-        }
-
+        List<String> normalizedGroups = groups.stream().map(s -> Arrays.stream(s.split(""))
+                .distinct()
+                .collect(Collectors.joining())).collect(Collectors.toList());
         int sum = normalizedGroups.stream().mapToInt(String::length).sum();
-
         System.out.println(String.format("Sum is %s", sum));
     }
 
