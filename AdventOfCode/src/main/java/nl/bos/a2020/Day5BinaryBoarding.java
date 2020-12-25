@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Day5BinaryBoarding {
 
-
     public Day5BinaryBoarding() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day5BinaryBoarding");
         List<String> data = AdventReadInput.readData(is);
@@ -91,6 +90,8 @@ public class Day5BinaryBoarding {
 
             seatIds.add((row * 8) + column);
         }
+
+        Collections.sort(seatIds); //682
 
         System.out.println(String.format("Highest seat ID = %d", Collections.max(seatIds)));
     }
