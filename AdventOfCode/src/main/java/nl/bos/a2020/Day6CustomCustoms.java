@@ -4,7 +4,9 @@ import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Day6CustomCustoms {
 
@@ -25,7 +27,18 @@ public class Day6CustomCustoms {
         //The last group...As it has no empty line at the end to detect it!!!!
         groups.add(String.valueOf(answers));
 
-        System.out.println(String.format("%s", groups.size()));
+        List<String> normalizedGroups = new ArrayList<>();
+        for (String group : groups) {
+            String collect = Arrays.asList(group.split(""))
+                    .stream()
+                    .distinct()
+                    .collect(Collectors.joining());
+            normalizedGroups.add(collect);
+        }
+
+        int sum = normalizedGroups.stream().mapToInt(String::length).sum();
+
+        System.out.println(String.format("Sum is %s", sum));
     }
 
     public static void main(String[] args) {
