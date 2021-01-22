@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//178 is too low!?
 public class Day7HandyHaversacks {
 
     public Day7HandyHaversacks() {
@@ -24,12 +25,17 @@ public class Day7HandyHaversacks {
 
          */
 
-        List<String> bags = new ArrayList();
+        List<String> bags = new ArrayList<>();
         bags.add("1 shiny gold");
         int total = 0;
-        while (bags.size() != 0) {
+        while (!bags.isEmpty()) {
             bags = getWhatsInTheBag(data, bags);
-            total += bags.stream().map(s -> Integer.parseInt(s.substring(0, 1))).reduce(0, Integer::sum);
+            total += bags.stream().map(s -> {
+                if (!s.equals("no other")) {
+                    return Integer.parseInt(s.substring(0, s.indexOf(' ')));
+                }
+                return 0;
+            }).reduce(0, Integer::sum);
         }
         System.out.println(String.format("%d individual bags are required inside the single shiny gold bag!", total));
     }
@@ -48,12 +54,17 @@ public class Day7HandyHaversacks {
 
     private List<String> getBagTypes(String dataLine, int multiplier) {
         String bagTypes = dataLine.substring(dataLine.indexOf("contain") + 8);
-        return Arrays.asList(bagTypes.split(",")).stream().map(s -> trim(s, multiplier)).collect(Collectors.toList());
+        return Arrays.stream(bagTypes.split(",")).map(s -> trim(s, multiplier)).collect(Collectors.toList());
     }
 
     private String trim(String s, int multiplier) {
         String line = s.substring(0, s.indexOf("bag")).trim();
-        int value = Integer.parseInt(line.substring(0, 1)) * multiplier;
+        int value;
+        try {
+            value = Integer.parseInt(line.substring(0, line.indexOf(' '))) * multiplier;
+        } catch (NumberFormatException nfe) {
+            return line;
+        }
         line = value + " " + line.substring(2);
         return line;
     }
