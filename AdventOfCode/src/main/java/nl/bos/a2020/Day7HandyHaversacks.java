@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//178 is too low!?
 public class Day7HandyHaversacks {
 
     public Day7HandyHaversacks() {
@@ -20,8 +19,8 @@ public class Day7HandyHaversacks {
 				        1 + 		 (1*3 		   + 1*4) 			 + 2 +			  (2*5 		    + 2*6) ) 			= 32
         1 shiny gold -> 2 dark red 	 (2 dark orange (2 dark yellow (2 dark green (2 dark blue (2 dark violet) ) ) ) )
 				        2 +			 (2*2		   +(4*2		  +(8*2			+(16*2		 +(32*2) 		  ) ) ) )	= 126!!
-        1 shiny gold -> 3 wavy red + 2 plaid chartreuse + 2 shiny line + 5 dull indigo
-				        3 +		   + 2	 	            + 2            + 5                  = 12!!
+        1 shiny gold -> 3 wavy gold                     + 2 plaid chartreuse + 2 shiny line     + 5 dull indigo
+				        3 +	(3*5 + 3*1 +3*4 + 3*1)	    + 2	 + (2*1 + 2*5)	 + 2 + (2*1 + 2*1)    + 5 + (5*3 + 5*4 + 5*3 + 5*1)                  = 12!!
 
          */
 
@@ -44,8 +43,8 @@ public class Day7HandyHaversacks {
         List<String> result = new ArrayList<>();
         for (String dataLine : data) {
             for (String bag : bags) {
-                if (dataLine.startsWith(bag.substring(2))) {
-                    result.addAll(getBagTypes(dataLine, Integer.parseInt(bag.substring(0, 1))));
+                if (dataLine.startsWith(bag.substring(bag.indexOf(' ') + 1))) {
+                    result.addAll(getBagTypes(dataLine, Integer.parseInt(bag.substring(0, bag.indexOf(' ')))));
                 }
             }
         }
