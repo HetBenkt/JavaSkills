@@ -6,12 +6,40 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+//832 is too low
+//1930 is too high
 public class Day8HandheldHalting {
+
+    public static final String JMP = "jmp";
+    public static final String NOP = "nop";
+    public static final String ACC = "acc";
 
     public Day8HandheldHalting() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day8HandheldHalting");
-        List<String> bootCode = AdventReadInput.readData(is);
+        List<String> originalBootCode = AdventReadInput.readData(is);
 
+        int codeLineIndex = 0;
+        for (String codeLine : originalBootCode) {
+            List<String> changedBootCode = new ArrayList<>();
+            changedBootCode.addAll(originalBootCode);
+            String[] splitCodeLine = codeLine.split(" ");
+            switch (splitCodeLine[0]) {
+                case JMP:
+                    changedBootCode.set(codeLineIndex, String.format("%s %s", NOP, splitCodeLine[1]));
+                    break;
+                case NOP:
+                    changedBootCode.set(codeLineIndex, String.format("%s %s", JMP, splitCodeLine[1]));
+                    break;
+                default:
+                    break;
+            }
+            codeLineIndex++;
+
+            runCode(changedBootCode);
+        }
+    }
+
+    private void runCode(List<String> bootCode) {
         boolean run = true;
         int accumulator = 0;
         int index = 0;
@@ -22,14 +50,14 @@ public class Day8HandheldHalting {
             String operation = split[0];
             int argument = Integer.parseInt(split[1]);
             switch (operation) {
-                case "acc":
+                case ACC:
                     accumulator += argument;
                     index++;
                     break;
-                case "jmp":
+                case JMP:
                     index += argument;
                     break;
-                case "nop":
+                case NOP:
                     index++;
                     break;
                 default:
