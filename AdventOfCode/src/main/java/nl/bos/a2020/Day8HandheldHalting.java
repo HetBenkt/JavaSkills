@@ -35,16 +35,15 @@ public class Day8HandheldHalting {
             }
             codeLineIndex++;
 
-            runCode(changedBootCode);
+            runCode(changedBootCode, codeLineIndex);
         }
     }
 
-    private void runCode(List<String> bootCode) {
+    private void runCode(List<String> bootCode, int codeLineIndex) {
         boolean run = true;
         int accumulator = 0;
         int index = 0;
         List<Integer> indexes = new ArrayList<>();
-
         while (run) {
             String[] split = bootCode.get(index).split(" ");
             String operation = split[0];
@@ -70,7 +69,7 @@ public class Day8HandheldHalting {
             }
         }
 
-        System.out.println(String.format("Value of the accumulator is: %d", accumulator));
+        System.out.println(String.format("%d: Value of the accumulator is: %d", codeLineIndex, accumulator));
     }
 
     public static void main(String[] args) {
