@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-//832 is too low
-//1930 is too high
 public class Day8HandheldHalting {
 
     public static final String JMP = "jmp";
@@ -35,15 +33,16 @@ public class Day8HandheldHalting {
             }
             codeLineIndex++;
 
-            runCode(changedBootCode, codeLineIndex);
+            runCode(changedBootCode);
         }
     }
 
-    private void runCode(List<String> bootCode, int codeLineIndex) {
+    private void runCode(List<String> bootCode) {
         boolean run = true;
         int accumulator = 0;
         int index = 0;
         List<Integer> indexes = new ArrayList<>();
+
         while (run) {
             String[] split = bootCode.get(index).split(" ");
             String operation = split[0];
@@ -62,14 +61,17 @@ public class Day8HandheldHalting {
                 default:
                     break;
             }
+
             if (!indexes.contains(index)) {
                 indexes.add(index);
+                if (index == bootCode.size()) {
+                    System.out.println(String.format("Value of the accumulator is: %d", accumulator));
+                    System.exit(0);
+                }
             } else {
                 run = false;
             }
         }
-
-        System.out.println(String.format("%d: Value of the accumulator is: %d", codeLineIndex, accumulator));
     }
 
     public static void main(String[] args) {
