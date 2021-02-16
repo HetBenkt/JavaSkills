@@ -4,49 +4,40 @@ import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Day9EncodingError {
 
-    public static final int PREAMBLE_SIZE = 25;
+    public static final long INVALID_NUMBER = 167829540;
 
     public Day9EncodingError() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day9EncodingError");
         List<String> data = AdventReadInput.readData(is);
 
         int index = 0;
-        List<Long> preamble = null;
-        long theNumber = 0;
+        long sum = 0;
+        int overallIndex = 0;
+        List<Long> contiguousSet = new ArrayList<>();
 
-        while (index < data.size() - PREAMBLE_SIZE) {
-            preamble = getNextPreamble(data, index, index + (PREAMBLE_SIZE - 1));
-            theNumber = Long.parseLong(data.get(index + PREAMBLE_SIZE));
-            if (!preampleHasSumOfTheNumber(preamble, theNumber)) {
-                break;
+        while (index < data.size()) {
+            long number = Long.parseLong(data.get(index));
+            contiguousSet.add(number);
+            sum += number;
+            if (sum >= INVALID_NUMBER) {
+                if (sum == INVALID_NUMBER) {
+                    Long max = Collections.max(contiguousSet);
+                    Long min = Collections.min(contiguousSet);
+                    System.out.println(String.format("Sum of %d and %d is %d", min, max, max + min));
+                    System.exit(-1);
+                }
+                sum = 0;
+                contiguousSet.clear();
+                index = ++overallIndex;
+                continue;
             }
             index++;
         }
-
-        System.out.println(String.format("theNumber= %d does not follow the rule on preamble: %s", theNumber, Arrays.toString(preamble.toArray())));
-    }
-
-    private boolean preampleHasSumOfTheNumber(List<Long> preamble, long theNumber) {
-        for (int i = 0; i < preamble.size(); i++) {
-            for (int j = i + 1; j < preamble.size(); j++) {
-                if (preamble.get(i) + preamble.get(j) == theNumber)
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private List<Long> getNextPreamble(List<String> data, int start, int end) {
-        List<Long> result = new ArrayList<>();
-        for (int i = start; i <= end; i++) {
-            result.add(Long.parseLong(data.get(i)));
-        }
-        return result;
     }
 
     public static void main(String[] args) {
