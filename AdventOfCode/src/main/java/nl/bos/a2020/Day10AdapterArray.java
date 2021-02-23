@@ -4,7 +4,6 @@ import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +13,7 @@ public class Day10AdapterArray {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day10AdapterArray");
         List<String> data = AdventReadInput.readData(is);
 
-        List<Integer> integers = data.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList());
-        Collections.sort(integers);
+        List<Integer> integers = data.stream().map(Integer::parseInt).sorted().collect(Collectors.toList());
         List<Integer> jumpNumbers = convertToJumpNumbers(integers);
         jumpNumbers.add(3);//For your own built-in jolt adapter!
 
