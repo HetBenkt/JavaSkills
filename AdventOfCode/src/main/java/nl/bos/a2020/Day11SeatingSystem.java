@@ -11,17 +11,17 @@ public class Day11SeatingSystem {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day11SeatingSystem");
         List<String> data = AdventReadInput.readData(is);
 
-        int cols = data.get(0).length() + 1;
-        int rows = data.size() + 1;
-        char[][] grid = new char[cols][rows];
-        for (int i = 0; i < cols; i++) {
-            for (int j = 0; j < rows; j++) {
-                if (i == 0 || i == cols - 1) {
+        int cols = data.get(0).length() + 2;
+        int rows = data.size() + 2;
+        char[][] grid = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i == 0 || i == rows - 1) {
                     grid[i][j] = '.';
-                } else if (j == 0 || j == rows - 1) {
+                } else if (j == 0 || j == cols - 1) {
                     grid[i][j] = '.';
                 } else {
-                    grid[i][j] = '#';
+                    grid[i][j] = data.get(i - 1).toCharArray()[j - 1];
                 }
             }
         }
