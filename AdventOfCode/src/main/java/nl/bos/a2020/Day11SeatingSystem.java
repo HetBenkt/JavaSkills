@@ -23,10 +23,56 @@ public class Day11SeatingSystem {
                 } else {
                     grid[i][j] = data.get(i - 1).toCharArray()[j - 1];
                 }
+                System.out.printf("%s", grid[i][j]);
             }
+            System.out.println();
         }
 
-        System.out.print(String.format("Result = %d", 0));
+        char[][] grid2 = new char[rows][cols];
+        for (int i = 1; i < rows - 1; i++) {
+            for (int j = 1; j < cols - 1; j++) {
+                char seat = grid[i][j];
+                char[] adjacentSeats = getAdjacentSeats(grid, i, j);
+                if (seat == 'L' && occupiedSeatsAdjacent(adjacentSeats) == 0) {
+                    grid2[i][j] = '#';
+                } else if (seat == '#' && occupiedSeatsAdjacent(adjacentSeats) >= 4) {
+                    grid2[i][j] = 'L';
+                } else if (seat == '.') {
+                    grid2[i][j] = '.';
+                } else {
+                    grid2[i][j] = grid[i][j];
+                }
+                System.out.printf("%s", grid2[i][j]);
+            }
+            System.out.println();
+        }
+
+
+        System.out.println(String.format("Result = %d", 0));
+    }
+
+    private int occupiedSeatsAdjacent(char[] adjacentSeats) {
+        int result = 0;
+        for (char adjacentSeat : adjacentSeats) {
+            if (adjacentSeat == '#') {
+                result++;
+            }
+        }
+        return result;
+    }
+
+    private char[] getAdjacentSeats(char[][] grid, int i, int j) {
+        char[] result = new char[8];
+        result[0] = grid[i - 1][j - 1];
+        result[1] = grid[i - 1][j];
+        result[2] = grid[i - 1][j + 1];
+        result[3] = grid[i][j - 1];
+        result[4] = grid[i][j + 1];
+        result[5] = grid[i + 1][j - 1];
+        result[6] = grid[i + 1][j];
+        result[7] = grid[i + 1][j + 1];
+
+        return result;
     }
 
     public static void main(String[] args) {
