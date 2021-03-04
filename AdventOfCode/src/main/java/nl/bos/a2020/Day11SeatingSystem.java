@@ -27,28 +27,42 @@ public class Day11SeatingSystem {
             }
             System.out.println();
         }
+        System.out.println();
 
+
+        char[][] grid2 = round(cols, rows, grid);
+        char[][] grid3 = round(cols, rows, grid2);
+
+
+        System.out.println(String.format("Result = %d", 0));
+    }
+
+    private char[][] round(int cols, int rows, char[][] grid) {
         char[][] grid2 = new char[rows][cols];
-        for (int i = 1; i < rows - 1; i++) {
-            for (int j = 1; j < cols - 1; j++) {
-                char seat = grid[i][j];
-                char[] adjacentSeats = getAdjacentSeats(grid, i, j);
-                if (seat == 'L' && occupiedSeatsAdjacent(adjacentSeats) == 0) {
-                    grid2[i][j] = '#';
-                } else if (seat == '#' && occupiedSeatsAdjacent(adjacentSeats) >= 4) {
-                    grid2[i][j] = 'L';
-                } else if (seat == '.') {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i == 0 || i == rows - 1) {
+                    grid2[i][j] = '.';
+                } else if (j == 0 || j == cols - 1) {
                     grid2[i][j] = '.';
                 } else {
-                    grid2[i][j] = grid[i][j];
+                    char seat = grid[i][j];
+                    char[] adjacentSeats = getAdjacentSeats(grid, i, j);
+                    if (seat == 'L' && occupiedSeatsAdjacent(adjacentSeats) == 0) {
+                        grid2[i][j] = '#';
+                    } else if (seat == '#' && occupiedSeatsAdjacent(adjacentSeats) >= 4) {
+                        grid2[i][j] = 'L';
+                    } else if (seat == '.') {
+                        grid2[i][j] = '.';
+                    } else {
+                        grid2[i][j] = grid[i][j];
+                    }
                 }
                 System.out.printf("%s", grid2[i][j]);
             }
             System.out.println();
         }
-
-
-        System.out.println(String.format("Result = %d", 0));
+        return grid2;
     }
 
     private int occupiedSeatsAdjacent(char[] adjacentSeats) {
