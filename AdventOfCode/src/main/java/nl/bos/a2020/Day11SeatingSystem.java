@@ -3,11 +3,12 @@ package nl.bos.a2020;
 import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Day11SeatingSystem {
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     public Day11SeatingSystem() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day11SeatingSystem");
@@ -48,14 +49,12 @@ public class Day11SeatingSystem {
                 System.out.println(Arrays.deepToString(grid));
                 System.out.println(Arrays.deepToString(result));
             }
-            //if(Arrays.equals(grid, result)) { //is not working for some reason??
             if (isEqualArray(grid, result)) {
                 repeatFound = true;
             }
             rounds++;
         }
 
-        //occupiedSeats = Collections.frequency(Collections.singleton(result), '#'); //also not working for some reason???
         long occupiedSeats = Arrays.deepToString(grid).chars().filter(ch -> ch == '#').count();
         System.out.println(String.format("Rounds = %d and seats = %d", rounds, occupiedSeats));
     }
@@ -81,10 +80,10 @@ public class Day11SeatingSystem {
                     result[i][j] = '.';
                 } else {
                     char seat = grid[i][j];
-                    char[] adjacentSeats = getAdjacentSeats(grid, i, j);
+                    AdjacentSeats[] adjacentSeats = getAdjacentSeats(grid, i, j);
                     if (seat == 'L' && occupiedSeatsAdjacent(adjacentSeats) == 0) {
                         result[i][j] = '#';
-                    } else if (seat == '#' && occupiedSeatsAdjacent(adjacentSeats) >= 4) {
+                    } else if (seat == '#' && occupiedSeatsAdjacent(adjacentSeats) >= 5) {
                         result[i][j] = 'L';
                     } else if (seat == '.') {
                         result[i][j] = '.';
@@ -106,31 +105,56 @@ public class Day11SeatingSystem {
         return result;
     }
 
-    private int occupiedSeatsAdjacent(char[] adjacentSeats) {
+    private int occupiedSeatsAdjacent(AdjacentSeats[] adjacentSeats) {
         int result = 0;
-        for (char adjacentSeat : adjacentSeats) {
-            if (adjacentSeat == '#') {
-                result++;
+        for (AdjacentSeats adjacentSeat : adjacentSeats) {
+            for (Character seat : adjacentSeat.getSeats()) {
+                if (seat == '#') {
+                    result++;
+                }
             }
         }
         return result;
     }
 
-    private char[] getAdjacentSeats(char[][] grid, int i, int j) {
-        char[] result = new char[8];
-        result[0] = grid[i - 1][j - 1];
-        result[1] = grid[i - 1][j];
-        result[2] = grid[i - 1][j + 1];
-        result[3] = grid[i][j - 1];
-        result[4] = grid[i][j + 1];
-        result[5] = grid[i + 1][j - 1];
-        result[6] = grid[i + 1][j];
-        result[7] = grid[i + 1][j + 1];
+    private AdjacentSeats[] getAdjacentSeats(char[][] grid, int row, int column) {
+        AdjacentSeats[] result = new AdjacentSeats[8];
+        result[0] = new AdjacentSeats(grid, row, column, -1, -1);//grid[row - 1][column - 1];
+        result[1] = new AdjacentSeats(grid, row, column, -1, 0);//grid[row - 1][column];
+        result[2] = new AdjacentSeats(grid, row, column, -1, 1);//grid[row - 1][column + 1];
+        result[3] = new AdjacentSeats(grid, row, column, 0, -1);//grid[row][column - 1];
+        result[4] = new AdjacentSeats(grid, row, column, 0, 1);//grid[row][column + 1];
+        result[5] = new AdjacentSeats(grid, row, column, 1, -1);//grid[row + 1][column - 1];
+        result[6] = new AdjacentSeats(grid, row, column, 1, 0);//grid[row + 1][column];
+        result[7] = new AdjacentSeats(grid, row, column, 1, 1);//grid[row + 1][column + 1];
 
         return result;
     }
 
     public static void main(String[] args) {
         new Day11SeatingSystem();
+    }
+
+    private class AdjacentSeats {
+        private final List<Character> seats = new ArrayList();
+
+        public AdjacentSeats(char[][] grid, int row, int column, int directionRow, int directionColumn) {
+            int directionRowFixed = directionRow;
+            int directionColumnFixed = directionColumn;
+            boolean error = false;
+            while (!error) {
+                try {
+                    seats.add(grid[row + directionRow][column + directionColumn]);
+                    directionRow += directionRowFixed;
+                    directionColumn += directionColumnFixed;
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    error = true;
+                }
+            }
+        }
+
+        public List<Character> getSeats() {
+            return seats;
+        }
     }
 }
