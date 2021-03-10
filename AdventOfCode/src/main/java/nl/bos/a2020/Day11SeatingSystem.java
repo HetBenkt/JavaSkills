@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Day11SeatingSystem {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     public Day11SeatingSystem() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day11SeatingSystem");
@@ -37,7 +37,6 @@ public class Day11SeatingSystem {
         if (DEBUG) {
             System.out.println();
         }
-
 
         int rounds = 0;
         char[][] result;
@@ -111,6 +110,9 @@ public class Day11SeatingSystem {
             for (Character seat : adjacentSeat.getSeats()) {
                 if (seat == '#') {
                     result++;
+                    break;
+                } else if (seat == 'L') {
+                    break;
                 }
             }
         }
