@@ -11,7 +11,8 @@ public class Day13ShuttleSearch {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day13ShuttleSearch");
         List<String> data = AdventReadInput.readData(is);
 
-        //TODO
+        int timestamp = Integer.parseInt(data.get(0)); //in minutes
+        String[] inServiceBusIds = data.get(1).split(",");
 
         System.out.println(String.format("ID of the earliest bus = %d", 0));
     }
