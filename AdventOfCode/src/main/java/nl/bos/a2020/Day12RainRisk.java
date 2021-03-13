@@ -3,10 +3,7 @@ package nl.bos.a2020;
 import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Day12RainRisk {
 
@@ -14,7 +11,19 @@ public class Day12RainRisk {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day12RainRisk");
         List<String> instructions = AdventReadInput.readData(is);
 
-        Ferry ferry = new Ferry();
+        HashMap<State, Integer> directionsFerry = new HashMap<>();
+        directionsFerry.put(State.NORTH, 0);
+        directionsFerry.put(State.SOUTH, 0);
+        directionsFerry.put(State.EAST, 0);
+        directionsFerry.put(State.WEST, 0);
+        StateObject ferry = new StateObject(directionsFerry);
+
+        HashMap<State, Integer> directionsWaypoint = new HashMap<>();
+        directionsWaypoint.put(State.NORTH, 1);
+        directionsWaypoint.put(State.SOUTH, 0);
+        directionsWaypoint.put(State.EAST, 10);
+        directionsWaypoint.put(State.WEST, 0);
+        StateObject waypoint = new StateObject(directionsWaypoint);
 
         for (String instruction : instructions) {
             char action = instruction.charAt(0);
@@ -22,25 +31,25 @@ public class Day12RainRisk {
 
             switch (action) {
                 case 'R':
-                    ferry.updateCardinalDirection(value);
+                    waypoint.updateCardinalDirection(value);
                     break;
                 case 'L':
-                    ferry.updateCardinalDirection(-value);
+                    waypoint.updateCardinalDirection(-value);
                     break;
                 case 'F':
-                    ferry.forward(value);
+                    ferry.forward(value, waypoint);
                     break;
                 case 'N':
-                    ferry.forward(State.NORTH, value);
+                    waypoint.forward(State.NORTH, value);
                     break;
                 case 'S':
-                    ferry.forward(State.SOUTH, value);
+                    waypoint.forward(State.SOUTH, value);
                     break;
                 case 'E':
-                    ferry.forward(State.EAST, value);
+                    waypoint.forward(State.EAST, value);
                     break;
                 case 'W':
-                    ferry.forward(State.WEST, value);
+                    waypoint.forward(State.WEST, value);
                     break;
                 default:
                     break;
@@ -69,18 +78,12 @@ public class Day12RainRisk {
         }
     }
 
-    private static class Ferry {
+    private static class StateObject {
 
         private final HashMap<State, Integer> directions;
-        private State currentCardinalDirection;
 
-        public Ferry() {
-            currentCardinalDirection = State.EAST;
-            directions = new HashMap<>();
-            directions.put(State.NORTH, 0);
-            directions.put(State.SOUTH, 0);
-            directions.put(State.EAST, 0);
-            directions.put(State.WEST, 0);
+        public StateObject(HashMap<State, Integer> directions) {
+            this.directions = directions;
         }
 
         public HashMap<State, Integer> getDirections() {
@@ -88,40 +91,70 @@ public class Day12RainRisk {
         }
 
         public void updateCardinalDirection(int value) {
+            HashMap<State, Integer> directionsTemp = new HashMap<>();
+            directionsTemp.putAll(directions);
+
             switch (value) {
                 //Rotate right
                 case 90:
-                    currentCardinalDirection = currentCardinalDirection.next();
+                    for (Map.Entry<State, Integer> entry : directionsTemp.entrySet()) {
+                        State entryKey = entry.getKey();
+                        Integer entryValue = entry.getValue();
+                        directions.put(entryKey.next(), entryValue);
+                    }
                     break;
                 case 180:
-                    currentCardinalDirection = currentCardinalDirection.next();
-                    currentCardinalDirection = currentCardinalDirection.next();
+                    for (Map.Entry<State, Integer> entry : directionsTemp.entrySet()) {
+                        State entryKey = entry.getKey();
+                        Integer entryValue = entry.getValue();
+                        directions.put(entryKey.next().next(), entryValue);
+                    }
                     break;
                 case 270:
-                    currentCardinalDirection = currentCardinalDirection.next();
-                    currentCardinalDirection = currentCardinalDirection.next();
-                    currentCardinalDirection = currentCardinalDirection.next();
+                    for (Map.Entry<State, Integer> entry : directionsTemp.entrySet()) {
+                        State entryKey = entry.getKey();
+                        Integer entryValue = entry.getValue();
+                        directions.put(entryKey.next().next().next(), entryValue);
+                    }
                     break;
                 //Rotate left
                 case -90:
-                    currentCardinalDirection = currentCardinalDirection.prev();
+                    for (Map.Entry<State, Integer> entry : directionsTemp.entrySet()) {
+                        State entryKey = entry.getKey();
+                        Integer entryValue = entry.getValue();
+                        directions.put(entryKey.prev(), entryValue);
+                    }
                     break;
                 case -180:
-                    currentCardinalDirection = currentCardinalDirection.prev();
-                    currentCardinalDirection = currentCardinalDirection.prev();
+                    for (Map.Entry<State, Integer> entry : directionsTemp.entrySet()) {
+                        State entryKey = entry.getKey();
+                        Integer entryValue = entry.getValue();
+                        directions.put(entryKey.prev().prev(), entryValue);
+                    }
                     break;
                 case -270:
-                    currentCardinalDirection = currentCardinalDirection.prev();
-                    currentCardinalDirection = currentCardinalDirection.prev();
-                    currentCardinalDirection = currentCardinalDirection.prev();
+                    for (Map.Entry<State, Integer> entry : directionsTemp.entrySet()) {
+                        State entryKey = entry.getKey();
+                        Integer entryValue = entry.getValue();
+                        directions.put(entryKey.prev().prev().prev(), entryValue);
+                    }
                     break;
                 default:
                     break;
             }
         }
 
-        public void forward(int value) {
-            directions.put(currentCardinalDirection, directions.get(currentCardinalDirection) + value);
+        public void forward(int value, StateObject waypoint) {
+            HashMap<State, Integer> directions = waypoint.getDirections();
+            for (Map.Entry<State, Integer> entry : directions.entrySet()) {
+                State entryKey = entry.getKey();
+                Integer entryValue = entry.getValue();
+                if (entryValue != 0) {
+                    this.directions.put(entryKey, this.directions.get(entryKey) + (entryValue * value) - this.directions.get(entryKey.next().next()));
+                    this.directions.put(entryKey.next().next(), 0);
+                }
+            }
+            System.out.print(Arrays.asList(this.directions));
             System.out.println(Arrays.asList(directions));
         }
 
