@@ -66,20 +66,30 @@ public class Day13ShuttleSearch {
             offset++;
         }
 
-        long timestamp = 0;
+        long timestamp = 100_000_000_000_000L;
         boolean run = true;
         while (run) {
+            int count = 0;
             for (Map.Entry<Integer, Integer> entry : busIds.entrySet()) {
                 int busId = entry.getKey();
                 int busOffset = entry.getValue();
 
-                //TODO
+                if (busOffset == 0 && (timestamp % busId) == busOffset) {
+                    count++;
+                } else if ((timestamp % busId) == busId - busOffset) {
+                    count++;
+                }
             }
             timestamp++;
-            System.out.println(String.format("timestamp: %d", timestamp));
+            if (count == busIds.size()) {
+                run = false;
+            }
+            if (timestamp % 100_000_000L == 0) {
+                System.out.println(String.format("Timestamp = %d", timestamp));
+            }
         }
 
-        System.out.println(String.format("Earliest timestamp = %d", 0));
+        System.out.println(String.format("Earliest timestamp = %d", timestamp - 1));
     }
 
     public static void main(String[] args) {
