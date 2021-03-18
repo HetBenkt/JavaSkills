@@ -50,6 +50,8 @@ import java.util.Map;
  * 1202161488    .         .         D         .
  * 1202161489    .         .         .         D
  */
+
+//Brute forcing till 100040500000000L isn't worth the time!?
 public class Day13ShuttleSearch {
 
     public Day13ShuttleSearch() {
@@ -66,7 +68,7 @@ public class Day13ShuttleSearch {
             offset++;
         }
 
-        long timestamp = 100_000_000_000_000L;
+        long timestamp = 100040500000000L;
         boolean run = true;
         while (run) {
             int count = 0;
