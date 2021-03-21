@@ -3,9 +3,7 @@ package nl.bos.a2020;
 import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * time     bus7-0  bus13-1 bus59-4 bus31-6 bus19-7 //7,13,x,x,59,x,31,19
@@ -73,6 +71,7 @@ public class Day13ShuttleSearch {
 
         long timestamp = Long.valueOf(startTime);
         boolean run = true;
+        Set<Integer> additionals = new HashSet<>();
         while (run) {
             boolean init = false;
             int count = 0;
@@ -82,6 +81,7 @@ public class Day13ShuttleSearch {
 
                 if (busOffset == 0 && (timestamp % busId) == busOffset) {
                     count++;
+                    additionals.add(busId);
                     init = true;
                 } else if (init && (timestamp % busId) == busId - busOffset) {
                     count++;
@@ -89,16 +89,17 @@ public class Day13ShuttleSearch {
                     break;
                 }
             }
-            timestamp++;
             if (count == busIds.size()) {
                 run = false;
+            } else {
+                timestamp += additionals.stream().mapToInt(Integer::intValue).sum();
             }
             if (timestamp % 100_000_000L == 0) {
                 System.out.println(String.format("Timestamp = %d", timestamp));
             }
         }
 
-        System.out.println(String.format("Earliest timestamp = %d", timestamp - 1));
+        System.out.println(String.format("Earliest timestamp = %d", timestamp));
     }
 
     public static void main(String[] args) {
