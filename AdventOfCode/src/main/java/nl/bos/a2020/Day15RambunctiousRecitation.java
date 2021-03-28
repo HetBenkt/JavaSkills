@@ -35,7 +35,6 @@ public class Day15RambunctiousRecitation {
             }
             turn++;
             if (turn % 100000 == 0) {
-                stopWatch.stop();
                 System.out.println(String.format("%s sec. [turn %s]", stopWatch.getTime() / 1000, turn));
                 stopWatch.reset();
                 stopWatch.start();
