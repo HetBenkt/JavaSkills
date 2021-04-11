@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class Day15RambunctiousRecitation {
 
-    public static final int YEAR = 2020; //30000000
+    public static final int YEAR = 30000000; //30000000
 
     public Day15RambunctiousRecitation() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day15RambunctiousRecitation");
@@ -66,16 +66,15 @@ public class Day15RambunctiousRecitation {
 
     private List<Integer> getIndexes(List<Long> numbers, long lastSpokenNr) {
         List<Integer> matchingIndices = new ArrayList<>();
-        for (int i = numbers.size() - 1; i >= 0; i--) {
-            long element = numbers.get(i);
 
-            if (lastSpokenNr == element) {
-                matchingIndices.add(i);
-            }
-            if (matchingIndices.size() == 2) {
-                return matchingIndices;
-            }
-        }
+        int lastIndexOf = numbers.lastIndexOf(lastSpokenNr);
+        matchingIndices.add(lastIndexOf);
+        numbers.set(lastIndexOf, -1L);
+
+        int lastIndexOf1 = numbers.lastIndexOf(lastSpokenNr);
+        matchingIndices.add(lastIndexOf1);
+        numbers.set(lastIndexOf, lastSpokenNr);
+
         return matchingIndices;
     }
 
