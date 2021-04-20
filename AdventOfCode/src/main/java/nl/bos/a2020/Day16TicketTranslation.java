@@ -43,17 +43,38 @@ public class Day16TicketTranslation {
             addRangeToNumbers(rule.getRange2(), numbers);
         }
 
-        int result = 0;
+        List<String> validTickets = new ArrayList<>();
         for (String nearbyTicket : nearbyTickets) {
             String[] values = nearbyTicket.split(",");
+            int valueResult = 0;
             for (String value : values) {
                 if (!numbers.contains(Integer.parseInt(value))) {
-                    result += Integer.parseInt(value);
+                    valueResult += Integer.parseInt(value);
                 }
+            }
+            if (valueResult == 0) {
+                validTickets.add(nearbyTicket);
             }
         }
 
-        System.out.printf("Ticket scanning error rate = %d%n", result);
+        //Part 2
+        List<String> ruleOrder = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            int[] ticketColumn = new int[validTickets.size()];
+            int loopIndex = 0;
+            for (String validTicket : validTickets) {
+                String[] ticketValues = validTicket.split(",");
+                ticketColumn[loopIndex] = Integer.parseInt(ticketValues[i]);
+                loopIndex++;
+            }
+            ruleOrder.add(detectRuleType(ticketColumn, rules));
+        }
+
+        System.out.printf("Multiplication of the six 'departure'-field values = %d%n", 0);
+    }
+
+    private String detectRuleType(int[] ticketColumn, List<Rule> rules) {
+        return null;
     }
 
     private void addRangeToNumbers(String range, Set<Integer> numbers) {
