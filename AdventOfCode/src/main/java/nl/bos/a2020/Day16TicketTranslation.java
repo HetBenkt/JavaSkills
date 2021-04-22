@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//First six...too low = 2.016.493.457.861
 public class Day16TicketTranslation {
 
     public Day16TicketTranslation() {
@@ -59,7 +60,7 @@ public class Day16TicketTranslation {
 
         //Part 2
         List<String> ruleOrder = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < rulesIndexEnd; i++) {
             int[] ticketColumn = new int[validTickets.size()];
             int loopIndex = 0;
             for (String validTicket : validTickets) {
@@ -74,6 +75,27 @@ public class Day16TicketTranslation {
     }
 
     private String detectRuleType(int[] ticketColumn, List<Rule> rules) {
+        for (Rule rule : rules) {
+            Set<Integer> numbers = new HashSet<>();
+            addRangeToNumbers(rule.getRange1(), numbers);
+            addRangeToNumbers(rule.getRange2(), numbers);
+
+            boolean validRule = false;
+            int index = 0;
+            for (int value : ticketColumn) {
+                if (numbers.contains(value)) {
+                    validRule = true;
+                } else {
+                    validRule = false;
+                    break;
+                }
+                index++;
+            }
+            if (validRule) {
+                //We can't remove rules here...Probably more types apply also in another range!?
+                return rule.getType();
+            }
+        }
         return null;
     }
 
