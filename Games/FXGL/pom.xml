@@ -11,5 +11,11 @@
 
     <artifactId>FXGL</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.github.almasb</groupId>
+            <artifactId>fxgl</artifactId>
+            <version>11.15</version>
+        </dependency>
+    </dependencies>
 </project>
