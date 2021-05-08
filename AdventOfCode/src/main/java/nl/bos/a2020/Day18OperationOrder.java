@@ -2,8 +2,6 @@ package nl.bos.a2020;
 
 import nl.bos.general.AdventReadInput;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -17,6 +15,7 @@ public class Day18OperationOrder {
 
         List<Long> resultValues = new ArrayList<>();
         for (String expression : expressions) {
+            String rewrite = new Rewriter().rewrite(expression);
             long resultValue = calc(expression);
             System.out.printf("resultValue = %d%n", resultValue);
             resultValues.add(resultValue);
@@ -30,9 +29,54 @@ public class Day18OperationOrder {
     }
 
     private long calc(String expression) throws ScriptException {
-        ScriptEngineManager mgr = new ScriptEngineManager();
-        ScriptEngine engine = mgr.getEngineByName("JavaScript");
-        return Long.parseLong(engine.eval(expression).toString());
+        String[] chars = expression.split("[\\(||//)]");
+        long totalValue = 0L;
+        for (String c : chars) {
+            if (c.matches("\\d+")) {
+            }
+
+        }
+
+        return 0;
+    }
+
+    private class Rewriter {
+        private final StringBuilder output = new StringBuilder();
+        private int level = 0;
+
+        public String rewrite(String input) {
+            for (char character : input.toCharArray()) {
+                switch (character) {
+                    case '(':
+                        level++;
+                        appendNewLine();
+                        break;
+                    case ')':
+                        level--;
+                        appendNewLine();
+                        break;
+                    case ',':
+                        appendNewLine();
+                        break;
+                    case ' ':
+                        // trim property names by skipping spaces.
+                        break;
+                    default:
+                        output.append(character);
+                        break;
+                }
+            }
+            return output.toString();
+        }
+
+        private void appendNewLine() {
+            output.append("\n");
+            if (level > 0) {
+                for (int i = 0; i < level; i++) {
+                    output.append('-');
+                }
+                output.append(' ');
+            }
+        }
     }
 }
-
