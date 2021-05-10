@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Day18OperationOrder {
 
@@ -19,11 +20,29 @@ public class Day18OperationOrder {
             String rewrite = new Rewriter().rewrite(expression);
             String[] strings = rewrite.split("\n");
             List<String> list = Arrays.asList(strings);
-            list.forEach(s -> {
+            list = list.stream().map(s -> {
                 if (s.startsWith("--")) {
-                    s = "-" + calc(s.substring(3));
+                    return "-" + calc(s.substring(3));
+                } else
+                    return s;
+            }).collect(Collectors.toList());
+
+            StringBuilder builder = new StringBuilder();
+            List<String> normalizedList = new ArrayList<>();
+            boolean startBuilding = false;
+            for (String listItem : list) {
+                if (startBuilding) {
+                    builder.append(listItem.substring(1));
                 }
-            });
+                if (listItem.equals("- ")) {
+                    startBuilding = true;
+                } else if (listItem.startsWith(" ")) {
+                    startBuilding = false;
+                }
+                if (!startBuilding) {
+                    normalizedList.add(listItem);
+                }
+            }
 
             long resultValue = calc(expression);
             System.out.printf("resultValue = %d%n", resultValue);
@@ -40,13 +59,27 @@ public class Day18OperationOrder {
     private long calc(String expression) {
         String[] chars = expression.split(" ");
         long totalValue = 0L;
+        String expressor = "";
         for (String c : chars) {
             if (c.matches("\\d+")) {
-                //TODO
+                long thisValue = Long.parseLong(c);
+                totalValue = expressor.equals("") ? thisValue : express(totalValue, thisValue, expressor);
+            } else if (!c.matches("\\d+")) {
+                expressor = c;
             }
 
         }
         return totalValue;
+    }
+
+    private long express(long totalValue, long thisValue, String expressor) {
+        switch (expressor) {
+            case "+":
+                return totalValue + thisValue;
+            case "*":
+                return totalValue * thisValue;
+        }
+        return -1;
     }
 
     private class Rewriter {
