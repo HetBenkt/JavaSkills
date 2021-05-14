@@ -27,5 +27,6 @@
         <module>Codewars</module>
         <module>ComputerIdeeResolver</module>
         <module>AdventOfCode</module>
+        <module>Programmr</module>
     </modules>
 </project>
