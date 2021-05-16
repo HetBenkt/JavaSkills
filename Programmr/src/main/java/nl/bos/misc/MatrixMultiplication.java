@@ -42,7 +42,7 @@ public class MatrixMultiplication {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++) {
-                    matrixMultiplied[i][j] += (matrix1[i][j] * matrix2[k][j]);
+                    matrixMultiplied[i][j] += (matrix1[i][k] * matrix2[k][j]);
                 }
             }
         }
