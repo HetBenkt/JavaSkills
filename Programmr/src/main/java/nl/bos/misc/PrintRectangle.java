@@ -10,7 +10,7 @@ public class PrintRectangle {
         System.out.println("Enter the width:");
         int width = scan.nextInt();
 
-        String[][] rect = buildRect(height, width);
+        String[][] rect = buildRect(width, height);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 System.out.print(rect[i][j]);
@@ -19,7 +19,7 @@ public class PrintRectangle {
         }
     }
 
-    public static String[][] buildRect(int height, int width) {
+    public static String[][] buildRect(int width, int height) {
         String[][] rect = new String[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
