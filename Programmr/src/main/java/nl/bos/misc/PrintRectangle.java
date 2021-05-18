@@ -5,10 +5,10 @@ import java.util.Scanner;
 public class PrintRectangle {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter the height:");
-        int height = scan.nextInt();
         System.out.println("Enter the width:");
         int width = scan.nextInt();
+        System.out.println("Enter the heigth:");
+        int height = scan.nextInt();
 
         String[][] rect = buildRect(width, height);
         for (int i = 0; i < height; i++) {
