@@ -6,7 +6,7 @@ import org.junit.Test;
 public class PrintRectangleTest {
 
     @Test
-    public void buildRect() {
+    public void buildRectTest() {
         //given
         int width = 10;
         int height = 5;
