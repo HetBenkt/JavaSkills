@@ -18,7 +18,7 @@ public class NameSearchTest {
     @Test
     public void getWrongSurNameTest() {
         //when
-        String actual = NameSearch.getSurName("dummy2");
+        String actual = NameSearch.getSurName("dummy");
         //then
         Assert.assertNull(actual);
     }
