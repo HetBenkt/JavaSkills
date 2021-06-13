@@ -28,5 +28,6 @@
         <module>ComputerIdeeResolver</module>
         <module>AdventOfCode</module>
         <module>Programmr</module>
+        <module>edabit</module>
     </modules>
 </project>
