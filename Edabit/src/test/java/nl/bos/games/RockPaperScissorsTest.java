@@ -2,43 +2,44 @@ package nl.bos.games;
 
 import org.junit.jupiter.api.Test;
 
+import static nl.bos.games.RockPaperScissors.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RockPaperScissorsTest {
 
     @Test
     public void test1() {
-        assertEquals("Player 1 wins", RockPaperScissors.rps("rock", "scissors"));
+        assertEquals(THE_WINNER_IS_P_1, RockPaperScissors.rps(ROCK, SCISSORS));
     }
 
     @Test
     public void test2() {
-        assertEquals("Player 1 wins", RockPaperScissors.rps("paper", "rock"));
+        assertEquals(THE_WINNER_IS_P_1, RockPaperScissors.rps(PAPER, ROCK));
     }
 
     @Test
     public void test3() {
-        assertEquals("Player 1 wins", RockPaperScissors.rps("scissors", "paper"));
+        assertEquals(THE_WINNER_IS_P_1, RockPaperScissors.rps(SCISSORS, PAPER));
     }
 
     @Test
     public void test4() {
-        assertEquals("Player 2 wins", RockPaperScissors.rps("scissors", "rock"));
+        assertEquals(THE_WINNER_IS_P_2, RockPaperScissors.rps(SCISSORS, ROCK));
     }
 
     @Test
     public void test5() {
-        assertEquals("Player 2 wins", RockPaperScissors.rps("rock", "paper"));
+        assertEquals(THE_WINNER_IS_P_2, RockPaperScissors.rps(ROCK, PAPER));
     }
 
     @Test
     public void test6() {
-        assertEquals("Player 2 wins", RockPaperScissors.rps("paper", "scissors"));
+        assertEquals(THE_WINNER_IS_P_2, RockPaperScissors.rps(PAPER, SCISSORS));
     }
 
     @Test
     public void test7() {
-        assertEquals("TIE", RockPaperScissors.rps("scissors", "scissors"));
+        assertEquals(IT_S_A_DRAW, RockPaperScissors.rps(SCISSORS, SCISSORS));
     }
 
 }
