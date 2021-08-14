@@ -29,5 +29,6 @@
         <module>AdventOfCode</module>
         <module>Programmr</module>
         <module>edabit</module>
+        <module>Onion</module>
     </modules>
 </project>
