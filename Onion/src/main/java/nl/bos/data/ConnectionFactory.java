@@ -5,21 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class ConnectionFactory {
+public enum ConnectionFactory {
+    INSTANCE; //singleton from "Effective Java" book...nice!
+
     private static final String URL = "jdbc:postgresql://localhost/test"; //TODO bring up a real database!?
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "admin";
-    public static final ConnectionFactory INSTANCE = new ConnectionFactory();
     private Connection connection;
-
-
-    private ConnectionFactory() {
-        super(); //Singleton protected
-    }
-
-    public static ConnectionFactory getInstance() {
-        return INSTANCE;
-    }
 
     public Connection connect() {
         if (connection == null) {
