@@ -7,9 +7,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class PersonDAO implements IPersonDAO {
+    ConnectionFactory connectionFactory = ConnectionFactory.INSTANCE;
+
     @Override
     public boolean create(PersonDTO person) throws SQLException {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = connectionFactory.connect();
 
         PreparedStatement create = connection.prepareStatement("INSERT INTO person VALUES(NULL, ?, ?, ?)");
         create.setString(1, person.getName());

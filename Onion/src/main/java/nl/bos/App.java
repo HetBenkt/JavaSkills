@@ -5,15 +5,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import nl.bos.data.ConnectionFactory;
 
 public class App extends Application {
+
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread(App::shutdown));
         launch(args);
     }
 
     private static void shutdown() {
-        System.out.println("Shutdown via hook!");
+        ConnectionFactory.INSTANCE.disconnect();
     }
 
     @Override

@@ -9,24 +9,43 @@ public class ConnectionFactory {
     private static final String URL = "jdbc:postgresql://localhost/test"; //TODO bring up a real database!?
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "admin";
+    public static final ConnectionFactory INSTANCE = new ConnectionFactory();
+    private Connection connection;
 
-    public static Connection getConnection() {
-        try {
-            Properties props = new Properties();
-            props.setProperty("user", USERNAME);
-            props.setProperty("password", PASSWORD);
-            props.setProperty("ssl", "false");
-            return DriverManager.getConnection(URL, props);
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error connecting to the database", ex);
-        }
+
+    private ConnectionFactory() {
+        super(); //Singleton protected
     }
 
-    public static void release(Connection connection) {
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error closing database connection", ex);
+    public static ConnectionFactory getInstance() {
+        return INSTANCE;
+    }
+
+    public Connection connect() {
+        if (connection == null) {
+            try {
+                Properties props = new Properties();
+                props.setProperty("user", USERNAME);
+                props.setProperty("password", PASSWORD);
+                props.setProperty("ssl", "false");
+                //Class.forName("");
+                //DriverManager.registerDriver(null);
+                connection = DriverManager.getConnection(URL, props);
+            } catch (SQLException ex) {
+                throw new RuntimeException("Error connecting to the database", ex);
+            }
+        }
+        return connection;
+    }
+
+    public void disconnect() {
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null;
+            } catch (SQLException ex) {
+                throw new RuntimeException("Error closing database connection", ex);
+            }
         }
     }
 }
