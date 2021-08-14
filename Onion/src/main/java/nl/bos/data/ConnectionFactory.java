@@ -8,23 +8,28 @@ import java.util.Properties;
 public enum ConnectionFactory {
     INSTANCE; //singleton from "Effective Java" book...nice!
 
-    private static final String URL = "jdbc:postgresql://localhost/test"; //TODO bring up a real database!?
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "admin";
     private Connection connection;
+    private String username, password, database;
+
+    public void setInstanceVariables(String username, String password, String database) {
+        this.username = username;
+        this.password = password;
+        this.database = database;
+    }
 
     public Connection connect() {
         if (connection == null) {
             try {
+                Class.forName("org.postgresql.Driver");
                 Properties props = new Properties();
-                props.setProperty("user", USERNAME);
-                props.setProperty("password", PASSWORD);
+                props.setProperty("user", username);
+                props.setProperty("password", password);
                 props.setProperty("ssl", "false");
-                //Class.forName("");
-                //DriverManager.registerDriver(null);
-                connection = DriverManager.getConnection(URL, props);
+                connection = DriverManager.getConnection(String.format("jdbc:postgresql://tai.db.elephantsql.com/%s", database), props);
             } catch (SQLException ex) {
                 throw new RuntimeException("Error connecting to the database", ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException("Error loading the driver", ex);
             }
         }
         return connection;

@@ -13,10 +13,10 @@ public class PersonDAO implements IPersonDAO {
     public boolean create(PersonDTO person) throws SQLException {
         Connection connection = connectionFactory.connect();
 
-        PreparedStatement create = connection.prepareStatement("INSERT INTO person VALUES(NULL, ?, ?, ?)");
+        PreparedStatement create = connection.prepareStatement("INSERT INTO person (name, age, interests) VALUES(?, ?, ?)");
         create.setString(1, person.getName());
         create.setInt(2, person.getAge());
-        create.setObject(3, person.getInterests());
+        create.setString(3, String.join(", ", person.getInterests()));
 
         return create.executeUpdate() == 1;
     }
