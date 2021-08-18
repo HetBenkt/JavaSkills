@@ -1,16 +1,18 @@
 package nl.bos;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nl.bos.business.IPersonService;
 import nl.bos.business.PersonService;
 import nl.bos.data.ConnectionFactory;
 import nl.bos.data.PersonDTO;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Set;
 
 public class App extends Application {
@@ -28,9 +30,11 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
-        stage.setScene(new Scene(createContent()));
-        stage.show();
+    public void start(Stage primaryStage) throws IOException {
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(createContent(), 1280, 720));
+        primaryStage.show();
+
         IPersonService personService = new PersonService();
         Set<String> interests = Set.of("Books", "Software", "Running");
         PersonDTO person = new PersonDTO("John Doe", 33, interests);
@@ -42,9 +46,8 @@ public class App extends Application {
     }
 
     //TODO Should move to a MVC presentation layer!
-    private Parent createContent() {
-        VBox root = new VBox();
-        root.setPrefSize(1280, 720);
-        return root;
+    private Parent createContent() throws IOException {
+        //https://stackoverflow.com/questions/32342864/applying-mvc-with-javafx
+        return FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/sample.fxml")));
     }
 }
