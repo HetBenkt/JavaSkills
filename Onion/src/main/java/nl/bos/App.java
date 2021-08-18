@@ -2,7 +2,6 @@ package nl.bos;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.bos.business.IPersonService;
@@ -32,7 +31,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(createContent(), 1280, 720));
+        primaryStage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/sample.fxml"))), 1280, 720));
         primaryStage.show();
 
         IPersonService personService = new PersonService();
@@ -43,11 +42,5 @@ public class App extends Application {
         } catch (SQLException ex) {
             throw new RuntimeException("Error creating a person", ex);
         }
-    }
-
-    //TODO Should move to a MVC presentation layer!
-    private Parent createContent() throws IOException {
-        //https://stackoverflow.com/questions/32342864/applying-mvc-with-javafx
-        return FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/sample.fxml")));
     }
 }
