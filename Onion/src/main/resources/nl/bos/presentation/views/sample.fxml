@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
-      fx:controller="nl.bos.presentation.controllers.SampleController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="200.0" prefWidth="100.0" spacing="7.0"
+      xmlns="http://javafx.com/javafx/11.0.1" fx:controller="nl.bos.presentation.controllers.SampleController">
     <children>
-        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-            <items>
-                <VBox prefHeight="200.0" prefWidth="100.0">
-                    <children>
-                        <TextField promptText="Name"/>
-                        <TextField promptText="Age"/>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                            <children>
-                                <Button defaultButton="true" mnemonicParsing="false" text="Save"/>
-                                <Button cancelButton="true" mnemonicParsing="false" text="Clear"/>
-                            </children>
-                            <opaqueInsets>
-                                <Insets/>
-                            </opaqueInsets>
-                        </HBox>
-                    </children>
-                </VBox>
-                <TableView prefHeight="192.0" prefWidth="158.0">
-                    <columns>
-                        <TableColumn prefWidth="75.0" text="C1"/>
-                        <TableColumn prefWidth="75.0" text="C2"/>
-                    </columns>
-                </TableView>
-            </items>
-        </SplitPane>
+        <TextField promptText="Name"/>
+        <TextField promptText="Age"/>
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <Button defaultButton="true" mnemonicParsing="false" text="Save"/>
+                <Button cancelButton="true" mnemonicParsing="false" text="Clear"/>
+            </children>
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+        </HBox>
+        <TableView maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" prefWidth="158.0">
+            <columns>
+                <TableColumn prefWidth="75.0" text="C1"/>
+                <TableColumn prefWidth="75.0" text="C2"/>
+            </columns>
+        </TableView>
     </children>
 </VBox>
