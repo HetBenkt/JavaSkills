@@ -31,7 +31,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/sample.fxml"))), 1280, 720));
+        primaryStage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/sample.fxml"))), 800, 600));
         primaryStage.show();
 
         IPersonService personService = new PersonService();

@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="200.0" prefWidth="100.0" spacing="7.0"
-      xmlns="http://javafx.com/javafx/11.0.1" fx:controller="nl.bos.presentation.controllers.SampleController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
+      fx:controller="nl.bos.presentation.controllers.SampleController">
     <children>
-        <TextField promptText="Name"/>
-        <TextField promptText="Age"/>
-        <HBox prefHeight="100.0" prefWidth="200.0">
+        <VBox maxWidth="150.0" prefWidth="150.0" spacing="7.0">
             <children>
-                <Button defaultButton="true" mnemonicParsing="false" text="Save"/>
-                <Button cancelButton="true" mnemonicParsing="false" text="Clear"/>
+                <TextField fx:id="txtName" promptText="Name"/>
+                <TextField fx:id="txtAge" promptText="Age"/>
+            </children>
+        </VBox>
+        <HBox prefHeight="100.0" prefWidth="200.0" spacing="7.0">
+            <children>
+                <Button fx:id="btnSave" defaultButton="true" disable="true" mnemonicParsing="false"
+                        onAction="#savePerson" text="Save"/>
+                <Button fx:id="btnClear" cancelButton="true" mnemonicParsing="false" onAction="#clearForm"
+                        text="Clear"/>
             </children>
             <opaqueInsets>
                 <Insets/>
             </opaqueInsets>
+            <VBox.margin>
+                <Insets top="10.0"/>
+            </VBox.margin>
         </HBox>
-        <TableView maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" prefWidth="158.0">
+        <TableView>
             <columns>
                 <TableColumn prefWidth="75.0" text="C1"/>
                 <TableColumn prefWidth="75.0" text="C2"/>
