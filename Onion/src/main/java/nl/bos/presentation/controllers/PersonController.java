@@ -1,10 +1,8 @@
 package nl.bos.presentation.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import nl.bos.business.IPersonService;
 import nl.bos.business.PersonService;
@@ -29,8 +27,7 @@ public class PersonController {
 
     @FXML
     private void initialize() {
-//        TableColumn<PersonDTO, String> firstNameColumn = TableColumn<>("First Name");
-//        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        initTable();
         updateTable();
 
         txtAge.focusedProperty().addListener((observableValue, isOldValue, isNewValue) -> {
@@ -43,6 +40,25 @@ public class PersonController {
                 validateForm();
             }
         });
+    }
+
+    private void initTable() {
+        TableColumn<PersonDTO, String> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<PersonDTO, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<PersonDTO, String> ageColumn = new TableColumn<>("Age");
+        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+
+        TableColumn<PersonDTO, String> interestsColumn = new TableColumn<>("Interests");
+        interestsColumn.setCellValueFactory(new PropertyValueFactory<>("interests"));
+
+        tblPersons.getColumns().add(idColumn);
+        tblPersons.getColumns().add(nameColumn);
+        tblPersons.getColumns().add(ageColumn);
+        tblPersons.getColumns().add(interestsColumn);
     }
 
     private void updateTable() {

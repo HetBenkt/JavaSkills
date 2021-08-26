@@ -43,11 +43,14 @@ public class PersonDAO implements IPersonDAO {
         Statement select = connection.createStatement();
         ResultSet resultSet = select.executeQuery("SELECT * FROM person");
         while (resultSet.next()) {
+            Array a = resultSet.getArray("interests");
+            //TODO String[] interests = (String[])a.getArray();
+
             PersonDTO person = new PersonDTO(
                     resultSet.getLong("id"),
                     resultSet.getString("name"),
                     resultSet.getInt("age"),
-                    Collections.emptySet() //todo interests
+                    Collections.emptySet() //todo should be the interests
             );
             result.add(person);
         }
