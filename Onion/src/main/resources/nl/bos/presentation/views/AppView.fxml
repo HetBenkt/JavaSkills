@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
-      fx:controller="nl.bos.presentation.controllers.SampleController">
+      fx:controller="nl.bos.presentation.controllers.PersonController">
     <children>
         <VBox maxWidth="150.0" prefWidth="150.0" spacing="7.0">
             <children>
