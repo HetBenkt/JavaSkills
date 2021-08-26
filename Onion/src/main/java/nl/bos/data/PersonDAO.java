@@ -1,8 +1,7 @@
 package nl.bos.data;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,7 +36,22 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public List<PersonDTO> getAll() {
-        return Collections.emptyList();
+    public List<PersonDTO> getAll() throws SQLException {
+        List<PersonDTO> result = new ArrayList<>();
+        Connection connection = connectionFactory.connect();
+
+        Statement select = connection.createStatement();
+        ResultSet resultSet = select.executeQuery("SELECT * FROM person");
+        while (resultSet.next()) {
+            PersonDTO person = new PersonDTO(
+                    resultSet.getLong("id"),
+                    resultSet.getString("name"),
+                    resultSet.getInt("age"),
+                    Collections.emptySet() //todo interests
+            );
+            result.add(person);
+        }
+
+        return result;
     }
 }

@@ -5,6 +5,7 @@ import nl.bos.data.PersonDAO;
 import nl.bos.data.PersonDTO;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class PersonService implements IPersonService {
 
@@ -16,5 +17,10 @@ public class PersonService implements IPersonService {
 
     public boolean create(PersonDTO person) throws SQLException {
         return personDAO.create(person);
+    }
+
+    @Override
+    public List<PersonDTO> getAll() throws SQLException {
+        return personDAO.getAll();
     }
 }

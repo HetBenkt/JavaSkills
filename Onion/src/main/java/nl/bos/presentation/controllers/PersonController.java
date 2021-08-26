@@ -3,7 +3,9 @@ package nl.bos.presentation.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import nl.bos.business.IPersonService;
 import nl.bos.business.PersonService;
 import nl.bos.data.PersonDTO;
@@ -20,11 +22,17 @@ public class PersonController {
     TextField txtName;
     @FXML
     TextField txtAge;
+    @FXML
+    TableView<PersonDTO> tblPersons;
 
     IPersonService personService = new PersonService();
 
     @FXML
     private void initialize() {
+//        TableColumn<PersonDTO, String> firstNameColumn = TableColumn<>("First Name");
+//        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        updateTable();
+
         txtAge.focusedProperty().addListener((observableValue, isOldValue, isNewValue) -> {
             if (!isNewValue) { //when focus lost
                 validateForm();
@@ -35,6 +43,14 @@ public class PersonController {
                 validateForm();
             }
         });
+    }
+
+    private void updateTable() {
+        try {
+            tblPersons.getItems().addAll(personService.getAll());
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     private void validateForm() {
@@ -59,12 +75,21 @@ public class PersonController {
         );
 
         try {
-            personService.create(person);
-            clearForm();
-            inform("The person was successfully created.");
+            if (personService.create(person)) {
+                clearForm();
+                updateTable();
+                inform("The person was successfully created.");
+            } else {
+                //todo error message!?
+            }
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    @FXML
+    private void viewPerson(MouseEvent mouseEvent) {
+        //todo onclick row implementation
     }
 
     private void inform(String message) {

@@ -12,5 +12,5 @@ public interface IPersonDAO {
 
     boolean delete(PersonDTO person);
 
-    List<PersonDTO> getAll();
+    List<PersonDTO> getAll() throws SQLException;
 }
