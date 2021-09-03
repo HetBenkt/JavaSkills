@@ -1,5 +1,6 @@
 package nl.bos.presentation.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,6 +44,8 @@ public class PersonController {
     }
 
     private void initTable() {
+        tblPersons.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
         TableColumn<PersonDTO, String> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -95,22 +98,29 @@ public class PersonController {
                 clearForm();
                 updateTable();
                 inform("The person was successfully created.");
-            } else {
-                //todo error message!?
             }
         } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+            error(exception.getMessage());
         }
     }
 
     @FXML
     private void viewPerson(MouseEvent mouseEvent) {
+        TableView.TableViewSelectionModel<PersonDTO> selectionModel = tblPersons.getSelectionModel();
+        ObservableList<TablePosition> selectedCells = selectionModel.getSelectedCells();
         //todo onclick row implementation
     }
 
     private void inform(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+
+    private void error(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
         alert.setHeaderText(message);
         alert.showAndWait();
     }
