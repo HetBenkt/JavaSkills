@@ -1,9 +1,8 @@
 package nl.bos.data;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PersonDAO implements IPersonDAO {
     ConnectionFactory connectionFactory = ConnectionFactory.INSTANCE;
@@ -43,16 +42,25 @@ public class PersonDAO implements IPersonDAO {
         Statement select = connection.createStatement();
         ResultSet resultSet = select.executeQuery("SELECT * FROM person");
         while (resultSet.next()) {
-            Array a = resultSet.getArray("interests");
-            //TODO String[] interests = (String[])a.getArray();
-
             PersonDTO person = new PersonDTO(
                     resultSet.getLong("id"),
                     resultSet.getString("name"),
                     resultSet.getInt("age"),
-                    Collections.emptySet() //todo should be the interests
+                    buildInterests(resultSet.getArray("interests"))
             );
             result.add(person);
+        }
+
+        return result;
+    }
+
+    private Set<String> buildInterests(Array interests) {
+        Set<String> result;
+
+        if (interests.toString().equals("")) {
+            result = Collections.emptySet();
+        } else {
+            result = Arrays.stream(interests.toString().split(",")).map(String::trim).collect(Collectors.toSet());
         }
 
         return result;
