@@ -2,30 +2,47 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1"
       fx:controller="nl.bos.presentation.controllers.PersonController">
     <children>
-        <VBox maxWidth="150.0" prefWidth="150.0" spacing="7.0">
+        <HBox spacing="100.0">
             <children>
-                <TextField fx:id="txtName" promptText="Name"/>
-                <TextField fx:id="txtAge" promptText="Age"/>
+                <VBox maxWidth="150.0" prefWidth="150.0" spacing="7.0">
+                    <children>
+                        <TextField fx:id="txtName" promptText="Name"/>
+                        <TextField fx:id="txtAge" promptText="Age"/>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="7.0">
+                            <children>
+                                <Button fx:id="btnSave" defaultButton="true" disable="true" mnemonicParsing="false"
+                                        onAction="#savePerson" text="Create"/>
+                                <Button fx:id="btnClear" cancelButton="true" mnemonicParsing="false"
+                                        onAction="#clearForm" text="Clear"/>
+                            </children>
+                            <opaqueInsets>
+                                <Insets/>
+                            </opaqueInsets>
+                            <VBox.margin>
+                                <Insets top="10.0"/>
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox maxWidth="150.0" prefWidth="150.0" spacing="7.0">
+                    <children>
+                        <TextField fx:id="txtEditId" editable="false" promptText="ID"/>
+                        <TextField fx:id="txtEditName" promptText="Name"/>
+                        <TextField fx:id="txtEditAge" promptText="Age"/>
+                        <ListView fx:id="lvEditInterests" prefHeight="200.0" prefWidth="200.0"/>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="btnSave" defaultButton="true" disable="true" mnemonicParsing="false"
+                                        onAction="#saveEditPerson" text="Save"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
             </children>
-        </VBox>
-        <HBox prefHeight="100.0" prefWidth="200.0" spacing="7.0">
-            <children>
-                <Button fx:id="btnSave" defaultButton="true" disable="true" mnemonicParsing="false"
-                        onAction="#savePerson" text="Save"/>
-                <Button fx:id="btnClear" cancelButton="true" mnemonicParsing="false" onAction="#clearForm"
-                        text="Clear"/>
-            </children>
-            <opaqueInsets>
-                <Insets/>
-            </opaqueInsets>
-            <VBox.margin>
-                <Insets top="10.0"/>
-            </VBox.margin>
         </HBox>
         <TableView fx:id="tblPersons" onMouseClicked="#viewPerson"/>
     </children>

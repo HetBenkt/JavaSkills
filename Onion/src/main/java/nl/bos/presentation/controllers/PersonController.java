@@ -1,6 +1,6 @@
 package nl.bos.presentation.controllers;
 
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,11 +16,22 @@ public class PersonController {
     @FXML
     Button btnSave;
     @FXML
-    Button btnClear;
+    Button btnClear; //todo is always disabled!?
     @FXML
     TextField txtName;
     @FXML
     TextField txtAge;
+
+    //todo add @FXML ListView<String> lvInterests;
+
+    @FXML
+    TextField txtEditId;
+    @FXML
+    TextField txtEditName;
+    @FXML
+    TextField txtEditAge;
+    @FXML
+    ListView<String> lvEditInterests;
     @FXML
     TableView<PersonDTO> tblPersons;
 
@@ -90,7 +101,7 @@ public class PersonController {
         PersonDTO person = new PersonDTO(
                 txtName.getText(),
                 Integer.parseInt(txtAge.getText()),
-                Collections.emptySet()
+                Collections.emptySet() //todo add interests field
         );
 
         try {
@@ -107,8 +118,15 @@ public class PersonController {
     @FXML
     private void viewPerson(MouseEvent mouseEvent) {
         TableView.TableViewSelectionModel<PersonDTO> selectionModel = tblPersons.getSelectionModel();
-        ObservableList<TablePosition> selectedCells = selectionModel.getSelectedCells();
-        //todo onclick row implementation
+        PersonDTO selectedPerson = selectionModel.getSelectedItem();
+
+        if (selectedPerson != null) {
+            txtEditId.setText(String.valueOf(selectedPerson.getId()));
+            txtEditName.setText(selectedPerson.getName());
+            txtEditAge.setText(String.valueOf(selectedPerson.getAge()));
+            lvEditInterests.getItems().clear();
+            lvEditInterests.getItems().addAll(selectedPerson.getInterests());
+        }
     }
 
     private void inform(String message) {
@@ -123,5 +141,9 @@ public class PersonController {
         alert.setTitle("Error Dialog");
         alert.setHeaderText(message);
         alert.showAndWait();
+    }
+
+    public void saveEditPerson(ActionEvent actionEvent) {
+        //todo implementation; after save show an inform message
     }
 }
