@@ -20,6 +20,21 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    public PersonDTO read(Long id) throws SQLException {
+        return personDAO.read(id);
+    }
+
+    @Override
+    public boolean update(PersonDTO person) throws SQLException {
+        return personDAO.update(person);
+    }
+
+    @Override
+    public boolean delete(PersonDTO person) throws SQLException {
+        return personDAO.delete(person);
+    }
+
+    @Override
     public List<PersonDTO> getAll() throws SQLException {
         return personDAO.getAll();
     }

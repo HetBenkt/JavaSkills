@@ -5,13 +5,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PersonDAO implements IPersonDAO {
-    ConnectionFactory connectionFactory = ConnectionFactory.INSTANCE;
+    private final ConnectionFactory connectionFactory = ConnectionFactory.INSTANCE;
 
     @Override
     public boolean create(PersonDTO person) throws SQLException {
-        Connection connection = connectionFactory.connect();
-
-        PreparedStatement create = connection.prepareStatement("INSERT INTO person (name, age, interests) VALUES(?, ?, ?)");
+        PreparedStatement create = connectionFactory.connect().prepareStatement("INSERT INTO person (name, age, interests) VALUES(?, ?, ?)");
         create.setString(1, person.getName());
         create.setInt(2, person.getAge());
         create.setString(3, String.join(", ", person.getInterests()));
@@ -20,27 +18,36 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public PersonDTO read(Long id) {
-        return null;
+    public PersonDTO read(Long id) throws SQLException {
+        PreparedStatement statement = connectionFactory.connect().prepareStatement("SELECT * FROM person WHERE id = ?");
+        statement.setLong(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next(); //we only have 1 unique ID
+
+        return new PersonDTO(
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getInt("age"),
+                buildInterests(resultSet.getArray("interests"))
+        );
     }
 
     @Override
-    public boolean update(PersonDTO person) {
+    public boolean update(PersonDTO person) throws SQLException {
         return false;
     }
 
     @Override
-    public boolean delete(PersonDTO person) {
+    public boolean delete(PersonDTO person) throws SQLException {
         return false;
     }
 
     @Override
     public List<PersonDTO> getAll() throws SQLException {
         List<PersonDTO> result = new ArrayList<>();
-        Connection connection = connectionFactory.connect();
 
-        Statement select = connection.createStatement();
-        ResultSet resultSet = select.executeQuery("SELECT * FROM person");
+        Statement select = connectionFactory.connect().createStatement();
+        ResultSet resultSet = select.executeQuery("SELECT * FROM person ORDER BY id DESC");
         while (resultSet.next()) {
             PersonDTO person = new PersonDTO(
                     resultSet.getLong("id"),

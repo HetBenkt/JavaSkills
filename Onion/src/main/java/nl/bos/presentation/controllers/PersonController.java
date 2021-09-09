@@ -16,7 +16,7 @@ public class PersonController {
     @FXML
     Button btnSave;
     @FXML
-    Button btnClear; //todo is always disabled!?
+    Button btnClear;
     @FXML
     TextField txtName;
     @FXML
@@ -24,6 +24,8 @@ public class PersonController {
 
     //todo add @FXML ListView<String> lvInterests;
 
+    @FXML
+    Button btnEditSave;
     @FXML
     TextField txtEditId;
     @FXML
@@ -77,6 +79,7 @@ public class PersonController {
 
     private void updateTable() {
         try {
+            tblPersons.getItems().clear();
             tblPersons.getItems().addAll(personService.getAll());
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
@@ -121,11 +124,17 @@ public class PersonController {
         PersonDTO selectedPerson = selectionModel.getSelectedItem();
 
         if (selectedPerson != null) {
-            txtEditId.setText(String.valueOf(selectedPerson.getId()));
-            txtEditName.setText(selectedPerson.getName());
-            txtEditAge.setText(String.valueOf(selectedPerson.getAge()));
-            lvEditInterests.getItems().clear();
-            lvEditInterests.getItems().addAll(selectedPerson.getInterests());
+            try {
+                PersonDTO person = personService.read(selectedPerson.getId()); //not required, but now we call a CRUD service! Because we can!
+                txtEditId.setText(String.valueOf(person.getId()));
+                txtEditName.setText(person.getName());
+                txtEditAge.setText(String.valueOf(person.getAge()));
+                lvEditInterests.getItems().clear();
+                lvEditInterests.getItems().addAll(person.getInterests());
+            } catch (SQLException exception) {
+                error(exception.getMessage());
+            }
+
         }
     }
 

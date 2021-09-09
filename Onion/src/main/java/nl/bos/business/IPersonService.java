@@ -9,5 +9,11 @@ public interface IPersonService {
 
     boolean create(PersonDTO person) throws SQLException;
 
+    PersonDTO read(Long id) throws SQLException;
+
+    boolean update(PersonDTO person) throws SQLException;
+
+    boolean delete(PersonDTO person) throws SQLException;
+
     List<PersonDTO> getAll() throws SQLException;
 }
