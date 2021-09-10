@@ -16,7 +16,7 @@ public class App extends Application {
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread(App::shutdown));
         connectionFactory.setInstanceVariables(args[0], args[1], args[2]);
-        launch(args);
+        launch(args); //todo run multiple instances to see what will happen!
     }
 
     private static void shutdown() {
@@ -29,4 +29,6 @@ public class App extends Application {
         primaryStage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/AppView.fxml"))), 800, 600));
         primaryStage.show();
     }
+
+    //todo public void stop() throws Exception {...}
 }

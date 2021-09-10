@@ -7,8 +7,10 @@ import java.util.stream.Collectors;
 public class PersonDAO implements IPersonDAO {
     private final ConnectionFactory connectionFactory = ConnectionFactory.INSTANCE;
 
+    //todo check SQL injection with a sample!
+
     @Override
-    public boolean create(PersonDTO person) throws SQLException {
+    public boolean create(PersonDTO person) throws SQLException { //todo PersonCreationException
         PreparedStatement create = connectionFactory.connect().prepareStatement("INSERT INTO person (name, age, interests) VALUES(?, ?, ?)");
         create.setString(1, person.getName());
         create.setInt(2, person.getAge());
@@ -60,6 +62,8 @@ public class PersonDAO implements IPersonDAO {
 
         return result;
     }
+
+    //todo public List<PersonDTO> getAllFiltered() throws SQLException {...}
 
     private Set<String> buildInterests(Array interests) {
         Set<String> result;
