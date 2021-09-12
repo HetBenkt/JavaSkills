@@ -1,6 +1,7 @@
 package nl.bos;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,6 +21,7 @@ public class App extends Application {
     }
 
     private static void shutdown() {
+        System.out.println("Shutdown hook");
         connectionFactory.disconnect();
     }
 
@@ -28,10 +30,17 @@ public class App extends Application {
         primaryStage.setTitle("Onion CRUD App");
         primaryStage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/AppView.fxml"))), 800, 600));
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("handle() method");
+            Platform.exit();
+            //System.exit(0); //not needed as stop() is automatically called!
+        });
     }
 
     @Override
     public void stop() {
+        System.out.println("stop() method");
         connectionFactory.disconnect();
     }
 }
