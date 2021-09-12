@@ -11,12 +11,15 @@ import nl.bos.data.PersonDTO;
 
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class PersonController {
     @FXML
     Button btnSave;
     @FXML
     Button btnClear;
+    @FXML
+    Button btnDelete;
     @FXML
     TextField txtName;
     @FXML
@@ -50,6 +53,16 @@ public class PersonController {
             }
         });
         txtName.focusedProperty().addListener((observableValue, isOldValue, isNewValue) -> {
+            if (!isNewValue) { //when focus lost
+                validateForm();
+            }
+        });
+        txtEditAge.focusedProperty().addListener((observableValue, isOldValue, isNewValue) -> {
+            if (!isNewValue) { //when focus lost
+                validateForm();
+            }
+        });
+        txtEditName.focusedProperty().addListener((observableValue, isOldValue, isNewValue) -> {
             if (!isNewValue) { //when focus lost
                 validateForm();
             }
@@ -91,12 +104,23 @@ public class PersonController {
                 txtName.getText().isEmpty() ||
                         !txtAge.getText().matches("^(?:[1-9][0-9]?|1[01][0-9]|120)$") //1-120
         );
+        btnEditSave.setDisable(
+                txtEditName.getText().isEmpty() ||
+                        !txtEditAge.getText().matches("^(?:[1-9][0-9]?|1[01][0-9]|120)$") //1-120
+        );
     }
 
     @FXML
     private void clearForm() {
         txtName.clear();
         txtAge.clear();
+    }
+
+    private void clearEditForm() {
+        txtEditId.clear();
+        txtEditName.clear();
+        txtEditAge.clear();
+        lvEditInterests.getItems().clear();
     }
 
     @FXML
@@ -124,8 +148,9 @@ public class PersonController {
         PersonDTO selectedPerson = selectionModel.getSelectedItem();
 
         if (selectedPerson != null) {
+            btnDelete.setDisable(false);
             try {
-                PersonDTO person = personService.read(selectedPerson.getId()); //not required, but now we call a CRUD service! Because we can!
+                PersonDTO person = personService.read(selectedPerson.getId()); //Retrieve latest data from database; instead of current table data!
                 txtEditId.setText(String.valueOf(person.getId()));
                 txtEditName.setText(person.getName());
                 txtEditAge.setText(String.valueOf(person.getAge()));
@@ -134,7 +159,33 @@ public class PersonController {
             } catch (SQLException exception) {
                 error(exception.getMessage());
             }
+        }
+    }
 
+    public void saveEditPerson(ActionEvent actionEvent) {
+        PersonDTO person = new PersonDTO(Long.parseLong(txtEditId.getText()), txtEditName.getText(), Integer.parseInt(txtEditAge.getText()), new HashSet<>(lvEditInterests.getItems()));
+        try {
+            if (personService.update(person)) {
+                inform("The person was successfully updated.");
+                clearEditForm();
+                updateTable();
+                btnDelete.setDisable(true);
+            }
+        } catch (SQLException exception) {
+            error(exception.getMessage());
+        }
+    }
+
+    @FXML
+    private void deletePerson(ActionEvent actionEvent) {
+        try {
+            if (personService.delete(Long.valueOf(txtEditId.getText()))) {
+                inform("The person was successfully deleted.");
+                clearEditForm();
+                updateTable();
+            }
+        } catch (SQLException exception) {
+            error(exception.getMessage());
         }
     }
 
@@ -150,9 +201,5 @@ public class PersonController {
         alert.setTitle("Error Dialog");
         alert.setHeaderText(message);
         alert.showAndWait();
-    }
-
-    public void saveEditPerson(ActionEvent actionEvent) {
-        //todo implementation; after save show an inform message
     }
 }

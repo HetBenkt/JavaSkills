@@ -25,10 +25,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Onion CRUD App");
         primaryStage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/nl/bos/presentation/views/AppView.fxml"))), 800, 600));
         primaryStage.show();
     }
 
-    //todo public void stop() throws Exception {...}
+    @Override
+    public void stop() {
+        connectionFactory.disconnect();
+    }
 }

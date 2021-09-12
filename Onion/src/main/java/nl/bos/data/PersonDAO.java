@@ -36,12 +36,21 @@ public class PersonDAO implements IPersonDAO {
 
     @Override
     public boolean update(PersonDTO person) throws SQLException {
-        return false;
+        PreparedStatement update = connectionFactory.connect().prepareStatement("UPDATE person SET name = ?, age = ?, interests = ? WHERE id = ?");
+        update.setString(1, person.getName());
+        update.setInt(2, person.getAge());
+        update.setString(3, String.join(", ", person.getInterests()));
+        update.setLong(4, person.getId());
+
+        return update.executeUpdate() == 1;
     }
 
     @Override
-    public boolean delete(PersonDTO person) throws SQLException {
-        return false;
+    public boolean delete(Long id) throws SQLException {
+        PreparedStatement delete = connectionFactory.connect().prepareStatement("DELETE FROM person WHERE id = ?");
+        delete.setLong(1, id);
+
+        return delete.executeUpdate() == 1;
     }
 
     @Override

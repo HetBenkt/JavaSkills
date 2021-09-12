@@ -13,7 +13,7 @@ public interface IPersonService {
 
     boolean update(PersonDTO person) throws SQLException;
 
-    boolean delete(PersonDTO person) throws SQLException;
+    boolean delete(Long id) throws SQLException;
 
     List<PersonDTO> getAll() throws SQLException;
 }

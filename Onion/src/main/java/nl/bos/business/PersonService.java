@@ -30,8 +30,8 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public boolean delete(PersonDTO person) throws SQLException {
-        return personDAO.delete(person);
+    public boolean delete(Long id) throws SQLException {
+        return personDAO.delete(id);
     }
 
     @Override
