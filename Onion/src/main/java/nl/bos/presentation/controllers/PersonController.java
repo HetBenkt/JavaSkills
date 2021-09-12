@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import nl.bos.business.IPersonService;
 import nl.bos.business.PersonService;
 import nl.bos.data.PersonDTO;
+import nl.bos.exceptions.PersonException;
 
 import java.sql.SQLException;
 import java.util.Collections;
@@ -137,7 +138,7 @@ public class PersonController {
                 updateTable();
                 inform("The person was successfully created.");
             }
-        } catch (SQLException exception) {
+        } catch (PersonException exception) {
             error(exception.getMessage());
         }
     }

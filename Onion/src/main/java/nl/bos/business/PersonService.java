@@ -3,6 +3,7 @@ package nl.bos.business;
 import nl.bos.data.IPersonDAO;
 import nl.bos.data.PersonDAO;
 import nl.bos.data.PersonDTO;
+import nl.bos.exceptions.PersonException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,7 +16,7 @@ public class PersonService implements IPersonService {
         personDAO = new PersonDAO();
     }
 
-    public boolean create(PersonDTO person) throws SQLException {
+    public boolean create(PersonDTO person) throws PersonException {
         return personDAO.create(person);
     }
 

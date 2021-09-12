@@ -1,10 +1,12 @@
 package nl.bos.data;
 
+import nl.bos.exceptions.PersonException;
+
 import java.sql.SQLException;
 import java.util.List;
 
 public interface IPersonDAO {
-    boolean create(PersonDTO person) throws SQLException;
+    boolean create(PersonDTO person) throws PersonException;
 
     PersonDTO read(Long id) throws SQLException;
 

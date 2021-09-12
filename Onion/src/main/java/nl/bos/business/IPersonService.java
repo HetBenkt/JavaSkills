@@ -1,13 +1,14 @@
 package nl.bos.business;
 
 import nl.bos.data.PersonDTO;
+import nl.bos.exceptions.PersonException;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public interface IPersonService {
 
-    boolean create(PersonDTO person) throws SQLException;
+    boolean create(PersonDTO person) throws PersonException;
 
     PersonDTO read(Long id) throws SQLException;
 
