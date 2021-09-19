@@ -1,9 +1,8 @@
 package nl.bos.data;
 
-import nl.bos.exceptions.PersonException;
+import nl.bos.exceptions.PersonCreateException;
 
 import java.sql.*;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,7 @@ public class PersonDAO implements IPersonDAO {
     //todo check SQL injection with a sample!
 
     @Override
-    public boolean create(PersonDTO person) throws PersonException {
+    public boolean create(PersonDTO person) throws PersonCreateException {
         try {
             PreparedStatement create = connectionFactory.connect().prepareStatement("INSERT INTO person (name, age, interests) VALUES(?, ?, ?)");
             create.setString(1, person.getName());
@@ -21,7 +20,7 @@ public class PersonDAO implements IPersonDAO {
             create.setString(3, String.join(", ", person.getInterests()));
             return create.executeUpdate() == 1;
         } catch (SQLException sqlException) {
-            throw new PersonException(MessageFormat.format("Create person error on SQL level with message: {0}", sqlException.getMessage()));
+            throw new PersonCreateException(sqlException.getMessage());
         }
     }
 

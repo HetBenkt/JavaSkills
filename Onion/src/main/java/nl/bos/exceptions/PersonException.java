@@ -1,6 +1,6 @@
 package nl.bos.exceptions;
 
-public class PersonException extends RuntimeException {
+public abstract class PersonException extends RuntimeException {
     private final String message;
 
     public PersonException(String message) {
