@@ -15,4 +15,6 @@ public interface IPersonDAO {
     boolean delete(Long id) throws SQLException;
 
     List<PersonDTO> getAll() throws SQLException;
+
+    List<PersonDTO> getAllFiltered(String filter) throws SQLException;
 }

@@ -13,6 +13,10 @@
                     <children>
                         <TextField fx:id="txtName" promptText="Name"/>
                         <TextField fx:id="txtAge" promptText="Age"/>
+                        <ListView fx:id="lvInterests" editable="true" onEditCommit="#updateInterests" prefHeight="200.0"
+                                  prefWidth="200.0"/>
+                        <Button fx:id="btnAddInterest" mnemonicParsing="false" onAction="#addInterest"
+                                text="Add interest"/>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="7.0">
                             <children>
                                 <Button fx:id="btnSave" defaultButton="true" disable="true" mnemonicParsing="false"
@@ -34,7 +38,10 @@
                         <TextField fx:id="txtEditId" editable="false" promptText="ID"/>
                         <TextField fx:id="txtEditName" promptText="Name"/>
                         <TextField fx:id="txtEditAge" promptText="Age"/>
-                        <ListView fx:id="lvEditInterests" prefHeight="200.0" prefWidth="200.0"/>
+                        <ListView fx:id="lvEditInterests" editable="true" onEditCommit="#updateEditInterests"
+                                  prefHeight="200.0" prefWidth="200.0"/>
+                        <Button fx:id="btnEditAddInterest" mnemonicParsing="false" onAction="#addEditInterest"
+                                text="Add interest"/>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="7.0">
                             <children>
                                 <Button fx:id="btnEditSave" defaultButton="true" disable="true" mnemonicParsing="false"

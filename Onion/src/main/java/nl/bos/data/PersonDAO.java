@@ -78,7 +78,9 @@ public class PersonDAO implements IPersonDAO {
         return result;
     }
 
-    //todo public List<PersonDTO> getAllFiltered() throws SQLException {...}
+    public List<PersonDTO> getAllFiltered(String filter) throws SQLException {
+        throw new UnsupportedOperationException();
+    }
 
     private Set<String> buildInterests(Array interests) {
         Set<String> result;

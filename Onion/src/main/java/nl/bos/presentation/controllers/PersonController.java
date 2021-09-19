@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import nl.bos.business.IPersonService;
 import nl.bos.business.PersonService;
@@ -11,7 +12,6 @@ import nl.bos.data.PersonDTO;
 import nl.bos.exceptions.PersonException;
 
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.HashSet;
 
 public class PersonController {
@@ -25,8 +25,8 @@ public class PersonController {
     TextField txtName;
     @FXML
     TextField txtAge;
-
-    //todo add @FXML ListView<String> lvInterests;
+    @FXML
+    ListView<String> lvInterests;
 
     @FXML
     Button btnEditSave;
@@ -68,6 +68,8 @@ public class PersonController {
                 validateForm();
             }
         });
+        lvInterests.setCellFactory(TextFieldListCell.forListView());
+        lvEditInterests.setCellFactory(TextFieldListCell.forListView());
     }
 
     private void initTable() {
@@ -115,6 +117,7 @@ public class PersonController {
     private void clearForm() {
         txtName.clear();
         txtAge.clear();
+        lvInterests.getItems().clear();
     }
 
     private void clearEditForm() {
@@ -129,7 +132,7 @@ public class PersonController {
         PersonDTO person = new PersonDTO(
                 txtName.getText(),
                 Integer.parseInt(txtAge.getText()),
-                Collections.emptySet() //todo add interests field
+                new HashSet<>(lvInterests.getItems())
         );
 
         try {
@@ -188,6 +191,27 @@ public class PersonController {
         } catch (SQLException exception) {
             error(exception.getMessage());
         }
+    }
+
+    @FXML
+    private void addInterest(ActionEvent actionEvent) {
+        lvInterests.getItems().add(0, "");
+    }
+
+    @FXML
+    private void updateInterests(ListView.EditEvent<String> stringEditEvent) {
+        lvInterests.getItems().add(stringEditEvent.getNewValue());
+        lvInterests.getItems().remove("");
+    }
+
+    @FXML
+    private void addEditInterest(ActionEvent actionEvent) {
+        lvEditInterests.getItems().add(0, "");
+    }
+
+    public void updateEditInterests(ListView.EditEvent<String> stringEditEvent) {
+        lvEditInterests.getItems().add(stringEditEvent.getNewValue());
+        lvEditInterests.getItems().remove("");
     }
 
     private void inform(String message) {
