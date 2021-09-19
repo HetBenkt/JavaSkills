@@ -2,7 +2,7 @@ package nl.bos.exceptions;
 
 import java.text.MessageFormat;
 
-public class PersonUpdateException extends PersonException {
+public class PersonUpdateException extends AbstractPersonException {
 
     //todo call the class
     public PersonUpdateException(String message) {

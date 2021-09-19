@@ -1,6 +1,6 @@
 package nl.bos.data;
 
-import nl.bos.exceptions.PersonCreateException;
+import nl.bos.exceptions.*;
 
 import java.sql.*;
 import java.util.*;
@@ -25,60 +25,76 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public PersonDTO read(Long id) throws SQLException {
-        PreparedStatement statement = connectionFactory.connect().prepareStatement("SELECT * FROM person WHERE id = ?");
-        statement.setLong(1, id);
-        ResultSet resultSet = statement.executeQuery();
-        resultSet.next(); //we only have 1 unique ID
+    public PersonDTO read(Long id) throws PersonReadException {
+        try {
+            PreparedStatement statement = connectionFactory.connect().prepareStatement("SELECT * FROM person WHERE id = ?");
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next(); //we only have 1 unique ID
 
-        return new PersonDTO(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getInt("age"),
-                buildInterests(resultSet.getArray("interests"))
-        );
-    }
-
-    @Override
-    public boolean update(PersonDTO person) throws SQLException {
-        PreparedStatement update = connectionFactory.connect().prepareStatement("UPDATE person SET name = ?, age = ?, interests = ? WHERE id = ?");
-        update.setString(1, person.getName());
-        update.setInt(2, person.getAge());
-        update.setString(3, String.join(", ", person.getInterests()));
-        update.setLong(4, person.getId());
-
-        return update.executeUpdate() == 1;
-    }
-
-    @Override
-    public boolean delete(Long id) throws SQLException {
-        PreparedStatement delete = connectionFactory.connect().prepareStatement("DELETE FROM person WHERE id = ?");
-        delete.setLong(1, id);
-
-        return delete.executeUpdate() == 1;
-    }
-
-    @Override
-    public List<PersonDTO> getAll() throws SQLException {
-        List<PersonDTO> result = new ArrayList<>();
-
-        Statement select = connectionFactory.connect().createStatement();
-        ResultSet resultSet = select.executeQuery("SELECT * FROM person ORDER BY id DESC");
-        while (resultSet.next()) {
-            PersonDTO person = new PersonDTO(
+            return new PersonDTO(
                     resultSet.getLong("id"),
                     resultSet.getString("name"),
                     resultSet.getInt("age"),
                     buildInterests(resultSet.getArray("interests"))
             );
-            result.add(person);
+        } catch (SQLException sqlException) {
+            throw new PersonReadException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public boolean update(PersonDTO person) throws PersonUpdateException {
+        try {
+            PreparedStatement update = connectionFactory.connect().prepareStatement("UPDATE person SET name = ?, age = ?, interests = ? WHERE id = ?");
+            update.setString(1, person.getName());
+            update.setInt(2, person.getAge());
+            update.setString(3, String.join(", ", person.getInterests()));
+            update.setLong(4, person.getId());
+
+            return update.executeUpdate() == 1;
+        } catch (SQLException sqlException) {
+            throw new PersonUpdateException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public boolean delete(Long id) throws PersonDeleteException {
+        try {
+            PreparedStatement delete = connectionFactory.connect().prepareStatement("DELETE FROM person WHERE id = ?");
+            delete.setLong(1, id);
+
+            return delete.executeUpdate() == 1;
+        } catch (SQLException sqlException) {
+            throw new PersonDeleteException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public List<PersonDTO> getAll() throws PersonException {
+        List<PersonDTO> result = new ArrayList<>();
+
+        try {
+            Statement select = connectionFactory.connect().createStatement();
+            ResultSet resultSet = select.executeQuery("SELECT * FROM person ORDER BY id DESC");
+            while (resultSet.next()) {
+                PersonDTO person = new PersonDTO(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("age"),
+                        buildInterests(resultSet.getArray("interests"))
+                );
+                result.add(person);
+            }
+        } catch (SQLException sqlException) {
+            throw new PersonException(sqlException.getMessage());
         }
 
         return result;
     }
 
-    public List<PersonDTO> getAllFiltered(String filter) throws SQLException {
-        throw new UnsupportedOperationException();
+    public List<PersonDTO> getAllFiltered(String filter) throws PersonException {
+        throw new UnsupportedOperationException(); //todo implementation
     }
 
     private Set<String> buildInterests(Array interests) {

@@ -17,7 +17,11 @@ public class App extends Application {
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread(App::shutdown));
         connectionFactory.setInstanceVariables(args[0], args[1], args[2]);
-        launch(args); //todo run multiple instances to see what will happen!
+        //todo run multiple instances to see what will happen!
+        launch(args);
+
+        //todo create a second UI (like Vaadin) to see if the 'PersonService' is reusable enough
+        //todo Add JUnit tests
     }
 
     private static void shutdown() {

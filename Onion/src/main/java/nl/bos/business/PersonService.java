@@ -3,9 +3,8 @@ package nl.bos.business;
 import nl.bos.data.IPersonDAO;
 import nl.bos.data.PersonDAO;
 import nl.bos.data.PersonDTO;
-import nl.bos.exceptions.PersonCreateException;
+import nl.bos.exceptions.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class PersonService implements IPersonService {
@@ -21,22 +20,22 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public PersonDTO read(Long id) throws SQLException {
+    public PersonDTO read(Long id) throws PersonReadException {
         return personDAO.read(id);
     }
 
     @Override
-    public boolean update(PersonDTO person) throws SQLException {
+    public boolean update(PersonDTO person) throws PersonUpdateException {
         return personDAO.update(person);
     }
 
     @Override
-    public boolean delete(Long id) throws SQLException {
+    public boolean delete(Long id) throws PersonDeleteException {
         return personDAO.delete(id);
     }
 
     @Override
-    public List<PersonDTO> getAll() throws SQLException {
+    public List<PersonDTO> getAll() throws PersonException {
         return personDAO.getAll();
     }
 }

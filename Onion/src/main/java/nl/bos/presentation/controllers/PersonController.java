@@ -9,9 +9,8 @@ import javafx.scene.input.MouseEvent;
 import nl.bos.business.IPersonService;
 import nl.bos.business.PersonService;
 import nl.bos.data.PersonDTO;
-import nl.bos.exceptions.PersonException;
+import nl.bos.exceptions.AbstractPersonException;
 
-import java.sql.SQLException;
 import java.util.HashSet;
 
 public class PersonController {
@@ -97,8 +96,8 @@ public class PersonController {
         try {
             tblPersons.getItems().clear();
             tblPersons.getItems().addAll(personService.getAll());
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
+        } catch (AbstractPersonException exception) {
+            error(exception.getMessage());
         }
     }
 
@@ -141,7 +140,7 @@ public class PersonController {
                 updateTable();
                 inform("The person was successfully created.");
             }
-        } catch (PersonException exception) {
+        } catch (AbstractPersonException exception) {
             error(exception.getMessage());
         }
     }
@@ -160,7 +159,7 @@ public class PersonController {
                 txtEditAge.setText(String.valueOf(person.getAge()));
                 lvEditInterests.getItems().clear();
                 lvEditInterests.getItems().addAll(person.getInterests());
-            } catch (SQLException exception) {
+            } catch (AbstractPersonException exception) {
                 error(exception.getMessage());
             }
         }
@@ -175,7 +174,7 @@ public class PersonController {
                 updateTable();
                 btnDelete.setDisable(true);
             }
-        } catch (SQLException exception) {
+        } catch (AbstractPersonException exception) {
             error(exception.getMessage());
         }
     }
@@ -188,7 +187,7 @@ public class PersonController {
                 clearEditForm();
                 updateTable();
             }
-        } catch (SQLException exception) {
+        } catch (AbstractPersonException exception) {
             error(exception.getMessage());
         }
     }

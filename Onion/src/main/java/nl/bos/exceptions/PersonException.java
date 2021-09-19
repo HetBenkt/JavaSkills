@@ -1,14 +1,9 @@
 package nl.bos.exceptions;
 
-public abstract class PersonException extends RuntimeException {
-    private final String message;
+import java.text.MessageFormat;
 
+public class PersonException extends AbstractPersonException {
     public PersonException(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
+        super(MessageFormat.format("Person error on SQL level with message: {0}", message));
     }
 }

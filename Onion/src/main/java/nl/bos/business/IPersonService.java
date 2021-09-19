@@ -1,20 +1,19 @@
 package nl.bos.business;
 
 import nl.bos.data.PersonDTO;
-import nl.bos.exceptions.PersonCreateException;
+import nl.bos.exceptions.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IPersonService {
 
     boolean create(PersonDTO person) throws PersonCreateException;
 
-    PersonDTO read(Long id) throws SQLException;
+    PersonDTO read(Long id) throws PersonReadException;
 
-    boolean update(PersonDTO person) throws SQLException;
+    boolean update(PersonDTO person) throws PersonUpdateException;
 
-    boolean delete(Long id) throws SQLException;
+    boolean delete(Long id) throws PersonDeleteException;
 
-    List<PersonDTO> getAll() throws SQLException;
+    List<PersonDTO> getAll() throws PersonException;
 }
