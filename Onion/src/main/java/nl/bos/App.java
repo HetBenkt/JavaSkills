@@ -22,6 +22,7 @@ public class App extends Application {
 
         //todo create a second UI (like Vaadin) to see if the 'PersonService' is reusable enough
         //todo Add JUnit tests
+        //todo check for the single responsibility principle in big classes and large methods!
     }
 
     private static void shutdown() {
