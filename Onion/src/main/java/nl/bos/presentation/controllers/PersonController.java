@@ -117,6 +117,7 @@ public class PersonController {
         txtName.clear();
         txtAge.clear();
         lvInterests.getItems().clear();
+        btnSave.setDisable(true);
     }
 
     private void clearEditForm() {
@@ -124,6 +125,8 @@ public class PersonController {
         txtEditName.clear();
         txtEditAge.clear();
         lvEditInterests.getItems().clear();
+        btnEditSave.setDisable(true);
+        btnDelete.setDisable(true);
     }
 
     @FXML
@@ -186,6 +189,7 @@ public class PersonController {
                 inform("The person was successfully deleted.");
                 clearEditForm();
                 updateTable();
+                btnDelete.setDisable(true);
             }
         } catch (AbstractPersonException exception) {
             error(exception.getMessage());

@@ -20,11 +20,12 @@ public class App extends Application {
         //todo run multiple instances to see what will happen!
         launch(args);
 
-        //todo create a second UI (like Vaadin) to see if the 'PersonService' is reusable enough
-        //todo Add JUnit tests
+        //todo Add JUnit5 tests
         //todo check for the single responsibility principle in big classes and large methods!
         //todo refactor final-keyword in method parameters!
         //todo refactor constructors with initialize() methods!
+        //todo convert methods to functional methods!
+        //todo see if the an abstracted class can play with generics
     }
 
     private static void shutdown() {
