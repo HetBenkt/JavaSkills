@@ -33,6 +33,8 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
     private final Grid<PersonDTO> persons;
     private final IPersonService personService = new PersonService();
     private final Button btnDelete;
+    private final Button btnCreate;
+    private final Button btnSave;
     private String username = "";
     private String password = "";
     private String database = "";
@@ -44,17 +46,21 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
         txtId = new TextField("ID");
         txtId.setEnabled(false);
         txtName = new TextField("Name");
+        txtName.addValueChangeListener(e -> validateForm());
         txtAge = new TextField("Age");
+        txtAge.addValueChangeListener(e -> validateForm());
         lbInterests = new ListBox<>();
 
         Button btnAddInterest = new Button("Add interest");
         btnAddInterest.addClickListener(this::addInterest);
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        Button btnCreate = new Button("Create");
+        btnCreate = new Button("Create");
+        btnCreate.setEnabled(false);
         btnCreate.addClickListener(this::createPerson);
 
-        Button btnSave = new Button("Save");
+        btnSave = new Button("Save");
+        btnSave.setEnabled(false);
         btnSave.addClickListener(this::savePerson);
         btnDelete = new Button("Delete");
         btnDelete.setEnabled(false);
@@ -83,6 +89,17 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
         });
 
         add(verticalLayout, persons);
+    }
+
+    private void validateForm() {
+        btnCreate.setEnabled(!txtName.isEmpty() &&
+                txtAge.getValue().matches("^(?:[1-9][0-9]?|1[01][0-9]|120)$") &&
+                txtId.isEmpty());
+
+        btnSave.setEnabled(!txtName.isEmpty() &&
+                txtAge.getValue().matches("^(?:[1-9][0-9]?|1[01][0-9]|120)$") &&
+                !txtId.isEmpty());
+        btnDelete.setEnabled(!txtId.isEmpty());
     }
 
     private void deletePerson(ClickEvent<Button> buttonClickEvent) {
