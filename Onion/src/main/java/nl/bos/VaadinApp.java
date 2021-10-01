@@ -18,7 +18,6 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
     private String username = "";
     private String password = "";
     private String database = "";
-    private final VaadinPersonPresenter personPresenter;
     private final VaadinPersonView personView;
     private final VaadinPersonModel personModel;
 
@@ -26,7 +25,7 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
     public VaadinApp() {
         personModel = new VaadinPersonModel();
         personView = new VaadinPersonView();
-        personPresenter = new VaadinPersonPresenter(personModel, personView);
+        new VaadinPersonPresenter(personModel, personView);
         add(personView);
     }
 

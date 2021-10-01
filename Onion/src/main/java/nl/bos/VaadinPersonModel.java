@@ -11,12 +11,8 @@ import java.util.HashSet;
 public class VaadinPersonModel {
 
     private final IPersonService personService = new PersonService();
-    private VaadinPersonView personView;
+    private VaadinPersonView personView; //todo remove it and so something via the presenter!!
     private VaadinPersonPresenter personPresenter;
-
-    public void setPersonView(VaadinPersonView personView) {
-        this.personView = personView;
-    }
 
     public void setPersonPresenter(VaadinPersonPresenter personPresenter) {
         this.personPresenter = personPresenter;

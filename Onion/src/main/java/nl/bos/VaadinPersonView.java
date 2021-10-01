@@ -23,7 +23,7 @@ public class VaadinPersonView extends VerticalLayout {
     private final Button btnDelete;
     private final Button btnCreate;
     private final Button btnSave;
-    private VaadinPersonModel personModel;
+    private VaadinPersonModel personModel; //todo remove it and so something via the presenter!!
     private VaadinPersonPresenter personPresenter;
 
     public VaadinPersonView() {
@@ -38,22 +38,22 @@ public class VaadinPersonView extends VerticalLayout {
         lbInterests = new ListBox<>();
 
         Button btnAddInterest = new Button("Add interest");
-        btnAddInterest.addClickListener(personPresenter.addInterest());
+        btnAddInterest.addClickListener(e -> personPresenter.addInterest());
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         btnCreate = new Button("Create");
         btnCreate.setEnabled(false);
-        btnCreate.addClickListener(personModel.createPerson());
+        btnCreate.addClickListener(e -> personModel.createPerson());
 
         btnSave = new Button("Save");
         btnSave.setEnabled(false);
-        btnSave.addClickListener(personModel.savePerson());
+        btnSave.addClickListener(e -> personModel.savePerson());
         btnDelete = new Button("Delete");
         btnDelete.setEnabled(false);
-        btnDelete.addClickListener(personModel.deletePerson());
+        btnDelete.addClickListener(e -> personModel.deletePerson());
 
         Button btnClear = new Button("Clear");
-        btnClear.addClickListener(personPresenter.clearForm());
+        btnClear.addClickListener(e -> personPresenter.clearForm());
 
         horizontalLayout.add(btnCreate, btnClear, btnSave, btnDelete);
 
@@ -75,10 +75,6 @@ public class VaadinPersonView extends VerticalLayout {
         });
 
         add(verticalLayout, persons);
-    }
-
-    public void setPersonModel(VaadinPersonModel personModel) {
-        this.personModel = personModel;
     }
 
     public void setPersonPresenter(VaadinPersonPresenter personPresenter) {

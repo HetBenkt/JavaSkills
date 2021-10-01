@@ -8,16 +8,14 @@ import java.util.Random;
 
 public class VaadinPersonPresenter {
     private final VaadinPersonView personView;
-    private final VaadinPersonModel personModel;
 
     public VaadinPersonPresenter(VaadinPersonModel personModel, VaadinPersonView personView) {
-        this.personModel = personModel;
         this.personView = personView;
 
-        personModel.setPersonView(personView);
+        //personModel.setPersonView(personView); //todo should use model change events through presenter!!?
         personModel.setPersonPresenter(this);
 
-        personView.setPersonModel(personModel);
+        //personView.setPersonModel(personModel); //todo should use user change events through presenter!!?
         personView.setPersonPresenter(this);
     }
 
