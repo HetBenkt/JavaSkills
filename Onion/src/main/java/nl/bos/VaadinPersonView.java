@@ -23,7 +23,6 @@ public class VaadinPersonView extends VerticalLayout {
     private final Button btnDelete;
     private final Button btnCreate;
     private final Button btnSave;
-    private VaadinPersonModel personModel; //todo remove it and so something via the presenter!!
     private VaadinPersonPresenter personPresenter;
 
     public VaadinPersonView() {
@@ -32,9 +31,9 @@ public class VaadinPersonView extends VerticalLayout {
         txtId = new TextField("ID");
         txtId.setEnabled(false);
         txtName = new TextField("Name");
-        txtName.addValueChangeListener(e -> personModel.validateForm());
+        txtName.addValueChangeListener(e -> personPresenter.validateForm());
         txtAge = new TextField("Age");
-        txtAge.addValueChangeListener(e -> personModel.validateForm());
+        txtAge.addValueChangeListener(e -> personPresenter.validateForm());
         lbInterests = new ListBox<>();
 
         Button btnAddInterest = new Button("Add interest");
@@ -43,14 +42,14 @@ public class VaadinPersonView extends VerticalLayout {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         btnCreate = new Button("Create");
         btnCreate.setEnabled(false);
-        btnCreate.addClickListener(e -> personModel.createPerson());
+        btnCreate.addClickListener(e -> personPresenter.createPerson());
 
         btnSave = new Button("Save");
         btnSave.setEnabled(false);
-        btnSave.addClickListener(e -> personModel.savePerson());
+        btnSave.addClickListener(e -> personPresenter.savePerson());
         btnDelete = new Button("Delete");
         btnDelete.setEnabled(false);
-        btnDelete.addClickListener(e -> personModel.deletePerson());
+        btnDelete.addClickListener(e -> personPresenter.deletePerson());
 
         Button btnClear = new Button("Clear");
         btnClear.addClickListener(e -> personPresenter.clearForm());

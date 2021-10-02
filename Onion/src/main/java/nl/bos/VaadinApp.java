@@ -18,14 +18,12 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
     private String username = "";
     private String password = "";
     private String database = "";
-    private final VaadinPersonView personView;
-    private final VaadinPersonModel personModel;
+    private final VaadinPersonPresenter personPresenter;
 
-    //todo create some kind of controller class; like in JavaFX!? https://vaadin.com/docs/v8/framework/advanced/advanced-architecture
     public VaadinApp() {
-        personModel = new VaadinPersonModel();
-        personView = new VaadinPersonView();
-        new VaadinPersonPresenter(personModel, personView);
+        VaadinPersonModel personModel = new VaadinPersonModel();
+        VaadinPersonView personView = new VaadinPersonView();
+        personPresenter = new VaadinPersonPresenter(personModel, personView);
         add(personView);
     }
 
@@ -47,6 +45,7 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
         }
 
         connectionFactory.setInstanceVariables(username, password, database);
-        personModel.updateTable(personView.getPersons());
+
+        personPresenter.updateTable(); //todo should move in presenter constructor, but first this method is called!?
     }
 }

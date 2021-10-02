@@ -2,28 +2,25 @@ package nl.bos;
 
 import com.vaadin.flow.component.notification.Notification;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class VaadinPersonPresenter {
     private final VaadinPersonView personView;
+    private final VaadinPersonModel personModel;
 
     public VaadinPersonPresenter(VaadinPersonModel personModel, VaadinPersonView personView) {
         this.personView = personView;
+        this.personModel = personModel;
 
-        //personModel.setPersonView(personView); //todo should use model change events through presenter!!?
         personModel.setPersonPresenter(this);
-
-        //personView.setPersonModel(personModel); //todo should use user change events through presenter!!?
         personView.setPersonPresenter(this);
     }
 
-    static void error(String message) {
+    void error(String message) {
         Notification.show("ERROR: " + message, 3000, Notification.Position.MIDDLE);
     }
 
-    static void inform(String message) {
+    void inform(String message) {
         Notification.show(message, 3000, Notification.Position.MIDDLE);
     }
 
@@ -42,5 +39,52 @@ public class VaadinPersonPresenter {
         String interest = randomInterests.get(new Random().nextInt(max - min + 1) + min);
         personView.getInterests().add(interest);
         personView.getLbInterests().setItems(personView.getInterests());
+    }
+
+    void validateForm() {
+        personView.getBtnCreate().setEnabled(!personView.getTxtName().isEmpty() &&
+                personView.getTxtAge().getValue().matches("^(?:[1-9][0-9]?|1[01][0-9]|120)$") &&
+                personView.getTxtId().isEmpty());
+
+        personView.getBtnSave().setEnabled(!personView.getTxtName().isEmpty() &&
+                personView.getTxtAge().getValue().matches("^(?:[1-9][0-9]?|1[01][0-9]|120)$") &&
+                !personView.getTxtId().isEmpty());
+        personView.getBtnDelete().setEnabled(!personView.getTxtId().isEmpty());
+    }
+
+    void updateTable() {
+        personView.getPersons().setItems(personModel.getPersons());
+    }
+
+    void createPerson() {
+        personModel.createPerson();
+    }
+
+    void savePerson() {
+        personModel.savePerson();
+    }
+
+    void deletePerson() {
+        personModel.deletePerson();
+    }
+
+    long getPersonId() {
+        return Long.parseLong(personView.getTxtId().getValue());
+    }
+
+    void disableDeleteButton() {
+        personView.getBtnDelete().setEnabled(false);
+    }
+
+    String getPersonName() {
+        return personView.getTxtName().getValue();
+    }
+
+    int getPersonAge() {
+        return Integer.parseInt(personView.getTxtAge().getValue());
+    }
+
+    Set<String> getPersonInterests() {
+        return new HashSet<>(personView.getInterests());
     }
 }
