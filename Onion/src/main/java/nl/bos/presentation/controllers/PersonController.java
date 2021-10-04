@@ -1,11 +1,9 @@
 package nl.bos.presentation.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
-import javafx.scene.input.MouseEvent;
 import nl.bos.business.IPersonService;
 import nl.bos.business.PersonService;
 import nl.bos.data.PersonDTO;
@@ -15,30 +13,32 @@ import java.util.HashSet;
 
 public class PersonController {
     @FXML
-    Button btnSave;
+    private Button btnSave;
     @FXML
-    Button btnClear;
+    private Button btnClear;
     @FXML
-    Button btnDelete;
+    private Button btnDelete;
     @FXML
-    TextField txtName;
+    private TextField txtName;
     @FXML
-    TextField txtAge;
+    private TextField txtAge;
     @FXML
-    ListView<String> lvInterests;
+    private ListView<String> lvInterests;
 
     @FXML
-    Button btnEditSave;
+    private Button btnEditSave;
     @FXML
-    TextField txtEditId;
+    private TextField txtEditId;
     @FXML
-    TextField txtEditName;
+    private TextField txtEditName;
     @FXML
-    TextField txtEditAge;
+    private TextField txtEditAge;
     @FXML
-    ListView<String> lvEditInterests;
+    private ListView<String> lvEditInterests;
     @FXML
-    TableView<PersonDTO> tblPersons;
+    private TableView<PersonDTO> tblPersons;
+    @FXML
+    private TextField txtFilter;
 
     IPersonService personService = new PersonService();
 
@@ -149,7 +149,7 @@ public class PersonController {
     }
 
     @FXML
-    private void viewPerson(MouseEvent mouseEvent) {
+    private void viewPerson() {
         TableView.TableViewSelectionModel<PersonDTO> selectionModel = tblPersons.getSelectionModel();
         PersonDTO selectedPerson = selectionModel.getSelectedItem();
 
@@ -168,7 +168,7 @@ public class PersonController {
         }
     }
 
-    public void saveEditPerson(ActionEvent actionEvent) {
+    public void saveEditPerson() {
         PersonDTO person = new PersonDTO(Long.parseLong(txtEditId.getText()), txtEditName.getText(), Integer.parseInt(txtEditAge.getText()), new HashSet<>(lvEditInterests.getItems()));
         try {
             if (personService.update(person)) {
@@ -183,7 +183,7 @@ public class PersonController {
     }
 
     @FXML
-    private void deletePerson(ActionEvent actionEvent) {
+    private void deletePerson() {
         try {
             if (personService.delete(Long.valueOf(txtEditId.getText()))) {
                 inform("The person was successfully deleted.");
@@ -197,18 +197,18 @@ public class PersonController {
     }
 
     @FXML
-    private void addInterest(ActionEvent actionEvent) {
+    private void addInterest() {
         lvInterests.getItems().add(0, "");
     }
 
     @FXML
-    private void updateInterests(ListView.EditEvent<String> stringEditEvent) {
+    private void updateInterests(final ListView.EditEvent<String> stringEditEvent) {
         lvInterests.getItems().add(stringEditEvent.getNewValue());
         lvInterests.getItems().remove("");
     }
 
     @FXML
-    private void addEditInterest(ActionEvent actionEvent) {
+    private void addEditInterest() {
         lvEditInterests.getItems().add(0, "");
     }
 
@@ -217,14 +217,20 @@ public class PersonController {
         lvEditInterests.getItems().remove("");
     }
 
-    private void inform(String message) {
+    @FXML
+    private void filterPersons() {
+        tblPersons.getItems().clear();
+        tblPersons.getItems().addAll(personService.getAllFiltered(txtFilter.getText()));
+    }
+
+    private void inform(final String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(message);
         alert.showAndWait();
     }
 
-    private void error(String message) {
+    private void error(final String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error Dialog");
         alert.setHeaderText(message);

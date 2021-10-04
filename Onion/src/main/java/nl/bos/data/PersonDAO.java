@@ -12,7 +12,7 @@ public class PersonDAO implements IPersonDAO {
     //todo check SQL injection with a sample!
 
     @Override
-    public boolean create(PersonDTO person) throws PersonCreateException {
+    public boolean create(final PersonDTO person) throws PersonCreateException {
         try {
             PreparedStatement create = connectionFactory.connect().prepareStatement("INSERT INTO person (name, age, interests) VALUES(?, ?, ?)");
             create.setString(1, person.getName());
@@ -25,7 +25,7 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public PersonDTO read(Long id) throws PersonReadException {
+    public PersonDTO read(final Long id) throws PersonReadException {
         try {
             PreparedStatement statement = connectionFactory.connect().prepareStatement("SELECT * FROM person WHERE id = ?");
             statement.setLong(1, id);
@@ -44,7 +44,7 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public boolean update(PersonDTO person) throws PersonUpdateException {
+    public boolean update(final PersonDTO person) throws PersonUpdateException {
         try {
             PreparedStatement update = connectionFactory.connect().prepareStatement("UPDATE person SET name = ?, age = ?, interests = ? WHERE id = ?");
             update.setString(1, person.getName());
@@ -59,7 +59,7 @@ public class PersonDAO implements IPersonDAO {
     }
 
     @Override
-    public boolean delete(Long id) throws PersonDeleteException {
+    public boolean delete(final Long id) throws PersonDeleteException {
         try {
             PreparedStatement delete = connectionFactory.connect().prepareStatement("DELETE FROM person WHERE id = ?");
             delete.setLong(1, id);
@@ -93,11 +93,30 @@ public class PersonDAO implements IPersonDAO {
         return result;
     }
 
-    public List<PersonDTO> getAllFiltered(String filter) throws PersonException {
-        throw new UnsupportedOperationException(); //todo implementation
+    public List<PersonDTO> getAllFiltered(final String filter) throws PersonException {
+        List<PersonDTO> result = new ArrayList<>();
+
+        try {
+            PreparedStatement selectFiltered = connectionFactory.connect().prepareStatement("SELECT * FROM person WHERE name LIKE ? ORDER BY id DESC");
+            selectFiltered.setString(1, filter);
+            ResultSet resultSet = selectFiltered.executeQuery();
+            while (resultSet.next()) {
+                PersonDTO person = new PersonDTO(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("age"),
+                        buildInterests(resultSet.getArray("interests"))
+                );
+                result.add(person);
+            }
+        } catch (SQLException sqlException) {
+            throw new PersonException(sqlException.getMessage());
+        }
+
+        return result;
     }
 
-    private Set<String> buildInterests(Array interests) {
+    private Set<String> buildInterests(final Array interests) {
         Set<String> result;
 
         if (interests.toString().equals("")) {

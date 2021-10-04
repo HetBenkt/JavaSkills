@@ -15,27 +15,32 @@ public class PersonService implements IPersonService {
         personDAO = new PersonDAO();
     }
 
-    public boolean create(PersonDTO person) throws PersonCreateException {
+    public boolean create(final PersonDTO person) throws PersonCreateException {
         return personDAO.create(person);
     }
 
     @Override
-    public PersonDTO read(Long id) throws PersonReadException {
+    public PersonDTO read(final Long id) throws PersonReadException {
         return personDAO.read(id);
     }
 
     @Override
-    public boolean update(PersonDTO person) throws PersonUpdateException {
+    public boolean update(final PersonDTO person) throws PersonUpdateException {
         return personDAO.update(person);
     }
 
     @Override
-    public boolean delete(Long id) throws PersonDeleteException {
+    public boolean delete(final Long id) throws PersonDeleteException {
         return personDAO.delete(id);
     }
 
     @Override
     public List<PersonDTO> getAll() throws PersonException {
         return personDAO.getAll();
+    }
+
+    @Override
+    public List<PersonDTO> getAllFiltered(final String filter) throws PersonException {
+        return personDAO.getAllFiltered(filter);
     }
 }

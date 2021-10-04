@@ -11,7 +11,7 @@ public enum ConnectionFactory {
     private Connection connection;
     private String username, password, database;
 
-    public void setInstanceVariables(String username, String password, String database) {
+    public void setInstanceVariables(final String username, final String password, final String database) {
         this.username = username;
         this.password = password;
         this.database = database;

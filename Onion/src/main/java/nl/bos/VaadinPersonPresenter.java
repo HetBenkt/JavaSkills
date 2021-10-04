@@ -8,7 +8,7 @@ public class VaadinPersonPresenter {
     private final VaadinPersonView personView;
     private final VaadinPersonModel personModel;
 
-    public VaadinPersonPresenter(VaadinPersonModel personModel, VaadinPersonView personView) {
+    public VaadinPersonPresenter(final VaadinPersonModel personModel, final VaadinPersonView personView) {
         this.personView = personView;
         this.personModel = personModel;
 
@@ -16,11 +16,11 @@ public class VaadinPersonPresenter {
         personView.setPersonPresenter(this);
     }
 
-    void error(String message) {
+    void error(final String message) {
         Notification.show("ERROR: " + message, 3000, Notification.Position.MIDDLE);
     }
 
-    void inform(String message) {
+    void inform(final String message) {
         Notification.show(message, 3000, Notification.Position.MIDDLE);
     }
 

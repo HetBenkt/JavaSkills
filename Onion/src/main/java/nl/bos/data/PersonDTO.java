@@ -8,13 +8,13 @@ public class PersonDTO {
     private Integer age;
     private Set<String> interests;
 
-    public PersonDTO(String name, Integer age, Set<String> interests) {
+    public PersonDTO(final String name, final Integer age, final Set<String> interests) {
         this.name = name;
         this.age = age;
         this.interests = interests;
     }
 
-    public PersonDTO(Long id, String name, Integer age, Set<String> interests) {
+    public PersonDTO(final Long id, final String name, final Integer age, final Set<String> interests) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -28,7 +28,7 @@ public class PersonDTO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -36,7 +36,7 @@ public class PersonDTO {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -44,7 +44,7 @@ public class PersonDTO {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(final Integer age) {
         this.age = age;
     }
 
@@ -52,7 +52,7 @@ public class PersonDTO {
         return interests;
     }
 
-    public void setInterests(Set<String> interests) {
+    public void setInterests(final Set<String> interests) {
         this.interests = interests;
     }
 }
