@@ -22,7 +22,6 @@ public class App extends Application {
 
         //todo Add JUnit5 tests
         //todo check for the single responsibility principle in big classes and large methods!
-        //todo refactor constructors with initialize() methods!
         //todo convert methods to functional methods!
         //todo see if the an abstracted class can play with generics
     }

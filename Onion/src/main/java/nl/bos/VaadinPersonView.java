@@ -25,7 +25,7 @@ public class VaadinPersonView extends VerticalLayout {
     private final Button btnSave;
     private VaadinPersonPresenter personPresenter;
 
-    public VaadinPersonView() {
+    private VaadinPersonView() {
         VerticalLayout verticalLayout = new VerticalLayout();
 
         txtId = new TextField("ID");
@@ -74,6 +74,10 @@ public class VaadinPersonView extends VerticalLayout {
         });
 
         add(verticalLayout, persons);
+    }
+
+    public static VaadinPersonView create() {
+        return new VaadinPersonView();
     }
 
     public void setPersonPresenter(VaadinPersonPresenter personPresenter) {

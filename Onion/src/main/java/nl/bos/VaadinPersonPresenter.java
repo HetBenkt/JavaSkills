@@ -8,12 +8,16 @@ public class VaadinPersonPresenter {
     private final VaadinPersonView personView;
     private final VaadinPersonModel personModel;
 
-    public VaadinPersonPresenter(final VaadinPersonModel personModel, final VaadinPersonView personView) {
+    private VaadinPersonPresenter(final VaadinPersonModel personModel, final VaadinPersonView personView) {
         this.personView = personView;
         this.personModel = personModel;
 
         personModel.setPersonPresenter(this);
         personView.setPersonPresenter(this);
+    }
+
+    public static VaadinPersonPresenter create(VaadinPersonModel personModel, VaadinPersonView personView) {
+        return new VaadinPersonPresenter(personModel, personView);
     }
 
     void error(final String message) {

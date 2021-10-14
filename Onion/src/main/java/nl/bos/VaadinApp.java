@@ -21,9 +21,9 @@ public class VaadinApp extends VerticalLayout implements HasUrlParameter<String>
     private final VaadinPersonPresenter personPresenter;
 
     public VaadinApp() {
-        VaadinPersonModel personModel = new VaadinPersonModel();
-        VaadinPersonView personView = new VaadinPersonView();
-        personPresenter = new VaadinPersonPresenter(personModel, personView);
+        VaadinPersonModel personModel = VaadinPersonModel.create();
+        VaadinPersonView personView = VaadinPersonView.create();
+        personPresenter = VaadinPersonPresenter.create(personModel, personView);
         add(personView);
     }
 

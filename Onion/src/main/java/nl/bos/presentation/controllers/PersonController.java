@@ -40,7 +40,7 @@ public class PersonController {
     @FXML
     private TextField txtFilter;
 
-    IPersonService personService = new PersonService();
+    IPersonService personService = PersonService.INSTANCE;
 
     @FXML
     private void initialize() {

@@ -7,13 +7,10 @@ import nl.bos.exceptions.*;
 
 import java.util.List;
 
-public class PersonService implements IPersonService {
+public enum PersonService implements IPersonService {
+    INSTANCE; //singleton from "Effective Java" book...nice!
 
-    private final IPersonDAO personDAO;
-
-    public PersonService() {
-        personDAO = new PersonDAO();
-    }
+    private final IPersonDAO personDAO = new PersonDAO();
 
     public boolean create(final PersonDTO person) throws PersonCreateException {
         return personDAO.create(person);

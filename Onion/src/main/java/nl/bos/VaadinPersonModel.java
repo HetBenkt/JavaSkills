@@ -10,8 +10,15 @@ import java.util.List;
 
 public class VaadinPersonModel {
 
-    private final IPersonService personService = new PersonService();
+    private final IPersonService personService = PersonService.INSTANCE;
     private VaadinPersonPresenter personPresenter;
+
+    private VaadinPersonModel() {
+    }
+
+    public static VaadinPersonModel create() {
+        return new VaadinPersonModel();
+    }
 
     public void setPersonPresenter(VaadinPersonPresenter personPresenter) {
         this.personPresenter = personPresenter;
