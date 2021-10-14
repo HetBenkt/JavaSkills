@@ -21,9 +21,6 @@ public class PersonDTO {
         this.interests = interests;
     }
 
-    public PersonDTO() {
-    }
-
     public Long getId() {
         return id;
     }

@@ -15,8 +15,6 @@ public class PersonController {
     @FXML
     private Button btnSave;
     @FXML
-    private Button btnClear;
-    @FXML
     private Button btnDelete;
     @FXML
     private TextField txtName;
