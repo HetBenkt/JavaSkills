@@ -10,6 +10,11 @@ import nl.bos.data.PersonDTO;
 import nl.bos.exceptions.AbstractPersonException;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class PersonController {
     @FXML
@@ -93,9 +98,11 @@ public class PersonController {
     private void updateTable() {
         try {
             tblPersons.getItems().clear();
-            tblPersons.getItems().addAll(personService.getAll());
+            Supplier<List<PersonDTO>> readAll = () -> personService.getAll();
+            tblPersons.getItems().addAll(readAll.get());
         } catch (AbstractPersonException exception) {
-            error(exception.getMessage());
+            Consumer<String> error = this::error;
+            error.accept(exception.getMessage());
         }
     }
 
@@ -136,13 +143,16 @@ public class PersonController {
         );
 
         try {
-            if (personService.create(person)) {
+            Predicate<PersonDTO> create = personDTO -> personService.create(personDTO);
+            if (create.test(person)) {
                 clearForm();
                 updateTable();
-                inform("The person was successfully created.");
+                Consumer<String> inform = this::inform;
+                inform.accept("The person was successfully created.");
             }
         } catch (AbstractPersonException exception) {
-            error(exception.getMessage());
+            Consumer<String> error = this::error;
+            error.accept(exception.getMessage());
         }
     }
 
@@ -154,14 +164,16 @@ public class PersonController {
         if (selectedPerson != null) {
             btnDelete.setDisable(false);
             try {
-                PersonDTO person = personService.read(selectedPerson.getId()); //Retrieve latest data from database; instead of current table data!
+                Function<Long, PersonDTO> read = personId -> personService.read(personId);
+                PersonDTO person = read.apply(selectedPerson.getId()); //Retrieve latest data from database; instead of current table data!
                 txtEditId.setText(String.valueOf(person.getId()));
                 txtEditName.setText(person.getName());
                 txtEditAge.setText(String.valueOf(person.getAge()));
                 lvEditInterests.getItems().clear();
                 lvEditInterests.getItems().addAll(person.getInterests());
             } catch (AbstractPersonException exception) {
-                error(exception.getMessage());
+                Consumer<String> error = this::error;
+                error.accept(exception.getMessage());
             }
         }
     }
@@ -169,28 +181,34 @@ public class PersonController {
     public void saveEditPerson() {
         PersonDTO person = new PersonDTO(Long.parseLong(txtEditId.getText()), txtEditName.getText(), Integer.parseInt(txtEditAge.getText()), new HashSet<>(lvEditInterests.getItems()));
         try {
-            if (personService.update(person)) {
-                inform("The person was successfully updated.");
+            Predicate<PersonDTO> update = personDTO -> personService.update(personDTO);
+            if (update.test(person)) {
                 clearEditForm();
                 updateTable();
                 btnDelete.setDisable(true);
+                Consumer<String> inform = this::inform;
+                inform.accept("The person was successfully updated.");
             }
         } catch (AbstractPersonException exception) {
-            error(exception.getMessage());
+            Consumer<String> error = this::error;
+            error.accept(exception.getMessage());
         }
     }
 
     @FXML
     private void deletePerson() {
         try {
-            if (personService.delete(Long.valueOf(txtEditId.getText()))) {
-                inform("The person was successfully deleted.");
+            Predicate<Long> delete = personId -> personService.delete(personId);
+            if (delete.test(Long.valueOf(txtEditId.getText()))) {
                 clearEditForm();
                 updateTable();
                 btnDelete.setDisable(true);
+                Consumer<String> inform = this::inform;
+                inform.accept("The person was successfully deleted.");
             }
         } catch (AbstractPersonException exception) {
-            error(exception.getMessage());
+            Consumer<String> error = this::error;
+            error.accept(exception.getMessage());
         }
     }
 
@@ -210,7 +228,8 @@ public class PersonController {
         lvEditInterests.getItems().add(0, "");
     }
 
-    public void updateEditInterests(ListView.EditEvent<String> stringEditEvent) {
+    @FXML
+    private void updateEditInterests(ListView.EditEvent<String> stringEditEvent) {
         lvEditInterests.getItems().add(stringEditEvent.getNewValue());
         lvEditInterests.getItems().remove("");
     }
@@ -218,8 +237,10 @@ public class PersonController {
     @FXML
     private void filterPersons() {
         tblPersons.getItems().clear();
-        tblPersons.getItems().addAll(personService.getAllFiltered(txtFilter.getText()));
+        Function<String, List<PersonDTO>> readAllFiltered = filter -> personService.getAllFiltered(filter);
+        tblPersons.getItems().addAll(readAllFiltered.apply(txtFilter.getText()));
     }
+
 
     private void inform(final String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
