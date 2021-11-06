@@ -16,3 +16,9 @@
 /Edabit/Edabit.iml
 /Onion/Onion.iml
 /Onion/target
+/SwaggerDemo/.gitignore
+/SwaggerDemo/.mvn/wrapper/maven-wrapper.jar
+/SwaggerDemo/.mvn/wrapper/maven-wrapper.properties
+/SwaggerDemo/.mvn/wrapper/MavenWrapperDownloader.java
+/SwaggerDemo/mvnw
+/SwaggerDemo/mvnw.cmd
