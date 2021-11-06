@@ -41,4 +41,14 @@ public class EmployeeController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @DeleteMapping(path = "/employees/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable long id) {
+        boolean result = employeeDao.deleteEmployee(id);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

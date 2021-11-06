@@ -28,4 +28,15 @@ public class EmployeeDAO {
     public Employee getEmployee(long id) {
         return employees.stream().filter(employee -> employee.getId() == id).findFirst().orElse(null);
     }
+
+    public boolean deleteEmployee(long id) {
+        Employee result = employees.stream().filter(employee -> employee.getId() == id).findFirst().orElse(null);
+        if (result != null) {
+            employees.remove(result);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
