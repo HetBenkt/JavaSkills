@@ -44,8 +44,16 @@ public class EmployeeController {
 
     @DeleteMapping(path = "/employees/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Employee> deleteEmployee(@PathVariable long id) {
-        boolean result = employeeDao.deleteEmployee(id);
-        if (result) {
+        if (employeeDao.deleteEmployee(id)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping(path = "/employees/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee employee) {
+        if (employeeDao.updateEmployee(id, employee)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();

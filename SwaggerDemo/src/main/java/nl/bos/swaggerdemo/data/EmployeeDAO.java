@@ -39,4 +39,14 @@ public class EmployeeDAO {
         }
     }
 
+    public boolean updateEmployee(long id, Employee employee) {
+        Employee result = employees.stream().filter(e -> e.getId() == id).findFirst().orElse(null);
+        if (result != null) {
+            result.setName(employee.getName());
+            result.setAge(employee.getAge());
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
