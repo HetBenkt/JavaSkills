@@ -6,7 +6,7 @@ public enum EAccountService implements IAccountService {
     private final IAccountDAO accountDAO = new AccountDAO();
 
     @Override
-    public AccountDTO getAccount() {
-        return accountDAO.getAccount();
+    public AccountDTO getAccount(long id) {
+        return accountDAO.getAccount(id);
     }
 }

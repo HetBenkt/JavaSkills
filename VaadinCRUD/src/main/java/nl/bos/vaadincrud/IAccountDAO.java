@@ -1,5 +1,5 @@
 package nl.bos.vaadincrud;
 
 public interface IAccountDAO {
-    AccountDTO getAccount();
+    AccountDTO getAccount(long id);
 }

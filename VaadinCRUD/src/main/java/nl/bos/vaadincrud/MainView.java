@@ -11,6 +11,6 @@ public class MainView extends VerticalLayout {
 
     public MainView() {
         add(new Button("Click me", e -> Notification.show("Hello, Spring+Vaadin user!")));
-        add(new Button("Click me", e -> accountService.getAccount()));
+        add(new Button("Fetch account", e -> Notification.show(accountService.getAccount(1).toString())));
     }
 }
