@@ -114,16 +114,16 @@ let themeName = undefined;
 let themeWatchFolders = undefined;
 if (devMode) {
   // Current theme name is being extracted from theme.js located in
-  // frontend/generated folder
-  themeName = extractThemeName(frontendGeneratedFolder);
-  const parentThemePaths = findParentThemes(themeName, themeOptions);
-  const currentThemeFolders = [...projectStaticAssetsFolders
-      .map((folder) => path.resolve(folder, "themes", themeName)),
-      path.resolve(flowFrontendThemesFolder, themeName)];
-  // Watch the components folders for component styles update in both
-  // current theme and parent themes. Other folders or CSS files except
-  // 'styles.css' should be referenced from `styles.css` anyway, so no need
-  // to watch them.
+    // frontend/generated folder
+    themeName = extractThemeName(frontendGeneratedFolder);
+    const parentThemePaths = findParentThemes(themeName, themeOptions);
+    const currentThemeFolders = [...projectStaticAssetsFolders
+        .map((folder) => path.resolve(folder, "themes", themeName)),
+        path.resolve(flowFrontendThemesFolder, themeName)];
+    // Watch the components folders for component styles update in both
+    // current theme and parent themes. Other folders or CSS files except
+    // 'styles.css' should be referenced from `styles.css` anyway, so no need
+    // to watch them.
     themeWatchFolders = [...currentThemeFolders, ...parentThemePaths]
         .map((themeFolder) => path.resolve(themeFolder, "components"));
 }
@@ -181,7 +181,7 @@ module.exports = {
               console.log("Stopped 'webpack-dev-server'");
               process.exit(0);
           });
-    }
+      }
   },
 
   module: {
@@ -206,11 +206,11 @@ module.exports = {
             loader: 'css-loader',
             options: {
               url: (url, resourcePath) => {
-                // Only translate files from node_modules
+                  // Only translate files from node_modules
                   const resolve = resourcePath.match(/(\\|\/)node_modules\1/)
                       && fs.existsSync(path.resolve(path.dirname(resourcePath), url));
                   const themeResource = resourcePath.match(themePartRegex) && url.match(/^themes\/[\s\S]*?\//);
-                return resolve || themeResource;
+                  return resolve || themeResource;
               },
               // use theme-loader to also handle any imports in css files
               importLoaders: 1
