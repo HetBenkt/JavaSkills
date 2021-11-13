@@ -6,14 +6,24 @@ import org.springframework.web.reactive.function.client.WebClient.RequestHeaders
 import java.util.List;
 
 public class AccountDAO implements IAccountDAO {
+
+    private static final String HOST = "http://localhost:8080";
+    private static final String USER = "user";
+    private static final String PASSWORD = "password";
+
+    private final WebClient client;
+
+    public AccountDAO() {
+        client = WebClient.builder()
+                .defaultHeaders(header -> header.setBasicAuth(USER, PASSWORD))
+                .build();
+    }
+
     @Override
     public AccountDTO getAccount(long id) {
-        WebClient client = WebClient.builder()
-                .defaultHeaders(header -> header.setBasicAuth("user", "password"))
-                .build();
         RequestHeadersSpec<?> spec = client.
                 get().
-                uri(String.format("http://localhost:8080/api/account/%s", id));
+                uri(String.format("%s/api/account/%s", HOST, id));
         return spec.retrieve().
                 toEntity(AccountDTO.class).
                 block().
@@ -22,12 +32,9 @@ public class AccountDAO implements IAccountDAO {
 
     @Override
     public List<AccountDTO> getAllAccounts() {
-        WebClient client = WebClient.builder()
-                .defaultHeaders(header -> header.setBasicAuth("user", "password"))
-                .build();
         RequestHeadersSpec<?> spec = client.
                 get().
-                uri("http://localhost:8080/api/account");
+                uri(String.format("%s/api/account", HOST));
         return spec.retrieve().
                 toEntityList(AccountDTO.class).
                 block().
