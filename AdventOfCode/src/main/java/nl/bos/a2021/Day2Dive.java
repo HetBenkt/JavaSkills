@@ -14,6 +14,7 @@ public class Day2Dive {
 
         int depth = 0;
         int horizontalPosition = 0;
+        int aim = 0;
 
         List<Command> commands = new ArrayList<>();
         for (String command : commandsInput) {
@@ -24,12 +25,13 @@ public class Day2Dive {
         for (Command command : commands) {
             if (command.direction.equals(EDirections.forward)) {
                 horizontalPosition += command.size;
+                depth += (aim * command.size);
             }
             if (command.direction.equals(EDirections.down)) {
-                depth += command.size;
+                aim += command.size;
             }
             if (command.direction.equals(EDirections.up)) {
-                depth -= command.size;
+                aim -= command.size;
             }
         }
 
