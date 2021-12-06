@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Day4GiantSquid {
 
+    private final List<BingoCard> overallBingoCards = new ArrayList<>();
+
     public Day4GiantSquid() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2021/Day4GiantSquid");
         List<String> data = AdventReadInput.readData(is);
@@ -34,10 +36,13 @@ public class Day4GiantSquid {
                         if (card[row][col] == bingoNumber) {
                             int lastNumber = card[row][col];
                             card[row][col] = -1;
-                            int result = doBingoCheck(bingoCards);
-                            if (result > 0) {
-                                System.out.printf("Final score be: %s", (result * lastNumber));
-                                System.exit(0);
+                            doBingoCheck(bingoCards);
+                            if ((bingoCards.size() - overallBingoCards.size()) == 1) {
+                                int result = doBingoCheck(bingoCards);
+                                if (result > 0) {
+                                    System.out.printf("Final score be: %s", (result * lastNumber));
+                                    System.exit(0);
+                                }
                             }
                         }
                     }
@@ -52,7 +57,12 @@ public class Day4GiantSquid {
             for (int[] ints : card) {
                 if (Arrays.stream(ints).sum() == -5) {
                     //found a bingo in row
-                    return Arrays.stream(card).flatMapToInt(Arrays::stream).filter(value -> value != -1).sum();
+                    int sum = Arrays.stream(card).flatMapToInt(Arrays::stream).filter(value -> value != -1).sum();
+                    if (bingoCards.size() - overallBingoCards.size() != 1) {
+                        overallBingoCards.add(bingoCard);
+                        clearBingoCard(bingoCard);
+                    }
+                    return sum;
                 }
             }
         }
@@ -69,11 +79,22 @@ public class Day4GiantSquid {
             for (int[] ints : rotatedCard) {
                 if (Arrays.stream(ints).sum() == -5) {
                     //found a bingo in column
-                    return Arrays.stream(rotatedCard).flatMapToInt(Arrays::stream).filter(value -> value != -1).sum();
+                    int sum = Arrays.stream(rotatedCard).flatMapToInt(Arrays::stream).filter(value -> value != -1).sum();
+                    if (bingoCards.size() - overallBingoCards.size() != 1) {
+                        overallBingoCards.add(bingoCard);
+                        clearBingoCard(bingoCard);
+                    }
+                    return sum;
                 }
             }
         }
         return 0;
+    }
+
+    private void clearBingoCard(BingoCard bingoCard) {
+        for (int[] numbers : bingoCard.numbers()) {
+            Arrays.fill(numbers, -2);
+        }
     }
 
     public static void main(String[] args) {
