@@ -10,6 +10,7 @@ import java.util.List;
 public class Day4GiantSquid {
 
     private final List<BingoCard> overallBingoCards = new ArrayList<>();
+    private final List<BingoCard> bingoCards = new ArrayList<>();
 
     public Day4GiantSquid() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2021/Day4GiantSquid");
@@ -17,7 +18,6 @@ public class Day4GiantSquid {
 
         //Prepare data
         int[] bingoNumbers = Arrays.stream(data.get(0).split(",")).mapToInt(Integer::parseInt).toArray();
-        List<BingoCard> bingoCards = new ArrayList<>();
         for (int i = 1; i < data.size(); i += 6) {
             int[][] cardNumbers = new int[5][5];
             cardNumbers[0] = Arrays.stream(data.get(i + 1).split("(?<=\\G.{3})")).map(String::trim).mapToInt(Integer::parseInt).toArray();
@@ -53,39 +53,49 @@ public class Day4GiantSquid {
 
     private int doBingoCheck(List<BingoCard> bingoCards) {
         for (BingoCard bingoCard : bingoCards) {
-            int[][] card = bingoCard.numbers();
-            for (int[] ints : card) {
-                if (Arrays.stream(ints).sum() == -5) {
-                    //found a bingo in row
-                    int sum = Arrays.stream(card).flatMapToInt(Arrays::stream).filter(value -> value != -1).sum();
-                    if (bingoCards.size() - overallBingoCards.size() != 1) {
-                        overallBingoCards.add(bingoCard);
-                        clearBingoCard(bingoCard);
-                    }
-                    return sum;
-                }
+            int check = checkCard(bingoCard);
+            if (check > 0) {
+                return check;
             }
         }
 
         for (BingoCard bingoCard : bingoCards) {
-            int[][] card = bingoCard.numbers();
-            int[][] rotatedCard = new int[5][5];
-            for (int i = 0; i < card[0].length; i++) {
-                for (int j = card.length - 1; j >= 0; j--) {
-                    rotatedCard[i][j] = card[j][i];
-                }
+            int rotated = checkRotatedCard(bingoCard);
+            if (rotated > 0) {
+                return rotated;
             }
+        }
+        return 0;
+    }
 
-            for (int[] ints : rotatedCard) {
-                if (Arrays.stream(ints).sum() == -5) {
-                    //found a bingo in column
-                    int sum = Arrays.stream(rotatedCard).flatMapToInt(Arrays::stream).filter(value -> value != -1).sum();
-                    if (bingoCards.size() - overallBingoCards.size() != 1) {
-                        overallBingoCards.add(bingoCard);
-                        clearBingoCard(bingoCard);
-                    }
-                    return sum;
+    //To check the rows
+    private int checkCard(BingoCard bingoCard) {
+        int[][] card = bingoCard.numbers();
+        return searchCard(bingoCard, card);
+    }
+
+    //To check the columns
+    private int checkRotatedCard(BingoCard bingoCard) {
+        int[][] card = bingoCard.numbers();
+        int[][] rotatedCard = new int[5][5];
+        for (int i = 0; i < card[0].length; i++) {
+            for (int j = card.length - 1; j >= 0; j--) {
+                rotatedCard[i][j] = card[j][i];
+            }
+        }
+        return searchCard(bingoCard, rotatedCard);
+    }
+
+    private int searchCard(BingoCard bingoCard, int[][] card) {
+        for (int[] ints : card) {
+            if (Arrays.stream(ints).sum() == -5) {
+                //found a bingo in row
+                int sum = Arrays.stream(card).flatMapToInt(Arrays::stream).filter(value -> value != -1).sum();
+                if (bingoCards.size() - overallBingoCards.size() != 1) {
+                    overallBingoCards.add(bingoCard);
+                    clearBingoCard(bingoCard);
                 }
+                return sum;
             }
         }
         return 0;
