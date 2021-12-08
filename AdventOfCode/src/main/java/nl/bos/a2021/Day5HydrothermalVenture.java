@@ -23,21 +23,38 @@ public class Day5HydrothermalVenture {
 
         int[][] grid = new int[maxX + 1][maxY + 1];
 
-        List<Line> horizontalLines = lines.stream().filter(line -> line.direction == EDirection.HORIZONTAL).collect(Collectors.toList());
-        List<Line> verticalLines = lines.stream().filter(line -> line.direction == EDirection.VERTICAL).collect(Collectors.toList());
+        List<Line> horizontalLines = lines.stream()
+                .filter(line -> line.direction == EDirection.HORIZONTAL)
+                .collect(Collectors.toList());
+        List<Line> verticalLines = lines.stream()
+                .filter(line -> line.direction == EDirection.VERTICAL)
+                .collect(Collectors.toList());
+        List<Line> otherLines = lines.stream()
+                .filter(line -> line.direction == EDirection.OTHER)
+                .collect(Collectors.toList());
 
         for (Line line : horizontalLines) {
-            int[] indexes = IntStream.rangeClosed(line.x1 < line.x2 ? line.x1 : line.x2, line.x1 < line.x2 ? line.x2 : line.x1).toArray();
+            int[] indexes = IntStream.rangeClosed(
+                    line.x1 < line.x2 ? line.x1 : line.x2,
+                    line.x1 < line.x2 ? line.x2 : line.x1)
+                    .toArray();
             for (int index : indexes) {
                 grid[index][line.y1]++;
             }
         }
 
         for (Line line : verticalLines) {
-            int[] indexes = IntStream.rangeClosed(line.y1 < line.y2 ? line.y1 : line.y2, line.y1 < line.y2 ? line.y2 : line.y1).toArray();
+            int[] indexes = IntStream.rangeClosed(
+                    line.y1 < line.y2 ? line.y1 : line.y2,
+                    line.y1 < line.y2 ? line.y2 : line.y1)
+                    .toArray();
             for (int index : indexes) {
                 grid[line.x1][index]++;
             }
+        }
+
+        for (Line line : otherLines) {
+            //todo; these diagonal lines can have 4 different direction!!??
         }
 
         System.out.printf(
