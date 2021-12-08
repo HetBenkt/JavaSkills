@@ -9,15 +9,46 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Day5HydrothermalVenture {
 
     public Day5HydrothermalVenture() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2021/Day5HydrothermalVenture");
         List<String> data = AdventReadInput.readData(is);
+        List<Line> lines = prepareDate(data);
 
-        //Prepare data
+        int maxX = Collections.max(getIntegers(lines.stream().map(Line::x1), lines.stream().map(Line::x2), lines));
+        int maxY = Collections.max(getIntegers(lines.stream().map(Line::y1), lines.stream().map(Line::y2), lines));
+
+        int[][] grid = new int[maxX + 1][maxY + 1];
+
+        List<Line> horizontalLines = lines.stream().filter(line -> line.direction == EDirection.HORIZONTAL).collect(Collectors.toList());
+        List<Line> verticalLines = lines.stream().filter(line -> line.direction == EDirection.VERTICAL).collect(Collectors.toList());
+
+        for (Line line : horizontalLines) {
+            int[] indexes = IntStream.rangeClosed(line.x1 < line.x2 ? line.x1 : line.x2, line.x1 < line.x2 ? line.x2 : line.x1).toArray();
+            for (int index : indexes) {
+                grid[index][line.y1]++;
+            }
+        }
+
+        for (Line line : verticalLines) {
+            int[] indexes = IntStream.rangeClosed(line.y1 < line.y2 ? line.y1 : line.y2, line.y1 < line.y2 ? line.y2 : line.y1).toArray();
+            for (int index : indexes) {
+                grid[line.x1][index]++;
+            }
+        }
+
+        System.out.printf(
+                "At how many points do at least two lines overlap: %s",
+                Arrays.stream(grid).flatMapToInt(Arrays::stream).filter(integer -> integer >= 2).count()
+        );
+    }
+
+    private List<Line> prepareDate(List<String> data) {
         List<Line> lines = new ArrayList<>();
+
         for (String row : data) {
             String[] split = row.split(" -> ");
             String[] left = split[0].split(",");
@@ -41,51 +72,17 @@ public class Day5HydrothermalVenture {
             lines.add(line);
         }
 
-        int maxX = Collections.max(listX(lines));
-        int maxY = Collections.max(listY(lines));
-
-        int[][] grid = new int[maxX + 1][maxY + 1];
-
-        List<Line> horizontalLines = lines.stream().filter(line -> line.direction == EDirection.HORIZONTAL).collect(Collectors.toList());
-        List<Line> verticalLines = lines.stream().filter(line -> line.direction == EDirection.VERTICAL).collect(Collectors.toList());
-
-        for (Line horizontalLine : horizontalLines) {
-            int[] intsX = IntStream.rangeClosed(horizontalLine.x1 < horizontalLine.x2 ? horizontalLine.x1 : horizontalLine.x2, horizontalLine.x1 < horizontalLine.x2 ? horizontalLine.x2 : horizontalLine.x1).toArray();
-            for (int x : intsX) {
-                grid[x][horizontalLine.y1]++;
-            }
-        }
-
-        for (Line verticalLine : verticalLines) {
-            int[] intsY = IntStream.rangeClosed(verticalLine.y1 < verticalLine.y2 ? verticalLine.y1 : verticalLine.y2, verticalLine.y1 < verticalLine.y2 ? verticalLine.y2 : verticalLine.y1).toArray();
-            for (int y : intsY) {
-                grid[verticalLine.x1][y]++;
-            }
-        }
-
-        long count = Arrays.stream(grid).flatMapToInt(Arrays::stream).filter(integer -> integer >= 2).count();
-
-        System.out.printf("At how many points do at least two lines overlap: %s", count);
+        return lines;
     }
 
-    private List<Integer> listX(List<Line> lines) {
-        List<Integer> listX1 = lines.stream().map(Line::x1).collect(Collectors.toList());
-        List<Integer> listX2 = lines.stream().map(Line::x2).collect(Collectors.toList());
+    private List<Integer> getIntegers(Stream<Integer> integerStream, Stream<Integer> integerStream2, List<Line> lines) {
+        List<Integer> listX1 = integerStream.collect(Collectors.toList());
+        List<Integer> listX2 = integerStream2.collect(Collectors.toList());
         List<Integer> x1X2 = new ArrayList<>();
         x1X2.addAll(listX1);
         x1X2.addAll(listX2);
         return x1X2;
     }
-
-    private List<Integer> listY(List<Line> lines) {
-        List<Integer> listY1 = lines.stream().map(Line::y1).collect(Collectors.toList());
-        List<Integer> listY2 = lines.stream().map(Line::y2).collect(Collectors.toList());
-        List<Integer> y1Y2 = new ArrayList<>();
-        y1Y2.addAll(listY1);
-        y1Y2.addAll(listY2);
-        return y1Y2;
-    }
-
 
     public static void main(String[] args) {
         new Day5HydrothermalVenture();
