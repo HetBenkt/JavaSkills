@@ -54,7 +54,26 @@ public class Day5HydrothermalVenture {
         }
 
         for (Line line : otherLines) {
-            //todo; these diagonal lines can have 4 different direction!!??
+            int[] indexesY = IntStream.rangeClosed(
+                    line.y1 < line.y2 ? line.y1 : line.y2,
+                    line.y1 < line.y2 ? line.y2 : line.y1)
+                    .toArray();
+            int[] indexesX = IntStream.rangeClosed(
+                    line.x1 < line.x2 ? line.x1 : line.x2,
+                    line.x1 < line.x2 ? line.x2 : line.x1)
+                    .toArray();
+
+            int indexY;
+            int indexX;
+            for (int i = 0; i < indexesX.length; i++) {
+                indexX = indexesX[i];
+                if ((line.x1 < line.x2 && line.y1 < line.y2) || line.x1 > line.x2 && line.y1 > line.y2) {
+                    indexY = indexesY[i];
+                } else {
+                    indexY = indexesY[(indexesX.length - 1) - i];
+                }
+                grid[indexX][indexY]++;
+            }
         }
 
         System.out.printf(
