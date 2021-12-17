@@ -1,6 +1,7 @@
 package nl.bos.a2021;
 
 import nl.bos.general.AdventReadInput;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,6 +13,19 @@ public class Day8SevenSegmentSearch {
     public Day8SevenSegmentSearch() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2021/Day8SevenSegmentSearch");
         List<String> notes = AdventReadInput.readData(is);
+
+        List<Pair<Integer, List<String>>> segmentsInfo = List.of(
+                Pair.of(0, List.of("a", "b", "c", "e", "f", "g")),      //6
+                Pair.of(1, List.of("c", "f")),                          //2*
+                Pair.of(2, List.of("a", "c", "d", "e", "g")),           //5
+                Pair.of(3, List.of("a", "c", "d", "f", "g")),           //5
+                Pair.of(4, List.of("b", "c", "d", "f")),                //4*
+                Pair.of(5, List.of("a", "b", "d", "f", "g")),           //5
+                Pair.of(6, List.of("a", "b", "d", "e", "f", "g")),      //6
+                Pair.of(7, List.of("a", "c", "f")),                     //3*
+                Pair.of(8, List.of("a", "b", "c", "d", "e", "f", "g")), //7*
+                Pair.of(9, List.of("a", "b", "c", "d", "f", "g"))       //6
+        );
 
         List<NotesEntry> entries = new ArrayList<>();
         for (String entry : notes) {
