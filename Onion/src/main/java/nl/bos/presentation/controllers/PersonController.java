@@ -11,10 +11,11 @@ import nl.bos.exceptions.AbstractPersonException;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
 
 public class PersonController {
     @FXML
@@ -95,16 +96,12 @@ public class PersonController {
         tblPersons.getColumns().add(interestsColumn);
     }
 
-    private void updateTable() {
-        try {
-            tblPersons.getItems().clear();
-            Supplier<List<PersonDTO>> readAll = () -> personService.getAll();
-            tblPersons.getItems().addAll(readAll.get());
-        } catch (AbstractPersonException exception) {
-            Consumer<String> error = this::error;
-            error.accept(exception.getMessage());
-        }
-    }
+    private final BiConsumer<String, Alert.AlertType> alertBiConsumer = (message, type) -> {
+        Alert alert = new Alert(type);
+        alert.setTitle(String.format("%s Dialog", type.name()));
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    };
 
     private void validateForm() {
         btnSave.setDisable(
@@ -134,6 +131,16 @@ public class PersonController {
         btnDelete.setDisable(true);
     }
 
+    private void updateTable() {
+        try {
+            tblPersons.getItems().clear();
+            Supplier<List<PersonDTO>> readAll = () -> personService.getAll();
+            tblPersons.getItems().addAll(readAll.get());
+        } catch (AbstractPersonException exception) {
+            alertBiConsumer.accept(exception.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
     @FXML
     private void savePerson() {
         PersonDTO person = new PersonDTO(
@@ -147,12 +154,10 @@ public class PersonController {
             if (create.test(person)) {
                 clearForm();
                 updateTable();
-                Consumer<String> inform = this::inform;
-                inform.accept("The person was successfully created.");
+                alertBiConsumer.accept("The person was successfully created.", Alert.AlertType.INFORMATION);
             }
         } catch (AbstractPersonException exception) {
-            Consumer<String> error = this::error;
-            error.accept(exception.getMessage());
+            alertBiConsumer.accept(exception.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -172,8 +177,7 @@ public class PersonController {
                 lvEditInterests.getItems().clear();
                 lvEditInterests.getItems().addAll(person.getInterests());
             } catch (AbstractPersonException exception) {
-                Consumer<String> error = this::error;
-                error.accept(exception.getMessage());
+                alertBiConsumer.accept(exception.getMessage(), Alert.AlertType.ERROR);
             }
         }
     }
@@ -186,29 +190,10 @@ public class PersonController {
                 clearEditForm();
                 updateTable();
                 btnDelete.setDisable(true);
-                Consumer<String> inform = this::inform;
-                inform.accept("The person was successfully updated.");
+                alertBiConsumer.accept("The person was successfully updated.", Alert.AlertType.INFORMATION);
             }
         } catch (AbstractPersonException exception) {
-            Consumer<String> error = this::error;
-            error.accept(exception.getMessage());
-        }
-    }
-
-    @FXML
-    private void deletePerson() {
-        try {
-            Predicate<Long> delete = personId -> personService.delete(personId);
-            if (delete.test(Long.valueOf(txtEditId.getText()))) {
-                clearEditForm();
-                updateTable();
-                btnDelete.setDisable(true);
-                Consumer<String> inform = this::inform;
-                inform.accept("The person was successfully deleted.");
-            }
-        } catch (AbstractPersonException exception) {
-            Consumer<String> error = this::error;
-            error.accept(exception.getMessage());
+            alertBiConsumer.accept(exception.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -241,18 +226,18 @@ public class PersonController {
         tblPersons.getItems().addAll(readAllFiltered.apply(txtFilter.getText()));
     }
 
-
-    private void inform(final String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(message);
-        alert.showAndWait();
-    }
-
-    private void error(final String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Dialog");
-        alert.setHeaderText(message);
-        alert.showAndWait();
+    @FXML
+    private void deletePerson() {
+        try {
+            Predicate<Long> delete = personId -> personService.delete(personId);
+            if (delete.test(Long.valueOf(txtEditId.getText()))) {
+                clearEditForm();
+                updateTable();
+                btnDelete.setDisable(true);
+                alertBiConsumer.accept("The person was successfully deleted.", Alert.AlertType.INFORMATION);
+            }
+        } catch (AbstractPersonException exception) {
+            alertBiConsumer.accept(exception.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }
