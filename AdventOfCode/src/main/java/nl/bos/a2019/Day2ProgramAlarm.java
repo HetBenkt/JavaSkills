@@ -8,7 +8,8 @@ import java.util.Arrays;
 
 public class Day2ProgramAlarm {
 
-    private final int[] gravityAssistProgram;
+    private final static int OUTPUT = 19690720;
+    private int[] gravityAssistProgram;
 
     public Day2ProgramAlarm() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2019/Day2ProgramAlarm");
@@ -16,28 +17,40 @@ public class Day2ProgramAlarm {
         gravityAssistProgram = Arrays.stream(intCode.get(0).split(","))
                 .mapToInt(Integer::parseInt)
                 .toArray();
+        int[] gravityAssistProgramBackup = Arrays.stream(gravityAssistProgram).toArray();
 
-        gravityAssistProgram[1] = 12;
-        gravityAssistProgram[2] = 2;
+        int noun = 0;
+        int verb = 0;
 
-        for (int i = 0; i < gravityAssistProgram.length; i = i + 4) {
-            int[] set = new int[4];
-            set[0] = gravityAssistProgram[i];
-            set[1] = gravityAssistProgram[i + 1];
-            set[2] = gravityAssistProgram[i + 2];
-            set[3] = gravityAssistProgram[i + 3];
+        while (true) {
+            for (int i = 0; i < gravityAssistProgram.length; i = i + 4) {
+                int[] set = new int[4];
+                set[0] = gravityAssistProgram[i];
+                set[1] = gravityAssistProgram[i + 1];
+                set[2] = gravityAssistProgram[i + 2];
+                set[3] = gravityAssistProgram[i + 3];
 
-            switch (set[0]) {
-                case 1 -> add(set);
-                case 2 -> multiply(set);
-                case 99 -> exit();
+                switch (set[0]) {
+                    case 1 -> add(set);
+                    case 2 -> multiply(set);
+                    case 99 -> {
+                        if (gravityAssistProgram[0] == OUTPUT) {
+                            System.out.println((noun * 100) + verb);
+                            System.exit(0);
+                        }
+                        if (gravityAssistProgram[0] > OUTPUT) {
+                            noun = 0;
+                            verb++;
+                            gravityAssistProgramBackup[2] = verb;
+                        }
+                        i = 0;
+                        noun++;
+                        gravityAssistProgramBackup[1] = noun;
+                        gravityAssistProgram = Arrays.stream(gravityAssistProgramBackup).toArray();
+                    }
+                }
             }
         }
-    }
-
-    private void exit() {
-        System.out.println(gravityAssistProgram[0]);
-        System.exit(0);
     }
 
     private void multiply(int[] set) {
