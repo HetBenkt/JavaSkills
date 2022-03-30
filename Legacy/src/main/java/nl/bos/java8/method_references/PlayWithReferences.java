@@ -22,24 +22,24 @@ public class PlayWithReferences {
 		System.out.println(STR_START);
 
 		List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
-		
-		//External iterator way
-		for (Integer number : numbers) {
-			PlayWithReferences.show(number);
-		}
 
-		//The reference way; internal iterator
-		numbers.forEach(PlayWithReferences::show);
-		
-		//Reference To Constructor ClassName::new
-		List<Double> squaredNumbers = PlayWithReferences.findSquareRoot(numbers, Double::new);
-        System.out.println("Square root of numbers = "+squaredNumbers);
-		
+        //External iterator way
+        for (Integer number : numbers) {
+            PlayWithReferences.show(number);
+        }
+
+        //The reference way; internal iterator
+        numbers.forEach(PlayWithReferences::show);
+
+        //Reference To Constructor ClassName::new
+        List<Double> squaredNumbers = PlayWithReferences.findSquareRoot(numbers, Double::valueOf);
+        System.out.println("Square root of numbers = " + squaredNumbers);
+
         List<MyObject> objects = new ArrayList<MyObject>();
         objects.add(new MyObject("NEW"));
         objects.add(new MyObject("RUN"));
         objects.add(new MyObject("END"));
-        
+
         //Reference To an Instance Method ClassName::methodName
         List<String> allStates = PlayWithReferences.listAllObjects(objects, MyObject::getStatus);
         System.out.println(allStates);

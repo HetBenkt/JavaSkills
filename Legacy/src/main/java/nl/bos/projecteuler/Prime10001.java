@@ -1,10 +1,7 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class Prime10001 {
     private static int value = 2;
 
@@ -15,7 +12,7 @@ public class Prime10001 {
             primeValue = getNextPrimeNumber();
             value++;
         }
-        log.info(MessageFormat.format("Prime value {0}", primeValue));
+        System.out.println(MessageFormat.format("Prime value {0}", primeValue));
     }
 
     private static int getNextPrimeNumber() {

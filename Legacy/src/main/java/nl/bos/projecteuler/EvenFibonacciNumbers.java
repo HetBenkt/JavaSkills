@@ -1,13 +1,10 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
 /**
  * Created by bosa on 28-11-2017.
  */
-@Log
 public class EvenFibonacciNumbers {
     private static final int MAX_VALUE = 4000000;
     private static final int START_VALUE_1 = 1;
@@ -29,6 +26,6 @@ public class EvenFibonacciNumbers {
             value2 = term;
         }
 
-        log.info(MessageFormat.format("Even values {0}", evenValues));
+        System.out.println(MessageFormat.format("Even values {0}", evenValues));
     }
 }

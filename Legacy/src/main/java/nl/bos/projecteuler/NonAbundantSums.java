@@ -1,12 +1,9 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log
 public class NonAbundantSums {
     private static final int MAX_INT = 28123;
     private static final List<Integer> ABUNDANT_NUMBERS = new ArrayList<>();
@@ -20,7 +17,7 @@ public class NonAbundantSums {
                 sum += i;
             }
         }
-        log.info(MessageFormat.format("Result is {0}", sum));
+        System.out.println(MessageFormat.format("Result is {0}", sum));
     }
 
     private static boolean canBeWrittenAsTheSumOfTwoAbundantNumbers(int i) {

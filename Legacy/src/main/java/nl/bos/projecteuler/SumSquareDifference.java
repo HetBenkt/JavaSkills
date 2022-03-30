@@ -1,11 +1,8 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 import java.util.stream.IntStream;
 
-@Log
 public class SumSquareDifference {
     private static final int MAX_VALUE = 100;
     private static final int POW_VALUE = 2;
@@ -14,7 +11,7 @@ public class SumSquareDifference {
         double sumOfSquares = calcSumOfSquares();
         double squareOfSum = calcSquareOfSum();
 
-        log.info(MessageFormat.format("Result {0}", (int) (squareOfSum - sumOfSquares)));
+        System.out.println(MessageFormat.format("Result {0}", (int) (squareOfSum - sumOfSquares)));
     }
 
     private static double calcSquareOfSum() {

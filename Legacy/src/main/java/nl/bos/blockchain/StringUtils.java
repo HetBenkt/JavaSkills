@@ -1,13 +1,11 @@
 package nl.bos.blockchain;
 
-import lombok.extern.java.Log;
-
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-@Log
 class StringUtils {
     private StringUtils() {
     }
@@ -16,7 +14,7 @@ class StringUtils {
         String result = "";
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(input.getBytes("UTF-8"));
+            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             StringBuilder hexString = new StringBuilder();
 
             for (byte hashByte : hashBytes) {
@@ -27,7 +25,7 @@ class StringUtils {
             }
             result = hexString.toString();
         } catch (Exception e) {
-            log.info(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return result;
     }
@@ -46,7 +44,7 @@ class StringUtils {
             dsa.update(strByte);
             output = dsa.sign();
         } catch (Exception e) {
-            log.info(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return output;
     }
@@ -59,7 +57,7 @@ class StringUtils {
             ecdsaVerify.update(data.getBytes());
             result = ecdsaVerify.verify(signature);
         } catch (Exception e) {
-            log.info(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return result;
     }

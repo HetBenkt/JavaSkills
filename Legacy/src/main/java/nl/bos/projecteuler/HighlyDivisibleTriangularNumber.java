@@ -1,10 +1,7 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class HighlyDivisibleTriangularNumber {
     public static void main(String[] args) {
         long sum = 1L;
@@ -15,10 +12,10 @@ public class HighlyDivisibleTriangularNumber {
             divisors = calcDivisors(sum - 1);
 
             if (index % 1000 == 0) {
-                log.info(MessageFormat.format("Triangle nr. {0} is {1} and has {2} divisors.", index, sum - 1, divisors));
+                System.out.println(MessageFormat.format("Triangle nr. {0} is {1} and has {2} divisors.", index, sum - 1, divisors));
             }
             if (divisors >= 500) {
-                log.info(MessageFormat.format("Triangle nr. {0} is {1} and has {2} divisors.", index, sum - 1, divisors));
+                System.out.println(MessageFormat.format("Triangle nr. {0} is {1} and has {2} divisors.", index, sum - 1, divisors));
                 return;
             }
             index++;

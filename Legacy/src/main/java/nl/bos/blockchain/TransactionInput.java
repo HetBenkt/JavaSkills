@@ -1,14 +1,24 @@
 package nl.bos.blockchain;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class TransactionInput {
-    @Getter
     private String transactionOutputId;
-    @Getter
-    @Setter
     private TransactionOutput utco;
+
+    public String getTransactionOutputId() {
+        return transactionOutputId;
+    }
+
+    public void setTransactionOutputId(String transactionOutputId) {
+        this.transactionOutputId = transactionOutputId;
+    }
+
+    public TransactionOutput getUtco() {
+        return utco;
+    }
+
+    public void setUtco(TransactionOutput utco) {
+        this.utco = utco;
+    }
 
     public TransactionInput(String transactionOutputId) {
         this.transactionOutputId = transactionOutputId;

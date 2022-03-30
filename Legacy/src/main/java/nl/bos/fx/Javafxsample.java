@@ -11,9 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
 import javafx.stage.Stage;
-import lombok.extern.java.Log;
 
-@Log
 public class Javafxsample extends Application {
     private Button btnHello;
     private Box box;
@@ -67,6 +65,6 @@ public class Javafxsample extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
-        log.info("App is stopped!!");
+        System.out.println("App is stopped!!");
     }
 }

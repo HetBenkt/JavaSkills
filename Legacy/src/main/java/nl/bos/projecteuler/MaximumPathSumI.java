@@ -1,7 +1,5 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,7 +7,6 @@ import java.text.MessageFormat;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
-@Log
 public class MaximumPathSumI {
     private static int size;
     private static int[][] tree;
@@ -28,7 +25,7 @@ public class MaximumPathSumI {
                 }
             }
         }
-        log.info(MessageFormat.format("Result: {0}", tree[0][0]));
+        System.out.println(MessageFormat.format("Result: {0}", tree[0][0]));
     }
 
     private static void initTreeArray() {
@@ -45,12 +42,12 @@ public class MaximumPathSumI {
 
             int lineNr = 0;
             for (String line : lines) {
-                log.info(line);
+                System.out.println(line);
                 addLineToTreeArray(line, lineNr);
                 lineNr++;
             }
         } catch (Exception e) {
-            log.finest(e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage());
         }
     }
 

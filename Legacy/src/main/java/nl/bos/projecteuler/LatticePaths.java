@@ -1,10 +1,7 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class LatticePaths {
     private static final int GRID_SIZE = 20;
     private static final int SIZE = GRID_SIZE + 1;
@@ -21,6 +18,6 @@ public class LatticePaths {
                 }
             }
         }
-        log.info(MessageFormat.format("Total routes for grid size {0} is: {1}", GRID_SIZE, grid[GRID_SIZE][GRID_SIZE]));
+        System.out.println(MessageFormat.format("Total routes for grid size {0} is: {1}", GRID_SIZE, grid[GRID_SIZE][GRID_SIZE]));
     }
 }

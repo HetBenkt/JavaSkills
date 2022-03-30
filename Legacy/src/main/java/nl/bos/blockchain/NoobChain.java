@@ -1,25 +1,55 @@
 package nl.bos.blockchain;
 
 import com.google.gson.GsonBuilder;
-import lombok.Getter;
-import lombok.extern.java.Log;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Log
 public class NoobChain {
     private static final ArrayList<Block> blockChain = new ArrayList<>();
     private static final int DIFFICULTY = 3;
-    @Getter
     private static float minimumTransaction = 0.1f;
-    @Getter
     private static HashMap<String, TransactionOutput> utxos = new HashMap<>();
     private static Transaction genesisTransaction;
     private static final String MSG_WALLET = "Wallet%s's balance is: %s";
 
+    public static ArrayList<Block> getBlockChain() {
+        return blockChain;
+    }
+
+    public static int getDIFFICULTY() {
+        return DIFFICULTY;
+    }
+
+    public static float getMinimumTransaction() {
+        return minimumTransaction;
+    }
+
+    public static void setMinimumTransaction(float minimumTransaction) {
+        NoobChain.minimumTransaction = minimumTransaction;
+    }
+
+    public static HashMap<String, TransactionOutput> getUtxos() {
+        return utxos;
+    }
+
+    public static void setUtxos(HashMap<String, TransactionOutput> utxos) {
+        NoobChain.utxos = utxos;
+    }
+
+    public static Transaction getGenesisTransaction() {
+        return genesisTransaction;
+    }
+
+    public static void setGenesisTransaction(Transaction genesisTransaction) {
+        NoobChain.genesisTransaction = genesisTransaction;
+    }
+
+    public static String getMsgWallet() {
+        return MSG_WALLET;
+    }
 
     public static void main(String[] args) {
         Security.addProvider(new BouncyCastleProvider());
@@ -33,38 +63,38 @@ public class NoobChain {
         genesisTransaction.getOutputs().add(new TransactionOutput(genesisTransaction.getRecipient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId()));
         utxos.put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0));
 
-        log.info("Creating and Mining Genesis block... ");
+        System.out.println("Creating and Mining Genesis block... ");
         Block genesis = new Block("0");
         if (genesis.addTransaction(genesisTransaction))
             addBlock(genesis);
 
         //testing
         Block block1 = new Block(genesis.getHash());
-        log.info(String.format(MSG_WALLET, "A", walletA.getBalance()));
-        log.info("WalletA is Attempting to send funds (40) to WalletB...");
+        System.out.println(String.format(MSG_WALLET, "A", walletA.getBalance()));
+        System.out.println("WalletA is Attempting to send funds (40) to WalletB...");
         if (block1.addTransaction(walletA.sendFunds(walletB.getPublicKey(), 40f)))
             addBlock(block1);
-        log.info(String.format(MSG_WALLET, "A", walletA.getBalance()));
-        log.info(String.format(MSG_WALLET, "B", walletB.getBalance()));
+        System.out.println(String.format(MSG_WALLET, "A", walletA.getBalance()));
+        System.out.println(String.format(MSG_WALLET, "B", walletB.getBalance()));
 
         Block block2 = new Block(block1.getHash());
-        log.info("WalletA Attempting to send more funds (1000) than it has...");
+        System.out.println("WalletA Attempting to send more funds (1000) than it has...");
         if (block2.addTransaction(walletA.sendFunds(walletB.getPublicKey(), 1000f)))
             addBlock(block2);
-        log.info(String.format(MSG_WALLET, "A", walletA.getBalance()));
-        log.info(String.format(MSG_WALLET, "B", walletB.getBalance()));
+        System.out.println(String.format(MSG_WALLET, "A", walletA.getBalance()));
+        System.out.println(String.format(MSG_WALLET, "B", walletB.getBalance()));
 
         Block block3 = new Block(block2.getHash());
-        log.info("WalletB is Attempting to send funds (20) to WalletA...");
+        System.out.println("WalletB is Attempting to send funds (20) to WalletA...");
         block3.addTransaction(walletB.sendFunds(walletA.getPublicKey(), 20));
-        log.info(String.format(MSG_WALLET, "A", walletA.getBalance()));
-        log.info(String.format(MSG_WALLET, "B", walletB.getBalance()));
+        System.out.println(String.format(MSG_WALLET, "A", walletA.getBalance()));
+        System.out.println(String.format(MSG_WALLET, "B", walletB.getBalance()));
 
         if (isChainValid())
-            log.info("Blockchain is valid");
+            System.out.println("Blockchain is valid");
 
         String blockChainJson = new GsonBuilder().setPrettyPrinting().create().toJson(blockChain);
-        log.info(blockChainJson);
+        System.out.println(blockChainJson);
     }
 
     private static void addBlock(Block block) {
@@ -85,17 +115,17 @@ public class NoobChain {
             previousBlock = blockChain.get(i - 1);
             //compare registered hash and calculated hash:
             if (!currentBlock.getHash().equals(currentBlock.calcHash())) {
-                log.info("#Current Hashes not equal");
+                System.out.println("#Current Hashes not equal");
                 return false;
             }
             //compare previous hash and registered previous hash
             if (!previousBlock.getHash().equals(currentBlock.getPreviousHash())) {
-                log.info("#Previous Hashes not equal");
+                System.out.println("#Previous Hashes not equal");
                 return false;
             }
             //check if hash is solved
             if (!currentBlock.getHash().substring(0, DIFFICULTY).equals(hashTarget)) {
-                log.info("#This block hasn't been mined");
+                System.out.println("#This block hasn't been mined");
                 return false;
             }
 
@@ -111,11 +141,11 @@ public class NoobChain {
             Transaction currentTransaction = currentBlock.getTransactions().get(t);
 
             if (currentTransaction.verifySignature()) {
-                log.info("#Signature on Transaction(" + t + ") is Invalid");
+                System.out.println("#Signature on Transaction(" + t + ") is Invalid");
                 return true;
             }
             if (currentTransaction.getInputsValue() != currentTransaction.getOutputsValue()) {
-                log.info("#Inputs are note equal to outputs on Transaction(" + t + ")");
+                System.out.println("#Inputs are note equal to outputs on Transaction(" + t + ")");
                 return true;
             }
 
@@ -127,11 +157,11 @@ public class NoobChain {
             }
 
             if (currentTransaction.getOutputs().get(0).getRecipient() != currentTransaction.getRecipient()) {
-                log.info("#Transaction(" + t + ") output recipient is not who it should be");
+                System.out.println("#Transaction(" + t + ") output recipient is not who it should be");
                 return true;
             }
             if (currentTransaction.getOutputs().get(1).getRecipient() != currentTransaction.getSender()) {
-                log.info("#Transaction(" + t + ") output 'change' is not sender.");
+                System.out.println("#Transaction(" + t + ") output 'change' is not sender.");
                 return true;
             }
 
@@ -144,12 +174,12 @@ public class NoobChain {
             TransactionOutput tempOutput = tempUTXOs.get(input.getTransactionOutputId());
 
             if (tempOutput == null) {
-                log.info("#Referenced input on Transaction(" + t + ") is Missing");
+                System.out.println("#Referenced input on Transaction(" + t + ") is Missing");
                 return true;
             }
 
             if (input.getUtco().getValue() != tempOutput.getValue()) {
-                log.info("#Referenced input Transaction(" + t + ") value is Invalid");
+                System.out.println("#Referenced input Transaction(" + t + ") value is Invalid");
                 return true;
             }
 

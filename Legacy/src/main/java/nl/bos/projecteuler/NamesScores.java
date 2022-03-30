@@ -1,7 +1,5 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Log
 public class NamesScores {
     public static void main(String[] args) {
         Class namesScores = NamesScores.class;
@@ -19,7 +16,7 @@ public class NamesScores {
         Path path = Paths.get("src//nl//bos//projecteuler//" + fileName + ".in").toAbsolutePath();
         try (Stream<String> stream = Files.lines(path)) {
             String[] lines = stream.toArray(String[]::new);
-            log.info(lines[0]);
+            System.out.println(lines[0]);
             List<String> names = Arrays.stream(lines[0]
                     .split(","))
                     .sorted()
@@ -32,9 +29,9 @@ public class NamesScores {
                 totalScore += nameScore;
                 index++;
             }
-            log.info(MessageFormat.format("Result {0}", totalScore));
+            System.out.println(MessageFormat.format("Result {0}", totalScore));
         } catch (Exception e) {
-            log.finest(e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage());
         }
     }
 

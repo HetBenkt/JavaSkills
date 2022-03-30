@@ -1,22 +1,23 @@
 package nl.bos.blockchain;
 
-import lombok.Getter;
-import lombok.extern.java.Log;
-
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@Log
 public class Wallet {
-    @Getter
     private PublicKey publicKey;
-    @Getter
     private PrivateKey privateKey;
     private final HashMap<String, TransactionOutput> utxos = new HashMap<>();
 
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
 
     public Wallet() {
         generateKeyPair();
@@ -32,7 +33,7 @@ public class Wallet {
             privateKey = keyPair.getPrivate();
             publicKey = keyPair.getPublic();
         } catch (Exception e) {
-            log.finest(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -50,7 +51,7 @@ public class Wallet {
 
     public Transaction sendFunds(PublicKey recipient, float value) {
         if (getBalance() < value) { //gather balance and check funds.
-            log.info("#Not Enough funds to send transaction. Transaction Discarded.");
+            System.out.println("#Not Enough funds to send transaction. Transaction Discarded.");
             return null;
         }
         ArrayList<TransactionInput> inputs = new ArrayList<>();

@@ -1,10 +1,7 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class SmallestMultiple {
     private static final int MAX_VALUE = 20;
 
@@ -13,7 +10,7 @@ public class SmallestMultiple {
         while (!canBeDividedByAll(index)) {
             index++;
         }
-        log.info(MessageFormat.format("Index {0}", index));
+        System.out.println(MessageFormat.format("Index {0}", index));
     }
 
     private static boolean canBeDividedByAll(int index) {

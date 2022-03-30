@@ -2,7 +2,6 @@ package nl.bos.games.tutorials.basics;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import lombok.Getter;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,8 +14,11 @@ public class Player extends Sprite {
 
     private final Image imageMissile;
     private final Media soundRocket;
-    @Getter
     private final List<Missile> missiles = new ArrayList<>();
+
+    public List<Missile> getMissiles() {
+        return missiles;
+    }
 
     public Player(Point point, Image image, boolean isVisible, int speedX, int speedY, int scale, Image imageMissile, Media soundRocket) {
         super(point, image, isVisible, speedX, speedY, scale);

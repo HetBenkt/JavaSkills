@@ -1,7 +1,7 @@
 /bin/
 /.settings/
 /.idea/
-/*.iml
+*.iml
 /target
 *.class
 /Codewars/target/classes/META-INF/Codewars.kotlin_module
@@ -24,3 +24,17 @@
 /SwaggerDemo/mvnw
 /SwaggerDemo/mvnw.cmd
 /node_modules/
+/Edabit/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+/ComputerIdeeResolver/target/*
+/Games/JavaFX/target/*
+/Legacy/target/*
+/Codewars/target/*
+/Games/LWJGL/target/*
+/Programmr/target/*
+/TDD/target/*
+/Edabit/target/*
+/webpack.generated.js
+/webpack.config.js
+/Games/JMonkey/target/*
+/Games/Slick2d/target/*
+/Games/LibGDX/target/*

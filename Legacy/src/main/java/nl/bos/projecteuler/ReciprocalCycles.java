@@ -1,6 +1,5 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -8,7 +7,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log
 class ReciprocalCycles {
     private int maxSize;
 
@@ -31,7 +29,7 @@ class ReciprocalCycles {
                 } while (!finish);
                 if(remainders.size() > maxSize) {
                     maxSize = remainders.size();
-                    log.info(MessageFormat.format("max: {0}", maxSize));
+                    System.out.println(MessageFormat.format("max: {0}", maxSize));
                 }
             }
         }

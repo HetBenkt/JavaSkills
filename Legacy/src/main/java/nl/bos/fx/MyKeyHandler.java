@@ -3,9 +3,7 @@ package nl.bos.fx;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Box;
-import lombok.extern.java.Log;
 
-@Log
 class MyKeyHandler implements EventHandler<KeyEvent> {
     private final Box box;
 
@@ -15,7 +13,7 @@ class MyKeyHandler implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
-        log.info(String.valueOf(event.getCode()));
+        System.out.println(event.getCode());
 
         double speed = 5;
 
@@ -33,7 +31,7 @@ class MyKeyHandler implements EventHandler<KeyEvent> {
                 box.setTranslateY(box.getTranslateY() + speed);
                 break;
             default:
-                log.info("No correct key");
+                System.out.println("No correct key");
         }
     }
 }

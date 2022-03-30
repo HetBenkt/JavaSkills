@@ -33,9 +33,6 @@ public class TestTotalCostsOfTiledFloor {
 		tileLength = 2;
 	}
 	
-	/**
-	 * Test method for {@link nl.bos.numbers.impl.TotalCostsOfTiledFloor#isCorrectFormat(java.lang.String, java.lang.String)}.
-	 */
 	@Test
 	public void testIsCorrectFormat() {
 		assertTrue(NumberMethods.isCorrectFormat(REGEX_DIMENTIONS, "400*200"));

@@ -29,10 +29,6 @@ public class TestChangeReturnProgram {
 		expected = "500.0, 500.0, 200.0, 100.0, 2.0, 1.0, 0.1, 0.02, 0.01";
 	}
 
-	/**
-	 * Test method for
-	 * {@link nl.bos.numbers.impl.ChangeReturnProgram#displayOutput()}.
-	 */
 	@Test
 	public void testDisplayOutput() {
 		IChangeReturnProgram iChangeReturnProgram = new ChangeReturnProgram();

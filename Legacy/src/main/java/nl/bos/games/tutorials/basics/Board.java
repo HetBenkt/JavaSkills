@@ -3,8 +3,6 @@ package nl.bos.games.tutorials.basics;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import lombok.Getter;
-import lombok.extern.java.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +15,6 @@ import java.util.Random;
 
 import static nl.bos.games.tutorials.basics.Settings.*;
 
-@Log
 public class Board extends JPanel implements Runnable, KeyListener {
     private transient Image imagePlayer;
     private transient Image imageMissile;
@@ -26,10 +23,13 @@ public class Board extends JPanel implements Runnable, KeyListener {
     private Media soundBackground;
     private Media soundRocket;
 
-    @Getter
     private transient Player player;
     private transient GameDrawings gameDrawings;
     private final transient List<Monster> monsters = new ArrayList<>();
+
+    public Player getPlayer() {
+        return player;
+    }
 
     public Board() {
         initBoard();
@@ -131,7 +131,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
                     sleep = 2;
                 Thread.sleep(sleep);
             } catch (InterruptedException e) {
-                log.finest(e.getMessage());
+                System.out.println(e.getMessage());
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
                 Thread.currentThread().interrupt();
@@ -179,7 +179,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
         for (Monster monster : monsters) {
             Rectangle monsterBounds = monster.getBounds();
             if(playerBounds.intersects(monsterBounds)) {
-                log.info("I'm HIT!!");
+                System.out.println("I'm HIT!!");
                 monster.setVisible(false);
             }
         }
@@ -190,7 +190,7 @@ public class Board extends JPanel implements Runnable, KeyListener {
             for (Monster monster : monsters) {
                 Rectangle monsterBounds = monster.getBounds();
                 if (missileBounds.intersects(monsterBounds)) {
-                    log.info("Monster HIT!!");
+                    System.out.println("Monster HIT!!");
                     monster.setVisible(false);
                     missile.setVisible(false);
                 }

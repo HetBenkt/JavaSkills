@@ -20,12 +20,6 @@ public class FindNrToTheNthDigit {
 	protected boolean NrReachedNumberOfDigets = true;
 	protected int numberOfDigits = 0;
 
-	/**
-	 * Class constructor specifying the amount of digits
-	 * 
-	 * @param numberOfDigets
-	 *            The number of digits to be searched
-	 */
 	public FindNrToTheNthDigit(int numberOfDigits) {
 		this.numberOfDigits = numberOfDigits;
 	}

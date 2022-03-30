@@ -1,12 +1,9 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log
 public class AmicableNumbers {
     private static final int MAX_VALUE = 10000;
     private static final List<Integer> amicableList = new ArrayList<>();
@@ -22,7 +19,7 @@ public class AmicableNumbers {
                 amicableList.add(sumB);
             }
         }
-        log.info(MessageFormat.format("Result {0}", amicableList.stream().mapToInt(e -> e).sum()));
+        System.out.println(MessageFormat.format("Result {0}", amicableList.stream().mapToInt(e -> e).sum()));
     }
 
     private static int getProperDivisorsSum(int value) {

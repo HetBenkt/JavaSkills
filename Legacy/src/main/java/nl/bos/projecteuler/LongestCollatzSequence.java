@@ -1,15 +1,12 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class LongestCollatzSequence {
     private static int maxTerms;
 
     public static void main(String[] args) {
-        log.info(String.valueOf(Integer.MAX_VALUE));
+        System.out.println(Integer.MAX_VALUE);
         for (int i = 113383; i < 1000000; i++) {
             int terms = 1;
             long sequenceNr = i;
@@ -28,9 +25,9 @@ public class LongestCollatzSequence {
             } while (sequenceNr != 1);
             if (terms > maxTerms) {
                 maxTerms = terms;
-                log.info(MessageFormat.format("Max. term for {0}: {1}", i, maxTerms));
+                System.out.println(MessageFormat.format("Max. term for {0}: {1}", i, maxTerms));
             }
         }
-        log.info(MessageFormat.format("Result {0}", maxTerms));
+        System.out.println(MessageFormat.format("Result {0}", maxTerms));
     }
 }

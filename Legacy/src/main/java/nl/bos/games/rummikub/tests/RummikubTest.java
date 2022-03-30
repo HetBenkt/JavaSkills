@@ -1,6 +1,5 @@
 package nl.bos.games.rummikub.tests;
 
-import lombok.extern.java.Log;
 import nl.bos.games.rummikub.IPlayer;
 import nl.bos.games.rummikub.IRummikub;
 import nl.bos.games.rummikub.IStone;
@@ -14,13 +13,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Created by bosa on 25-7-2017.
  * test class for the Rummikub game class
  */
-@Log
 class RummikubTest {
 
     @BeforeEach

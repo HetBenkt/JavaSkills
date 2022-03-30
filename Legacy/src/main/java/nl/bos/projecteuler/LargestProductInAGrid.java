@@ -1,7 +1,5 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,7 +7,6 @@ import java.text.MessageFormat;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
-@Log
 public class LargestProductInAGrid {
     private static final int SIZE = 20;
     private static final long[][] grid = new long[SIZE][SIZE];
@@ -23,7 +20,7 @@ public class LargestProductInAGrid {
                 doDecisionCalc(i, j);
             }
         }
-        log.info(MessageFormat.format("Highest product {0}", highestProduct));
+        System.out.println(MessageFormat.format("Highest product {0}", highestProduct));
     }
 
     private static void doDecisionCalc(int i, int j) {
@@ -57,7 +54,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i + 1][j + 1] * grid[i + 2][j + 2] * grid[i + 3][j + 3];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcDiagDownRight::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i + 1][j + 1], grid[i + 2][j + 2], grid[i + 3][j + 3]));
+            System.out.println(MessageFormat.format("calcDiagDownRight::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i + 1][j + 1], grid[i + 2][j + 2], grid[i + 3][j + 3]));
         }
     }
 
@@ -65,7 +62,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i + 1][j - 1] * grid[i + 2][j - 2] * grid[i + 3][j - 3];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcDiagDownLeft::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i + 1][j - 1], grid[i + 2][j - 2], grid[i + 3][j - 3]));
+            System.out.println(MessageFormat.format("calcDiagDownLeft::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i + 1][j - 1], grid[i + 2][j - 2], grid[i + 3][j - 3]));
         }
     }
 
@@ -73,7 +70,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i - 1][j + 1] * grid[i - 2][j + 2] * grid[i - 3][j + 3];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcDiagUpRight::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i - 1][j + 1], grid[i - 2][j + 2], grid[i - 3][j + 3]));
+            System.out.println(MessageFormat.format("calcDiagUpRight::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i - 1][j + 1], grid[i - 2][j + 2], grid[i - 3][j + 3]));
         }
     }
 
@@ -81,7 +78,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i - 1][j - 1] * grid[i - 2][j - 2] * grid[i - 3][j - 3];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcDiagUpLeft::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i - 1][j - 1], grid[i - 2][j - 2], grid[i - 3][j - 3]));
+            System.out.println(MessageFormat.format("calcDiagUpLeft::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i - 1][j - 1], grid[i - 2][j - 2], grid[i - 3][j - 3]));
         }
     }
 
@@ -89,7 +86,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i][j + 1] * grid[i][j + 2] * grid[i][j + 3];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcRight::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i][j + 1], grid[i][j + 2], grid[i][j + 3]));
+            System.out.println(MessageFormat.format("calcRight::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i][j + 1], grid[i][j + 2], grid[i][j + 3]));
         }
     }
 
@@ -97,7 +94,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i][j - 1] * grid[i][j - 2] * grid[i][j - 3];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcLeft::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i][j - 1], grid[i][j - 2], grid[i][j - 3]));
+            System.out.println(MessageFormat.format("calcLeft::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i][j - 1], grid[i][j - 2], grid[i][j - 3]));
         }
     }
 
@@ -105,7 +102,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i + 1][j] * grid[i + 2][j] * grid[i + 3][j];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcDown::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i + 1][j], grid[i + 2][j], grid[i + 3][j]));
+            System.out.println(MessageFormat.format("calcDown::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i + 1][j], grid[i + 2][j], grid[i + 3][j]));
         }
     }
 
@@ -113,7 +110,7 @@ public class LargestProductInAGrid {
         long product = grid[i][j] * grid[i - 1][j] * grid[i - 2][j] * grid[i - 3][j];
         if (product > highestProduct) {
             highestProduct = product;
-            log.info(MessageFormat.format("calcUp::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i - 1][j], grid[i - 2][j], grid[i - 3][j]));
+            System.out.println(MessageFormat.format("calcUp::Higher product found: {0}, {1}, {2}, {3}", grid[i][j], grid[i - 1][j], grid[i - 2][j], grid[i - 3][j]));
         }
     }
 
@@ -134,8 +131,8 @@ public class LargestProductInAGrid {
                 }
             }
         } catch (Exception e) {
-            log.finest(e.getMessage());
+            System.out.println(e.getMessage());
         }
-        log.info("Grid initialized!");
+        System.out.println("Grid initialized!");
     }
 }

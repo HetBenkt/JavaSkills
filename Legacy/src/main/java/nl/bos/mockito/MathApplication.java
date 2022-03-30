@@ -1,10 +1,11 @@
 package nl.bos.mockito;
 
-import lombok.Setter;
-
 public class MathApplication {
-    @Setter
     private ICalculatorService calculatorService;
+
+    public void setCalculatorService(ICalculatorService calculatorService) {
+        this.calculatorService = calculatorService;
+    }
 
     public double add(double in1, double in2) {
         return calculatorService.add(in1, in2);

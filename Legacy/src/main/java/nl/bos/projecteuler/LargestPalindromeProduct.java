@@ -1,10 +1,7 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class LargestPalindromeProduct {
     private static final int START_DIGIT_1 = 999;
     private static final int START_DIGITAL_2 = 999;
@@ -24,14 +21,14 @@ public class LargestPalindromeProduct {
             }
 
             if (isPalindrome(product)) {
-                log.info(MessageFormat.format("Product {0}", product));
+                System.out.println(MessageFormat.format("Product {0}", product));
                 if (highestProduct < product)
                     highestProduct = product;
             }
 
             product = digit1 * digit2;
         }
-        log.info(MessageFormat.format("Result {0}", highestProduct));
+        System.out.println(MessageFormat.format("Result {0}", highestProduct));
     }
 
     private static boolean isPalindrome(int product) {

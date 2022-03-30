@@ -1,12 +1,10 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
-@Log
 class ThousandDigitFibonacciNumber {
     @Test
     void doTest() {
@@ -22,6 +20,6 @@ class ThousandDigitFibonacciNumber {
             index++;
         } while (fn.toString().length() < 1000);
 
-        log.info(MessageFormat.format("{0} -> {1}", index, String.valueOf(fn)));
+        System.out.println(MessageFormat.format("{0} -> {1}", index, String.valueOf(fn)));
     }
 }

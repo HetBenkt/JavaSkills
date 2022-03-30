@@ -1,8 +1,5 @@
 package nl.bos.games.rummikub.impl;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.java.Log;
 import nl.bos.games.rummikub.IBag;
 import nl.bos.games.rummikub.IPlayer;
 import nl.bos.games.rummikub.IRummikub;
@@ -17,7 +14,6 @@ import java.util.Scanner;
  * Created by bosa on 11-7-2017.
  * Main class for the Rummikub game
  */
-@Log
 public class Rummikub implements IRummikub {
     private static final String MSG_INPUT = "What to play: (q)uit | (p)ick | (c)hoice?";
     private static final String MSG_QUIT = "Quit the game!";
@@ -39,10 +35,7 @@ public class Rummikub implements IRummikub {
 
     private static boolean gameOver = false;
 
-    @Getter
     private List<IPlayer> gamePlayers = new ArrayList<>();
-    @Getter
-    @Setter
     private IBag gameBag = new Bag();
     private static final IRummikub GAME = new Rummikub();
 
@@ -79,21 +72,21 @@ public class Rummikub implements IRummikub {
         IPlayer player1 = GAME.getGamePlayers().get(0);
 
         Scanner input = new Scanner(System.in);
-        lomlog.info(MSG_INPUT);
+        System.out.println(MSG_INPUT);
         String selection = input.nextLine();
         switch (selection.charAt(0)) {
             case Q:
-                lomlog.info(MSG_QUIT);
+                System.out.println(MSG_QUIT);
                 gameOver = true;
                 break;
             case P:
-                lomlog.info(MSG_PICK);
+                System.out.println(MSG_PICK);
                 player1.pickStone(GAME.getGameBag());
                 player1.displayDesk();
-                lomlog.info(String.format("Stones in bag: %s", GAME.getGameBag().getStones().size()));
+                System.out.println(String.format("Stones in bag: %s", GAME.getGameBag().getStones().size()));
                 break;
             case C:
-                lomlog.info(MSG_CHOICE);
+                System.out.println(MSG_CHOICE);
                 String stoneInput = input.nextLine();
                 String[] stones = stoneInput.split(",");
                 int[] stoneChoices = new int[stones.length];
@@ -103,13 +96,13 @@ public class Rummikub implements IRummikub {
                     try {
                         stoneChoices[index++] = Integer.parseInt(stone);
                     } catch (NumberFormatException nfe) {
-                        lomlog.info(MSG_INVALID);
+                        System.out.println(MSG_INVALID);
                         return false;
                     }
                 }
                 List<IStone> stonesToPlay = createStonesSet(stoneChoices, player1.getStones());
                 if(stonesToPlay.size() == stoneChoices.length) {
-                    lomlog.fine(String.format("Chosen stones: %s", Arrays.toString(stoneChoices)));
+                    System.out.println(String.format("Chosen stones: %s", Arrays.toString(stoneChoices)));
                     if(isValidStonesSet(stonesToPlay)) {
                         moveStonesFromPlayerDeskToTable();
                     } else
@@ -118,7 +111,7 @@ public class Rummikub implements IRummikub {
                     return false;
                 break;
             default:
-                lomlog.info(MSG_INVALID);
+                System.out.println(MSG_INVALID);
                 break;
         }
         return true;
@@ -130,7 +123,7 @@ public class Rummikub implements IRummikub {
             try {
                 result.add(stones.get(choice));
             } catch(IndexOutOfBoundsException ioobe) {
-                lomlog.info(MSG_INVALID);
+                System.out.println(MSG_INVALID);
                 break;
             }
         }
@@ -157,5 +150,92 @@ public class Rummikub implements IRummikub {
     @Override
     public void addPlayer(IPlayer player) {
         gamePlayers.add(player);
+    }
+
+    public static String getMsgInput() {
+        return MSG_INPUT;
+    }
+
+    public static String getMsgQuit() {
+        return MSG_QUIT;
+    }
+
+    public static String getMsgChoice() {
+        return MSG_CHOICE;
+    }
+
+    public static String getMsgPick() {
+        return MSG_PICK;
+    }
+
+    public static String getMsgInvalid() {
+        return MSG_INVALID;
+    }
+
+    public static char getQ() {
+        return Q;
+    }
+
+    public static char getP() {
+        return P;
+    }
+
+    public static char getC() {
+        return C;
+    }
+
+    public static String getANTAL() {
+        return ANTAL;
+    }
+
+    public static String getKIM() {
+        return KIM;
+    }
+
+    public static String getMALE() {
+        return MALE;
+    }
+
+    public static String getFEMALE() {
+        return FEMALE;
+    }
+
+    public static int getAge36() {
+        return AGE_36;
+    }
+
+    public static int getAge33() {
+        return AGE_33;
+    }
+
+    public static boolean isGameOver() {
+        return gameOver;
+    }
+
+    public static void setGameOver(boolean gameOver) {
+        Rummikub.gameOver = gameOver;
+    }
+
+    public static IRummikub getGAME() {
+        return GAME;
+    }
+
+    @Override
+    public List<IPlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void setGamePlayers(List<IPlayer> gamePlayers) {
+        this.gamePlayers = gamePlayers;
+    }
+
+    @Override
+    public IBag getGameBag() {
+        return gameBag;
+    }
+
+    @Override
+    public void setGameBag(IBag gameBag) {
+        this.gameBag = gameBag;
     }
 }

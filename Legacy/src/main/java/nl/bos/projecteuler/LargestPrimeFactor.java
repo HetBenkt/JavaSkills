@@ -1,10 +1,7 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class LargestPrimeFactor {
     private static long inputValue = 600851475143L;
     private static int value = 2;
@@ -14,8 +11,8 @@ public class LargestPrimeFactor {
         do {
             primeValue = getNextPrimeNumber();
             if(inputValue % primeValue == 0) {
-                inputValue = inputValue /primeValue;
-                log.info(MessageFormat.format("Prime value {0}", primeValue));
+                inputValue = inputValue / primeValue;
+                System.out.println(MessageFormat.format("Prime value {0}", primeValue));
             }
             value++;
         } while (inputValue != 1);

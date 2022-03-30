@@ -1,10 +1,7 @@
 package nl.bos.projecteuler;
 
-import lombok.extern.java.Log;
-
 import java.text.MessageFormat;
 
-@Log
 public class NumberLetterCounts {
     private static final String ONE = "one";
     private static final String TWO = "two";
@@ -77,6 +74,6 @@ public class NumberLetterCounts {
         //1000
         size += ONE.length() + THOUSAND.length();
 
-        log.info(MessageFormat.format("Size {0}", size));
+        System.out.println(MessageFormat.format("Size {0}", size));
     }
 }

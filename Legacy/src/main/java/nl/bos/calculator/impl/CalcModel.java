@@ -32,7 +32,7 @@ public class CalcModel {
 		case "x":
 			calculationValue = Double.toString(multiplyTwoValues(calc, number));
 			break;
-            case "÷":
+            case "/":
 			calculationValue = Double.toString(devideTwoValues(calc, number));
 			break;
 		default:

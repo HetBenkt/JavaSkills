@@ -17,26 +17,26 @@ public class PlayWithOC {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println(STR_START);
-		
-		Integer value1 = null;
-		Integer value2 = new Integer(INT_TEN);
+        System.out.println(STR_START);
 
-		Optional<Integer> a = Optional.ofNullable(value1);
-		Optional<Integer> b = Optional.of(value2);
+        Integer value1 = null;
+        Integer value2 = Integer.valueOf(INT_TEN);
 
-		System.out.println(PlayWithOC.sum(a, b));
-		
-		System.out.println(STR_END);
-	}
+        Optional<Integer> a = Optional.ofNullable(value1);
+        Optional<Integer> b = Optional.of(value2);
+
+        System.out.println(PlayWithOC.sum(a, b));
+
+        System.out.println(STR_END);
+    }
 
 	private static Integer sum(Optional<Integer> a, Optional<Integer> b) {
-		System.out.println(a.isPresent());
-		System.out.println(b.isPresent());
+        System.out.println(a.isPresent());
+        System.out.println(b.isPresent());
 
-		Integer value1 = a.orElse(new Integer(1));
-		Integer value2 = b.get();
+        Integer value1 = a.orElse(Integer.valueOf(1));
+        Integer value2 = b.get();
 
-		return value1 + value2;
-	}
+        return value1 + value2;
+    }
 }

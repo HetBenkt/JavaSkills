@@ -10,30 +10,27 @@ import javafx.event.EventHandler;
 import static nl.bos.calculator.ICalcContants.*;
 
 /**
- * 
  * @author bosa
- *
  */
 @SuppressWarnings("rawtypes")
 public class CalcController implements EventHandler {
-	private CalcView calcView;
-	private CalcModel calcModel;
-	private boolean resetOnNextClick = false;
-	private String lastMathSelected = "";
-	private String lastCalcInput = "";
+    private final CalcView calcView;
+    private final CalcModel calcModel;
+    private boolean resetOnNextClick = false;
+    private String lastMathSelected = "";
+    private String lastCalcInput = "";
 
-	/**
-	 * Contructor where the View and Model are passed to the Controller
-	 * @param calcView the calculator View
-	 * @param calcModel the calculator Model
-	 */
-	public CalcController(CalcView calcView, CalcModel calcModel) {
+    /**
+     * Contructor where the View and Model are passed to the Controller
+     * @param calcView the calculator View
+     * @param calcModel the calculator Model
+     */
+    public CalcController(CalcView calcView, CalcModel calcModel) {
 		calcView.addCalcHandler(this);
 		this.calcView = calcView;
 		this.calcModel = calcModel;
 	}
 
-	@Override
 	public void handle(Event e) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 5; j++) {
@@ -115,12 +112,12 @@ public class CalcController implements EventHandler {
 	private void negateNumberInput() {
 		if (!calcView.getNumberInput().equals(STR_ZERO)) {
 			if (!calcView.getNumberInput().startsWith(STR_MINUS))
-				calcView.setNumberInput(STR_MINUS + calcView.getNumberInput());
-			else
-				calcView.setNumberInput(calcView.getNumberInput().substring(1,
-						calcView.getNumberInput().length()));
-		}
-	}
+                calcView.setNumberInput(STR_MINUS + calcView.getNumberInput());
+            else
+                calcView.setNumberInput(calcView.getNumberInput().substring(1
+                ));
+        }
+    }
 
 	/**
 	 * Correct the last given input with a backspace

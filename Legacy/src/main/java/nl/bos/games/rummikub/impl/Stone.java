@@ -1,6 +1,5 @@
 package nl.bos.games.rummikub.impl;
 
-import lombok.Data;
 import nl.bos.games.rummikub.IStone;
 
 /**
@@ -9,11 +8,26 @@ import nl.bos.games.rummikub.IStone;
  * Joker is value 0 and has no color
  * 106 stones are in 1 game
  */
-@Data
 public class Stone implements IStone {
     public enum COLOR {BLACK, RED, BLUE, YELLOW}
+
     public static final int MAX_NUMBER = 13;
 
     private final int value;
     private final COLOR color;
+
+    public Stone(int value, COLOR color) {
+        this.value = value;
+        this.color = color;
+    }
+
+    @Override
+    public int getValue() {
+        return value;
+    }
+
+    @Override
+    public COLOR getColor() {
+        return color;
+    }
 }
