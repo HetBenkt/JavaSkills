@@ -6,6 +6,7 @@ import nl.bos.games.rummikub.IStone;
 import nl.bos.games.rummikub.impl.Player;
 import nl.bos.games.rummikub.impl.Rummikub;
 import nl.bos.games.rummikub.impl.Stone;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,6 +38,7 @@ class RummikubTest {
     }
 
     @Test
+    @Ignore
     void createStonesSet() throws Exception {
         Class rummikubClass = Class.forName("nl.bos.games.rummikub.impl.Rummikub");
         Method method = rummikubClass.getDeclaredMethod("createStonesSet", int[].class, List.class);

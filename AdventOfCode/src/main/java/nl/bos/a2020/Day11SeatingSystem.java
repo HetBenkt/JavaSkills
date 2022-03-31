@@ -138,7 +138,7 @@ public class Day11SeatingSystem {
     }
 
     private class AdjacentSeats {
-        private final List<Character> seats = new ArrayList();
+        private final List<Character> seats = new ArrayList<>();
 
         public AdjacentSeats(char[][] grid, int row, int column, int directionRow, int directionColumn) {
             int directionRowFixed = directionRow;

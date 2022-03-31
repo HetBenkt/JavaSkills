@@ -2,6 +2,7 @@ package nl.bos.cid;
 
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -15,6 +16,7 @@ public class AppTest {
     private static final String TITLE = "title";
 
     @Test
+    @Ignore
     public void readAPITest() throws IOException {
         JSONObject json = App.readAPI(String.format(API_URL_FORMAT, API_URL, PREFIX, "10", "2020", "2020", "0410"));
         Assert.assertNotNull(json);

@@ -27,7 +27,7 @@ public class PortfolioTest {
 
     @Test
     public void getMarketValue() {
-        List stocks = new ArrayList<Stock>();
+        List<Stock> stocks = new ArrayList<>();
         Stock googleStock = new Stock("1", "Google", 1);
         Stock microsoftStock = new Stock("2", "Microsoft", 1);
 
