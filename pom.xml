@@ -33,5 +33,6 @@
         <module>Programmr</module>
         <module>edabit</module>
         <module>Onion</module>
+        <module>ChatApp</module>
     </modules>
 </project>
