@@ -4,6 +4,7 @@ import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Day3TobogganTrajectory {
     private final static int ROW_WIDTH = 31;
@@ -14,7 +15,7 @@ public class Day3TobogganTrajectory {
 
     public Day3TobogganTrajectory() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day3TobogganTrajectory");
-        ArrayList<String> data = AdventReadInput.readData(is);
+        List<String> data = AdventReadInput.readData(is);
 
         ArrayList<Long> encounteredTrees = new ArrayList<>();
         encounteredTrees.add(getEncounteredTrees(data, 1, 1));
@@ -26,7 +27,7 @@ public class Day3TobogganTrajectory {
         System.out.println(String.format("Encountered trees = %d", encounteredTrees.stream().reduce(1L, (a, b) -> a * b)));
     }
 
-    private long getEncounteredTrees(ArrayList<String> data, int columnJump, int rowJump) {
+    private long getEncounteredTrees(List<String> data, int columnJump, int rowJump) {
         int column = 0;
         int trees = 0;
         for (int row = 0; row < data.size(); row += rowJump) {

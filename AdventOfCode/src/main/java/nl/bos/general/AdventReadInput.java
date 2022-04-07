@@ -6,10 +6,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdventReadInput {
-    public static ArrayList<String> readData(InputStream is) {
-        ArrayList<String> data = new ArrayList<>();
+    private AdventReadInput() {
+        //Hide the implicit public one
+    }
+
+    public static List<String> readData(InputStream is) {
+        List<String> data = new ArrayList<>();
 
         try (InputStreamReader streamReader =
                      new InputStreamReader(is, StandardCharsets.UTF_8);

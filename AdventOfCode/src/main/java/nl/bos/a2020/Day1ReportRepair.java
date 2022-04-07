@@ -4,7 +4,6 @@ import nl.bos.general.AdventReadInput;
 import org.paukov.combinatorics3.Generator;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Day1ReportRepair {
@@ -15,7 +14,7 @@ public class Day1ReportRepair {
 
     public Day1ReportRepair() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day1ReportRepair");
-        ArrayList<String> data = AdventReadInput.readData(is);
+        List<String> data = AdventReadInput.readData(is);
 
         Generator.combination(data).simple(3).stream().forEach(this::sum);
     }

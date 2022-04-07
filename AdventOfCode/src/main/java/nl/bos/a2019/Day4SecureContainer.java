@@ -3,13 +3,13 @@ package nl.bos.a2019;
 import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Day4SecureContainer {
 
     public Day4SecureContainer() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2019/Day4SecureContainer");
-        ArrayList<String> input = AdventReadInput.readData(is);
+        List<String> input = AdventReadInput.readData(is);
         String[] split = input.get(0).split("-");
         int result = 0;
 

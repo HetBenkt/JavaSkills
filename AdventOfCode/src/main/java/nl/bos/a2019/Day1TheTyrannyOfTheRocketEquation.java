@@ -3,7 +3,7 @@ package nl.bos.a2019;
 import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Day1TheTyrannyOfTheRocketEquation {
 
@@ -11,7 +11,7 @@ public class Day1TheTyrannyOfTheRocketEquation {
 
     public Day1TheTyrannyOfTheRocketEquation() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2019/Day1TheTyrannyOfTheRocketEquation");
-        ArrayList<String> data = AdventReadInput.readData(is);
+        List<String> data = AdventReadInput.readData(is);
 
         System.out.println(data.stream().mapToLong(this::convertMass).sum());
     }

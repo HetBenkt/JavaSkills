@@ -4,11 +4,15 @@ import nl.bos.general.AdventReadInput;
 
 import java.awt.*;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Day11DumboOctopus {
+
+    private static final Logger logger = Logger.getLogger(Day11DumboOctopus.class.getName());
 
     public Day11DumboOctopus() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2021/Day11DumboOctopus");
@@ -48,7 +52,8 @@ public class Day11DumboOctopus {
             }
         }
 
-        System.out.printf("Total flashes after 100 steps: %s", result);
+        String message = MessageFormat.format("Total flashes after 100 steps: {0}", result);
+        logger.info(message);
     }
 
     private List<Point> doTheFlash(int[][] grid, List<Point> flashCoordinates) {

@@ -26,7 +26,7 @@ public class Day3CrossedWires {
         grid[X1][Y1] = 'o';
 
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2019/Day3CrossedWires");
-        ArrayList<String> wires = AdventReadInput.readData(is);
+        List<String> wires = AdventReadInput.readData(is);
 
         String[] wireOne = wires.get(0).split(",");
         String[] wireTwo = wires.get(1).split(",");

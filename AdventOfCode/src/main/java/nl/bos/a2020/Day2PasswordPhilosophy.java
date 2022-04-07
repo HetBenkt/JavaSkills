@@ -3,7 +3,7 @@ package nl.bos.a2020;
 import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Day2PasswordPhilosophy {
 
@@ -13,7 +13,7 @@ public class Day2PasswordPhilosophy {
 
     public Day2PasswordPhilosophy() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day2PasswordPhilosophy");
-        ArrayList<String> data = AdventReadInput.readData(is);
+        List<String> data = AdventReadInput.readData(is);
 
         int correctPasswords = 0;
 

@@ -3,17 +3,19 @@ package nl.bos.a2020;
 import nl.bos.general.AdventReadInput;
 
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 public class Day10AdapterArray {
+    private static final Logger logger = Logger.getLogger(Day10AdapterArray.class.getName());
 
     public Day10AdapterArray() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("nl/bos/a2020/Day10AdapterArray");
         List<String> data = AdventReadInput.readData(is);
 
-        List<Integer> integers = data.stream().map(Integer::parseInt).sorted().collect(Collectors.toList());
+        List<Integer> integers = data.stream().map(Integer::parseInt).sorted().toList();
         List<Integer> jumpNumbers = convertToJumpNumbers(integers);
         jumpNumbers.add(3);//For your own built-in jolt adapter!
 
@@ -28,8 +30,8 @@ public class Day10AdapterArray {
             jumpSequence++;
         }
 
-
-        System.out.print(String.format("Result = %d", result));
+        String message = MessageFormat.format("Result = {0}", result);
+        logger.info(message);
     }
 
     private int getTribonacci(int jumpNumber) {
