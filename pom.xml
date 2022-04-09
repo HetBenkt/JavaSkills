@@ -34,5 +34,6 @@
         <module>edabit</module>
         <module>Onion</module>
         <module>ChatApp</module>
+        <module>Lemmings</module>
     </modules>
 </project>

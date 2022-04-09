@@ -4,6 +4,7 @@
 *.iml
 /target
 *.class
+*.log
 /Codewars/target/classes/META-INF/Codewars.kotlin_module
 /Codewars/target/test-classes/META-INF/Codewars.kotlin_module
 /Games/FXGL/target/
@@ -38,3 +39,5 @@
 /Games/JMonkey/target/*
 /Games/Slick2d/target/*
 /Games/LibGDX/target/*
+/Lemmings/target/*
+/ChatApp/target/*
