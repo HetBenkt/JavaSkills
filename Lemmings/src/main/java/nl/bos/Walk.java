@@ -22,7 +22,7 @@ public class Walk extends Application {
 
     private static final List<String> data = new ArrayList<>();
     private static final List<nl.bos.Frame> frames = new ArrayList<>();
-    private static final int SPEED = 7;
+    private static final int SPEED = 5;
     private final Pane root = new Pane();
     private int frameNr = 0;
     private int fps = 0;
