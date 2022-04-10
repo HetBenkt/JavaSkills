@@ -27,12 +27,9 @@ public class Frame extends Parent {
 
     private void rectangleColor(String colorCode, Rectangle rectangle) {
         switch (colorCode) {
-            case "B" -> rectangle.setFill(Color.BLUE);
-            case "R" -> rectangle.setFill(Color.RED);
-            case "O" -> rectangle.setFill(Color.ORANGE);
-            case "G" -> rectangle.setFill(Color.DARKGRAY);
-            case "D" -> rectangle.setFill(Color.GRAY);
-            case "L" -> rectangle.setFill(Color.LIGHTGREY);
+            case "G" -> rectangle.setFill(Color.rgb(0, 168, 0));
+            case "B" -> rectangle.setFill(Color.rgb(32, 56, 236));
+            case "W" -> rectangle.setFill(Color.rgb(188, 188, 188));
             default -> rectangle.setFill(Color.BLACK);
         }
     }

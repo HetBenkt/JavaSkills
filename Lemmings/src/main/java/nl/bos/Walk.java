@@ -4,7 +4,10 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -61,6 +64,7 @@ public class Walk extends Application {
 
     private Parent createContent() {
         root.setPrefSize(800, 600);
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
