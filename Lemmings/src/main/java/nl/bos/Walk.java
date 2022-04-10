@@ -1,5 +1,6 @@
 package nl.bos;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,10 @@ public class Walk extends Application {
 
     private static final List<String> data = new ArrayList<>();
     private static final List<nl.bos.Frame> frames = new ArrayList<>();
+    private static final int SPEED = 7;
+    private final Pane root = new Pane();
+    private int frameNr = 0;
+    private int fps = 0;
 
     static {
         InputStream is;
@@ -42,6 +47,7 @@ public class Walk extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        logger.info("Game started...");
         initFrames();
         stage.setScene(new Scene(createContent()));
         stage.show();
@@ -54,14 +60,34 @@ public class Walk extends Application {
     }
 
     private Parent createContent() {
-        Pane root = new Pane();
         root.setPrefSize(800, 600);
 
-        Frame frame1 = frames.get(0);
-        frame1.setTranslateX(100);
-        frame1.setTranslateY(100);
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                onUpdate();
+            }
+        };
+        timer.start();
 
-        root.getChildren().add(frame1);
         return root;
+    }
+
+    private void onUpdate() {
+        fps++;
+        root.getChildren().clear();
+
+        Frame frame = frames.get(frameNr);
+        frame.setTranslateX(100);
+        frame.setTranslateY(100);
+
+        root.getChildren().add(frame);
+
+        if (fps % SPEED == 0) {
+            frameNr++;
+            if (frameNr == frames.size()) {
+                frameNr = 0;
+            }
+        }
     }
 }
