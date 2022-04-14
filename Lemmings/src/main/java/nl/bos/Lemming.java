@@ -83,7 +83,6 @@ public class Lemming extends Parent {
     }
 
     protected void moveLeft() {
-        timer.start();
         isMoveRight = false;
         isMoveLeft = true;
         timer.start();
