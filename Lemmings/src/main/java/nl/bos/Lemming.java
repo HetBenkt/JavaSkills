@@ -16,11 +16,12 @@ public class Lemming extends Parent {
 
     private static final double MOVE = 10;
     private static final int SPEED = 5; //less is faster
-    private static final List<Frame> frames = new ArrayList<>();
+    private static final List<Frame> framesRight = new ArrayList<>();
+    private static final List<Frame> framesLeft = new ArrayList<>();
     private static final List<String> data = new ArrayList<>();
     private final AnimationTimer timer;
     private int frameNr = 0;
-    private int fps = 0;
+    private int updateIndex = 0;
     private boolean isMoveRight = false;
     private boolean isMoveLeft = false;
 
@@ -57,20 +58,39 @@ public class Lemming extends Parent {
 
     private void initFrames() {
         for (int i = 0; i < data.size(); i += 10) {
-            frames.add(new Frame(data.subList(i, i + 10)));
+            List<String> frames = data.subList(i, i + 10);
+
+            //right frames
+            framesRight.add(new Frame(frames));
+
+            //left frames (reverted!)
+            List<String> framesReverted = new ArrayList<>(10);
+            for (String frame : frames) {
+                framesReverted.add(reverse(frame));
+            }
+            framesLeft.add(new Frame(framesReverted));
         }
     }
 
+    private String reverse(String input) {
+        return new StringBuilder(input).reverse().toString();
+    }
+
     private void onUpdate() {
-        fps++;
+        updateIndex++;
 
         this.getChildren().clear();
-        this.getChildren().add(frames.get(frameNr));
+        if (isMoveRight) {
+            this.getChildren().add(framesRight.get(frameNr));
+        }
+        if (isMoveLeft) {
+            this.getChildren().add(framesLeft.get(frameNr));
+        }
 
-        if (fps % SPEED == 0) {
-            fps = 0;
+        if (updateIndex % SPEED == 0) {
+            updateIndex = 0;
             frameNr++;
-            if (frameNr == frames.size()) {
+            if (frameNr == framesRight.size()) {
                 frameNr = 0;
             }
             if (isMoveRight) {
