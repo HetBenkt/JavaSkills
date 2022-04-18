@@ -3,50 +3,22 @@ package nl.bos;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Parent;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class Lemming extends Parent {
 
     private static final double MOVE = 10;
     private static final int SPEED = 5; //less is faster
-    private static final List<Frame> framesRight = new ArrayList<>();
-    private static final List<Frame> framesLeft = new ArrayList<>();
-    private static final List<String> data = new ArrayList<>();
     private final AnimationTimer timer;
     private int frameNr = 0;
     private int updateIndex = 0;
     private boolean isMoveRight = false;
     private boolean isMoveLeft = false;
-
-    static {
-        InputStream is;
-        is = Walk.class.getClassLoader().getResourceAsStream("frames");
-
-        try (InputStreamReader streamReader = new InputStreamReader(
-                Objects.requireNonNull(is),
-                StandardCharsets.UTF_8);
-             BufferedReader reader = new BufferedReader(streamReader)) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                data.add(line);
-            }
-        } catch (IOException e) {
-            throw new LemmingsException("Frames input not found!", e);
-        }
-    }
+    private final Frames framesWalk = new Frames("frames-walk");
+    private final Frames framesHalt = new Frames("frames-halt");
+    private Direction direction = Direction.RIGHT;
 
     public Lemming(int x, int y) {
         this.setTranslateX(x);
         this.setTranslateY(y);
-        initFrames();
 
         timer = new AnimationTimer() {
             @Override
@@ -54,26 +26,7 @@ public class Lemming extends Parent {
                 onUpdate();
             }
         };
-    }
-
-    private void initFrames() {
-        for (int i = 0; i < data.size(); i += 10) {
-            List<String> frames = data.subList(i, i + 10);
-
-            //right frames
-            framesRight.add(new Frame(frames));
-
-            //left frames (reverted!)
-            List<String> framesReverted = new ArrayList<>(10);
-            for (String frame : frames) {
-                framesReverted.add(reverse(frame));
-            }
-            framesLeft.add(new Frame(framesReverted));
-        }
-    }
-
-    private String reverse(String input) {
-        return new StringBuilder(input).reverse().toString();
+        timer.start();
     }
 
     private void onUpdate() {
@@ -81,23 +34,29 @@ public class Lemming extends Parent {
 
         this.getChildren().clear();
         if (isMoveRight) {
-            this.getChildren().add(framesRight.get(frameNr));
-        }
-        if (isMoveLeft) {
-            this.getChildren().add(framesLeft.get(frameNr));
+            this.getChildren().add(framesWalk.getFramesRight().get(frameNr));
+        } else if (isMoveLeft) {
+            this.getChildren().add(framesWalk.getFramesLeft().get(frameNr));
+        } else {
+            if (direction == Direction.RIGHT) {
+                this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
+            } else {
+                this.getChildren().add(framesHalt.getFramesLeft().get(frameNr));
+            }
         }
 
         if (updateIndex % SPEED == 0) {
             updateIndex = 0;
             frameNr++;
-            if (frameNr == framesRight.size()) {
+            if (frameNr == framesWalk.getFramesRight().size()) {
                 frameNr = 0;
             }
             if (isMoveRight) {
                 this.setTranslateX(getTranslateX() + MOVE);
-            }
-            if (isMoveLeft) {
+                direction = Direction.RIGHT;
+            } else if (isMoveLeft) {
                 this.setTranslateX(getTranslateX() - MOVE);
+                direction = Direction.LEFT;
             }
         }
     }
@@ -105,16 +64,15 @@ public class Lemming extends Parent {
     protected void moveLeft() {
         isMoveRight = false;
         isMoveLeft = true;
-        timer.start();
     }
 
     protected void moveRight() {
         isMoveRight = true;
         isMoveLeft = false;
-        timer.start();
     }
 
     protected void halt() {
-        timer.stop();
+        isMoveRight = false;
+        isMoveLeft = false;
     }
 }
