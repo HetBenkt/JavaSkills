@@ -14,7 +14,7 @@ public class Lemming extends Parent {
     private boolean isMoveLeft = false;
     private final Frames framesWalk = new Frames("frames-walk");
     private final Frames framesHalt = new Frames("frames-halt");
-    private Direction direction = Direction.RIGHT;
+    private State state = State.HALT_RIGHT;
 
     public Lemming(int x, int y) {
         this.setTranslateX(x);
@@ -37,12 +37,10 @@ public class Lemming extends Parent {
             this.getChildren().add(framesWalk.getFramesRight().get(frameNr));
         } else if (isMoveLeft) {
             this.getChildren().add(framesWalk.getFramesLeft().get(frameNr));
-        } else {
-            if (direction == Direction.RIGHT) {
-                this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
-            } else {
-                this.getChildren().add(framesHalt.getFramesLeft().get(frameNr));
-            }
+        } else if (state == State.HALT_RIGHT) {
+            this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
+        } else if (state == State.HALT_LEFT) {
+            this.getChildren().add(framesHalt.getFramesLeft().get(frameNr));
         }
 
         if (updateIndex % SPEED == 0) {
@@ -53,10 +51,10 @@ public class Lemming extends Parent {
             }
             if (isMoveRight) {
                 this.setTranslateX(getTranslateX() + MOVE);
-                direction = Direction.RIGHT;
+                state = State.HALT_RIGHT;
             } else if (isMoveLeft) {
                 this.setTranslateX(getTranslateX() - MOVE);
-                direction = Direction.LEFT;
+                state = State.HALT_LEFT;
             }
         }
     }
