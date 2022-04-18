@@ -10,8 +10,6 @@ public class Lemming extends Parent {
     private final AnimationTimer timer;
     private int frameNr = 0;
     private int updateIndex = 0;
-    private boolean isMoveRight = false;
-    private boolean isMoveLeft = false;
     private final Frames framesWalk = new Frames("frames-walk");
     private final Frames framesHalt = new Frames("frames-halt");
     private State state = State.HALT_RIGHT;
@@ -33,9 +31,9 @@ public class Lemming extends Parent {
         updateIndex++;
 
         this.getChildren().clear();
-        if (isMoveRight) {
+        if (state == State.WALK_RIGHT) {
             this.getChildren().add(framesWalk.getFramesRight().get(frameNr));
-        } else if (isMoveLeft) {
+        } else if (state == State.WALK_LEFT) {
             this.getChildren().add(framesWalk.getFramesLeft().get(frameNr));
         } else if (state == State.HALT_RIGHT) {
             this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
@@ -49,28 +47,27 @@ public class Lemming extends Parent {
             if (frameNr == framesWalk.getFramesRight().size()) {
                 frameNr = 0;
             }
-            if (isMoveRight) {
+            if (state == State.WALK_RIGHT) {
                 this.setTranslateX(getTranslateX() + MOVE);
-                state = State.HALT_RIGHT;
-            } else if (isMoveLeft) {
+            } else if (state == State.WALK_LEFT) {
                 this.setTranslateX(getTranslateX() - MOVE);
-                state = State.HALT_LEFT;
             }
         }
     }
 
     protected void moveLeft() {
-        isMoveRight = false;
-        isMoveLeft = true;
+        state = State.WALK_LEFT;
     }
 
     protected void moveRight() {
-        isMoveRight = true;
-        isMoveLeft = false;
+        state = State.WALK_RIGHT;
     }
 
     protected void halt() {
-        isMoveRight = false;
-        isMoveLeft = false;
+        if (state == State.WALK_RIGHT) {
+            state = State.HALT_RIGHT;
+        } else if (state == State.WALK_LEFT) {
+            state = State.HALT_LEFT;
+        }
     }
 }
