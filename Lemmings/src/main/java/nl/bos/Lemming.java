@@ -29,16 +29,14 @@ public class Lemming extends Parent {
 
     private void onUpdate() {
         updateIndex++;
-
         this.getChildren().clear();
-        if (state == State.WALK_RIGHT) {
-            this.getChildren().add(framesWalk.getFramesRight().get(frameNr));
-        } else if (state == State.WALK_LEFT) {
-            this.getChildren().add(framesWalk.getFramesLeft().get(frameNr));
-        } else if (state == State.HALT_RIGHT) {
-            this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
-        } else if (state == State.HALT_LEFT) {
-            this.getChildren().add(framesHalt.getFramesLeft().get(frameNr));
+
+        switch (state) {
+            case WALK_RIGHT -> this.getChildren().add(framesWalk.getFramesRight().get(frameNr));
+            case WALK_LEFT -> this.getChildren().add(framesWalk.getFramesLeft().get(frameNr));
+            case HALT_RIGHT -> this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
+            case HALT_LEFT -> this.getChildren().add(framesHalt.getFramesLeft().get(frameNr));
+            default -> throw new UnsupportedOperationException("Unsupported state");
         }
 
         if (updateIndex % SPEED == 0) {
