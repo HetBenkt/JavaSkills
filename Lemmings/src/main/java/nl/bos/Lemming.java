@@ -1,13 +1,15 @@
 package nl.bos;
 
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Parent;
 
 public class Lemming extends Parent {
 
     private static final double MOVE = 10;
     private static final int SPEED = 5; //less is faster
-    private final AnimationTimer timer;
+    private final IntegerProperty location = new SimpleIntegerProperty();
     private int frameNr = 0;
     private int updateIndex = 0;
     private final Frames framesWalk = new Frames("frames-walk");
@@ -15,10 +17,11 @@ public class Lemming extends Parent {
     private State state = State.HALT_RIGHT;
 
     public Lemming(int x, int y) {
+        location.setValue(x);
         this.setTranslateX(x);
         this.setTranslateY(y);
 
-        timer = new AnimationTimer() {
+        AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 onUpdate();
@@ -47,8 +50,10 @@ public class Lemming extends Parent {
             }
             if (state == State.WALK_RIGHT) {
                 this.setTranslateX(getTranslateX() + MOVE);
+                location.setValue(location.getValue() + MOVE);
             } else if (state == State.WALK_LEFT) {
                 this.setTranslateX(getTranslateX() - MOVE);
+                location.setValue(location.getValue() - MOVE);
             }
         }
     }
@@ -67,5 +72,9 @@ public class Lemming extends Parent {
         } else if (state == State.WALK_LEFT) {
             state = State.HALT_LEFT;
         }
+    }
+
+    public IntegerProperty getLocation() {
+        return location;
     }
 }

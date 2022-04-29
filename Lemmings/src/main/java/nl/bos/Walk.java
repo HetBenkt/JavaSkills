@@ -1,12 +1,13 @@
 package nl.bos;
 
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.logging.Logger;
@@ -37,7 +38,24 @@ public class Walk extends Application {
     private Parent createContent() {
         root.setPrefSize(WIDTH, HEIGHT);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        root.getChildren().add(infoDashboard(10, 10));
         root.getChildren().add(lemming);
         return root;
+    }
+
+    private Node infoDashboard(final int locationX, final int locationY) {
+        StackPane pane = new StackPane();
+        pane.setBorder(new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, null, null)));
+        pane.setTranslateX(locationX);
+        pane.setTranslateY(locationY);
+
+        Label info = new Label("Info dashboard");
+        info.setFont(new Font("Verdana", 18));
+        info.setTextFill(Color.WHITESMOKE);
+        info.textProperty().bind(lemming.getLocation().asString());
+
+        pane.getChildren().add(info);
+
+        return pane;
     }
 }
