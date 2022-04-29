@@ -5,6 +5,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Parent;
 
+import java.util.logging.Logger;
+
 public class Lemming extends Parent {
 
     private static final double MOVE = 10;
@@ -15,6 +17,7 @@ public class Lemming extends Parent {
     private final Frames framesWalk = new Frames("frames-walk");
     private final Frames framesHalt = new Frames("frames-halt");
     private State state = State.HALT_RIGHT;
+    private static final Logger logger = Logger.getLogger(Lemming.class.getName());
 
     public Lemming(int x, int y) {
         location.setValue(x);
@@ -51,9 +54,17 @@ public class Lemming extends Parent {
             if (state == State.WALK_RIGHT) {
                 this.setTranslateX(getTranslateX() + MOVE);
                 location.setValue(location.getValue() + MOVE);
+                if (location.get() == Walk.WIDTH - (framesWalk.getFramesRight().get(0).getLines().get(0).length() * Frame.PIXEL_SIZE)) {
+                    this.halt();
+                    logger.info("STOP RIGHT!");
+                }
             } else if (state == State.WALK_LEFT) {
                 this.setTranslateX(getTranslateX() - MOVE);
                 location.setValue(location.getValue() - MOVE);
+                if (location.get() == 0) {
+                    this.halt();
+                    logger.info("STOP LEFT!");
+                }
             }
         }
     }

@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 import java.util.logging.Logger;
 
 public class Walk extends Application {
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    static final int WIDTH = 800;
+    static final int HEIGHT = 600;
     private static final Logger logger = Logger.getLogger(Walk.class.getName());
     private final Pane root = new Pane();
     private final Lemming lemming = new Lemming(100, HEIGHT - (10 * 10)); //10 pixels or each 10 pixel height

@@ -7,10 +7,13 @@ import javafx.scene.shape.Rectangle;
 import java.util.List;
 
 public class Frame extends Parent {
-    private static final int PIXEL_SIZE = 10;
+    static final int PIXEL_SIZE = 10;
     private static final int PIXEL_OFFSET = 10;
+    private final List<String> lines;
 
-    public Frame(List<String> lines) {
+    public Frame(final List<String> lines) {
+        this.lines = lines;
+
         for (int i = 0; i < lines.size(); i++) {
             String[] split = lines.get(i).split("");
             for (int j = 0; j < split.length; j++) {
@@ -25,12 +28,16 @@ public class Frame extends Parent {
         }
     }
 
-    private void rectangleColor(String colorCode, Rectangle rectangle) {
+    private void rectangleColor(final String colorCode, final Rectangle rectangle) {
         switch (colorCode) {
             case "G" -> rectangle.setFill(Color.rgb(0, 168, 0));
             case "B" -> rectangle.setFill(Color.rgb(32, 56, 236));
             case "W" -> rectangle.setFill(Color.rgb(188, 188, 188));
             default -> rectangle.setFill(Color.BLACK);
         }
+    }
+
+    public List<String> getLines() {
+        return lines;
     }
 }
