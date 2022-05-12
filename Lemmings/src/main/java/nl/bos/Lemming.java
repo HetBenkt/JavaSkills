@@ -16,6 +16,7 @@ public class Lemming extends Parent {
     private int updateIndex = 0;
     private final Frames framesWalk = new Frames("frames-walk");
     private final Frames framesHalt = new Frames("frames-halt");
+    private final Frames framesUp = new Frames("frames-up");
     private State state = State.HALT_RIGHT;
     private static final Logger logger = Logger.getLogger(Lemming.class.getName());
 
@@ -42,6 +43,7 @@ public class Lemming extends Parent {
             case WALK_LEFT -> this.getChildren().add(framesWalk.getFramesLeft().get(frameNr));
             case HALT_RIGHT -> this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
             case HALT_LEFT -> this.getChildren().add(framesHalt.getFramesLeft().get(frameNr));
+            case UP -> this.getChildren().add(framesUp.getFramesRight().get(frameNr));
             default -> throw new UnsupportedOperationException("Unsupported state");
         }
 
@@ -52,18 +54,20 @@ public class Lemming extends Parent {
                 frameNr = 0;
             }
             if (state == State.WALK_RIGHT) {
-                this.setTranslateX(getTranslateX() + MOVE);
-                location.setValue(location.getValue() + MOVE);
                 if (location.get() == Walk.WIDTH - (framesWalk.getFramesRight().get(0).getLines().get(0).length() * Frame.PIXEL_SIZE)) {
                     this.halt();
                     logger.info("STOP RIGHT!");
+                } else {
+                    this.setTranslateX(getTranslateX() + MOVE);
+                    location.setValue(location.getValue() + MOVE);
                 }
             } else if (state == State.WALK_LEFT) {
-                this.setTranslateX(getTranslateX() - MOVE);
-                location.setValue(location.getValue() - MOVE);
                 if (location.get() == 0) {
                     this.halt();
                     logger.info("STOP LEFT!");
+                } else {
+                    this.setTranslateX(getTranslateX() - MOVE);
+                    location.setValue(location.getValue() - MOVE);
                 }
             }
         }
@@ -75,6 +79,10 @@ public class Lemming extends Parent {
 
     protected void moveRight() {
         state = State.WALK_RIGHT;
+    }
+
+    public void up() {
+        state = State.UP;
     }
 
     protected void halt() {

@@ -27,6 +27,7 @@ public class Walk extends Application {
             switch (key.getCode()) {
                 case LEFT -> lemming.moveLeft();
                 case RIGHT -> lemming.moveRight();
+                case UP -> lemming.up();
                 default -> throw new UnsupportedOperationException("Unsupported key");
             }
         });
