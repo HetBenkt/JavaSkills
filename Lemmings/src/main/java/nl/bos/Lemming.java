@@ -17,6 +17,7 @@ public class Lemming extends Parent {
     private final Frames framesWalk = new Frames("frames-walk");
     private final Frames framesHalt = new Frames("frames-halt");
     private final Frames framesUp = new Frames("frames-up");
+    private final Frames framesDown = new Frames("frames-down");
     private State state = State.HALT_RIGHT;
     private static final Logger logger = Logger.getLogger(Lemming.class.getName());
 
@@ -44,6 +45,7 @@ public class Lemming extends Parent {
             case HALT_RIGHT -> this.getChildren().add(framesHalt.getFramesRight().get(frameNr));
             case HALT_LEFT -> this.getChildren().add(framesHalt.getFramesLeft().get(frameNr));
             case UP -> this.getChildren().add(framesUp.getFramesRight().get(frameNr));
+            case DOWN -> this.getChildren().add(framesDown.getFramesRight().get(frameNr));
             default -> throw new UnsupportedOperationException("Unsupported state");
         }
 
@@ -81,12 +83,16 @@ public class Lemming extends Parent {
         state = State.WALK_RIGHT;
     }
 
-    public void up() {
+    protected void up() {
         state = State.UP;
     }
 
+    protected void down() {
+        state = State.DOWN;
+    }
+
     protected void halt() {
-        if (state == State.WALK_RIGHT) {
+        if (state == State.WALK_RIGHT || state == State.UP || state == State.DOWN) {
             state = State.HALT_RIGHT;
         } else if (state == State.WALK_LEFT) {
             state = State.HALT_LEFT;
