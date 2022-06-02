@@ -2,7 +2,6 @@ package nl.bos.refactor;
 
 
 public class IntroduceExplainingVariable {
-
     private static final String BROWSER = "IE";
     private static final int RESIZE = 1;
     private static final String PLATFORM = "WIN";
