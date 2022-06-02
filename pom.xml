@@ -35,5 +35,6 @@
         <module>Onion</module>
         <module>ChatApp</module>
         <module>Lemmings</module>
+        <module>Refactoring</module>
     </modules>
 </project>
