@@ -42,4 +42,9 @@ class RefactorTests {
         List<String> names = Arrays.asList("John", "Mike");
         new SubstituteAlgorithm().foundPerson(names.toArray(new String[0]));
     }
+
+    @Test
+    void makeOrderTest() {
+        new ReplaceMethodWithMethodObject().makeOrder();
+    }
 }
