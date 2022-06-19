@@ -168,7 +168,6 @@ class CalculatorTest {
         Assertions.assertThat(actual).isNotEqualTo(expected);
     }
 
-    @Disabled("TODO")
     @Test
     void squareRootValidTest() {
         String expected = "4";

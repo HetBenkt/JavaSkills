@@ -4,35 +4,34 @@ public class CalculatorImpl implements Calculator {
 
     private static final String SUFFIX = ".0";
 
-
     @Override
     public String add(final double valueOne, final double valueTwo) {
-        String addResult = String.valueOf(valueOne + valueTwo);
+        String result = String.valueOf(valueOne + valueTwo);
 
-        if (addResult.endsWith(SUFFIX)) {
-            return addResult.split(SUFFIX)[0];
+        if (result.endsWith(SUFFIX)) {
+            return result.split(SUFFIX)[0];
         }
-        return addResult;
+        return result;
     }
 
     @Override
     public String subtract(final double valueOne, final double valueTwo) {
-        String addResult = String.valueOf(valueOne - valueTwo);
+        String result = String.valueOf(valueOne - valueTwo);
 
-        if (addResult.endsWith(SUFFIX)) {
-            return addResult.split(SUFFIX)[0];
+        if (result.endsWith(SUFFIX)) {
+            return result.split(SUFFIX)[0];
         }
-        return addResult;
+        return result;
     }
 
     @Override
     public String multiply(final double valueOne, final double valueTwo) {
-        String addResult = String.valueOf(valueOne * valueTwo);
+        String result = String.valueOf(valueOne * valueTwo);
 
-        if (addResult.endsWith(SUFFIX)) {
-            return addResult.split(SUFFIX)[0];
+        if (result.endsWith(SUFFIX)) {
+            return result.split(SUFFIX)[0];
         }
-        return addResult;
+        return result;
     }
 
     @Override
@@ -41,26 +40,39 @@ public class CalculatorImpl implements Calculator {
             return "Cannot divide by zero";
         }
 
-        String addResult = String.valueOf(valueOne / valueTwo);
+        String result = String.valueOf(valueOne / valueTwo);
 
-        if (addResult.endsWith(SUFFIX)) {
-            return addResult.split(SUFFIX)[0];
+        if (result.endsWith(SUFFIX)) {
+            return result.split(SUFFIX)[0];
         }
-        return addResult;
+        return result;
     }
 
     @Override
     public String square(final double value) {
-        String addResult = String.valueOf(value * value);
+        String result = String.valueOf(value * value);
 
-        if (addResult.endsWith(SUFFIX)) {
-            return addResult.split(SUFFIX)[0];
+        if (result.endsWith(SUFFIX)) {
+            return result.split(SUFFIX)[0];
         }
-        return addResult;
+        return result;
     }
 
     @Override
     public String squareRoot(final double value) {
-        return null;
+        double resultCheck = value;
+        for (int i = 1; i < value; i *= 2) {
+            resultCheck = value / i;
+            if (resultCheck == i) {
+                break;
+            }
+        }
+
+        String result = String.valueOf(resultCheck);
+
+        if (result.endsWith(SUFFIX)) {
+            return result.split(SUFFIX)[0];
+        }
+        return result;
     }
 }
