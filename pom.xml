@@ -36,5 +36,6 @@
         <module>ChatApp</module>
         <module>Lemmings</module>
         <module>Refactoring</module>
+        <module>Calculator</module>
     </modules>
 </project>
