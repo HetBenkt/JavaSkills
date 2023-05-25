@@ -37,5 +37,6 @@
         <module>Lemmings</module>
         <module>Refactoring</module>
         <module>Calculator</module>
+        <module>JustDoJava</module>
     </modules>
 </project>
