@@ -7,12 +7,11 @@ public class Fibonacci {
     private Fibonacci() {}
 
     public static String run(int givenNumber) {
-        if (givenNumber == 0) {
+        if (givenNumber <= 0) {
             return "0";
         }
 
         StringBuilder result = new StringBuilder();
-
         int[] sequences = new int[]{0, 1, 0};
         result.append(sequences[0]).append(SPACE).append(sequences[1]).append(SPACE);
         do {

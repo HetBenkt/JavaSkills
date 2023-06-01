@@ -8,6 +8,12 @@ import static org.assertj.core.api.Assertions.*;
 //0 1 1 2 3 5 8 13 21 34 55 89 144
 class FibonacciTest {
     @Test
+    void doMinusTest() {
+        String expected = "0";
+        assertThat(Fibonacci.run(-1)).isEqualTo(expected);
+    }
+
+    @Test
     void do0Test() {
         String expected = "0";
         assertThat(Fibonacci.run(0)).isEqualTo(expected);
