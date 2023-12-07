@@ -15,11 +15,25 @@ public class Day1Trebuchet {
         long sum = 0;
 
         for (String calibration : calibrationData) {
+            calibration = digitize(calibration);
             int[] calibrationDigits = getDigitsOnly(calibration);
             sum += Integer.parseInt(calibrationDigits[0] + "" + calibrationDigits[calibrationDigits.length - 1]);
         }
 
         System.out.println(sum);
+    }
+
+    private String digitize(String calibration) {
+        calibration = calibration.replace("one", "o1ne");
+        calibration = calibration.replace("two", "t2wo");
+        calibration = calibration.replace("three", "th3ree");
+        calibration = calibration.replace("four", "f4our");
+        calibration = calibration.replace("five", "f5ive");
+        calibration = calibration.replace("six", "s6ix");
+        calibration = calibration.replace("seven", "se7ven");
+        calibration = calibration.replace("eight", "ei8ght");
+        calibration = calibration.replace("nine", "n9ine");
+        return calibration;
     }
 
     private int[] getDigitsOnly(String calibration) {
